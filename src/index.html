@@ -8,97 +8,170 @@
    <link rel="stylesheet" href="css/style.min.css">
 </head>
 <body>
-
+ <div class="row-fluid">
+     <div class="span12">
+         <div class="navbar navbar-inverse navbar-fixed-top">
+             <div class="navbar-inner">
+                     <a class="brand" href="./index.html">&nbsp;&nbsp;&nbsp;<i class="icon-comment icon-white"></i>&nbsp;SimpleChat&nbsp;</a>
+                     <ul class="nav pull-right">
+                         <li class="divider-vertical"></li>
+                         <li class="">
+                             <i class="icon-star icon-white"></i>
+                         </li>
+                     </ul>
+             </div>
+         </div>
+     </div>
+ </div>
 <div class="container">
 <div class="col-lg-6 text-center">
 <section id="audo" class="bg-light-gray">
-
+   <p>Audio Player</p>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div id="player">
+					<div id="song-information">
+						<div class="row">
+							<div class="col-xs-8">
+								<img id="radio" src="" title="radio" width="25px" style="float:left;margin-right:15px;">
+								<span id="amplitude-now-playing-listeners">Listeners: <span id="listeners">00</span> - Peak: <span id="peak-listeners">00</span></span><br>
+								<span id="amplitude-now-playing-bitrate">Bitrate: <span id="bitrate">00</span> Kbps 44.100 Khz</span>
+							</div>
+							<div class="col-xs-4">
+								
+							</div>
+						</div>
+					</div>
+					<input class="bar" type="range" id="amplitude-volume-slider" value="90"/>
+				<div id="controls">
+					<div id="amplitude-play-pause" class="amplitude-paused"></div><br>
+						<span id="amplitude-current-time">0:00</span>
+					</div>
+			
+				</div>
+			</div>
+			<div class="panel-footer">
+				<h6 style="margin:0;"><img id="eq" src="" title="eq" style="float:left;margin:3px 10px 0 7px;"> <span id="amplitude-now-playing-name">Current track: <span id="track">* Off Air *</span></span></h6>
+			</div>
+		</div>
 </section>
 </div>
 </div>
+
+
 <div class="container">
 <div class="col-lg-6 text-center">
 <section id="request-line" class="bg-light-gray">
+   
+   <!-- Content -->
    <div class="row-fluid">
-       <div class="span12 well" style="background-color:white; border:0px"> 
-           <!-- Tabs -->
-           <div class="row-fluid">
-               <div class="span12">
-                   <ul id="rooms_tabs" class="nav nav-tabs">
-                       <li class="dropdown">
-                           <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-th"></i>&nbsp;Options&nbsp;<b class="caret"></b></a>
-                           <ul class="dropdown-menu">
-                               <li><a href="#modal_joinroom" data-toggle="modal"><i class="icon-plus"></i>&nbsp;Join room</a></li>
-                               <li><a id="b_leave_room" href="#"><i class="icon-minus"></i>&nbsp;Leave current room</a></li>
-                               <li class="divider"></li>
-                               <li><a href="#modal_setnick" data-toggle="modal"><i class="icon-user"></i>&nbsp;Set nickname</a></li>
-                           </ul>
-                       </li>
-                       <li id="MainRoom_tab" class="active"><a href="#MainRoom" data-toggle="tab">MainRoom</a></li>
-                   </ul>
+       <!-- Header -->
+
+       <!-- End Header -->
+
+       <!-- Rooms -->
+       <div class="row-fluid">
+           <div class="span12 well" style="background-color:white; border:0px"> 
+               <!-- Tabs -->
+               <div class="row-fluid">
+                   <div class="span12">
+                       <ul id="rooms_tabs" class="nav nav-tabs">
+                           <li class="dropdown">
+                               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-th"></i>&nbsp;Options&nbsp;<b class="caret"></b></a>
+                               <ul class="dropdown-menu">
+                                   <li><a href="#modal_joinroom" data-toggle="modal"><i class="icon-plus"></i>&nbsp;Join room</a></li>
+                                   <li><a id="b_leave_room" href="#"><i class="icon-minus"></i>&nbsp;Leave current room</a></li>
+                                   <li class="divider"></li>
+                                   <li><a href="#modal_setnick" data-toggle="modal"><i class="icon-user"></i>&nbsp;Set nickname</a></li>
+                               </ul>
+                           </li>
+                           <!-- Room tab -->
+                           <li id="MainRoom_tab" class="active"><a href="#MainRoom" data-toggle="tab">MainRoom</a></li>
+                           <!-- End Room tab -->
+                       </ul>
+                   </div>
                </div>
-           </div>
-           <div id="rooms" class="tab-content">
-               <div class="tab-pane active" id="MainRoom">
-                   <div class="row-fluid">
-                       <div class="span12 well">
-                           <div id="room_messages" style="min-height:220px; max-height:220px; overflow:auto;">
-                               <span class="label label-info">ServerBot</span>&nbsp;&nbsp;Welcome to the room :)<br/>
+               <!-- End Tabs -->
+               <!-- Rooms -->
+               <div id="rooms" class="tab-content">
+                   <!-- Room -->
+                   <div class="tab-pane active" id="MainRoom">
+                       <div class="row-fluid">
+                           <div class="span12 well">
+                               <div id="room_messages" style="min-height:220px; max-height:220px; overflow:auto;">
+                                   <!-- Message -->
+                                   <span class="label label-info">ServerBot</span>&nbsp;&nbsp;Welcome to the room :)<br/>
+                                   <!-- End Message -->
+                               </div>
+                           </div>
+                       </div>
+                       <div class="row-fluid">
+                           <div class="span12">
+                               <h3>Now chatting...</h3>
+                           </div>
+                       </div>
+                       <div class="row-fluid">
+                           <div id="room_users" class="span12">
+                               <span class="badge badge-inverse">ServerBot</span>
                            </div>
                        </div>
                    </div>
-                   <div class="row-fluid">
-                       <div class="span12">
-                           <h3>Now chatting...</h3>
-                       </div>
-                   </div>
-                   <div class="row-fluid">
-                       <div id="room_users" class="span12">
-                           <span class="badge badge-inverse">ServerBot</span>
-                       </div>
+                   <!-- End Room -->
+               </div>
+               <!-- End Rooms -->
+           </div>
+       </div>
+       <!-- End Rooms -->
+
+       <!-- New message input -->
+       <div class="row-fluid">
+           <div class="span12"> 
+               <div class="navbar">
+                   <div class="navbar-inner">
+                       <form class="navbar-form">
+                           <input id="message_text" type="text" class="span9">
+                           <button id="b_send_message" class="btn btn-primary">Send</button>
+                       </form>
                    </div>
                </div>
            </div>
        </div>
+       <!-- End New message -->
+
    </div>
-   <div class="row-fluid">
-       <div class="span12"> 
-           <div class="navbar">
-               <div class="navbar-inner">
-                   <form class="navbar-form">
-                       <input id="message_text" type="text" class="span9">
-                       <button id="b_send_message" class="btn btn-primary">Send</button>
-                   </form>
-               </div>
-           </div>
-       </div>
-   </div>
+   <!-- End Content -->
+
+   <!-- Join room modal -->
    <div id="modal_joinroom" class="modal hide fade">
-      <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h3>Join room</h3>
-      </div>
-      <div class="modal-body">
-          <input id="room_name" type="text" class="input-xlarge" placeholder="Room name">
-          <p><small>Room will be created if it doesn't exist</small></p>
-      </div>
-      <div class="modal-footer">
-          <a id="b_join_room" href="#" class="btn btn-primary">Join now</a>
-      </div>
+       <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+           <h3>Join room</h3>
+       </div>
+       <div class="modal-body">
+           <input id="room_name" type="text" class="input-xlarge" placeholder="Room name">
+           <p><small>Room will be created if it doesn't exist</small></p>
+       </div>
+       <div class="modal-footer">
+           <a id="b_join_room" href="#" class="btn btn-primary">Join now</a>
+       </div>
    </div>
+   <!-- End Join room modal -->
+
+   <!-- Set nick modal -->
    <div id="modal_setnick" class="modal hide fade">
-      <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h3>Set nickname</h3>
-      </div>
-      <div class="modal-body">
-          <input id="nickname" type="text" class="input-xlarge" placeholder="Type your nickname here">
-          <p><small>Pick up something more cool than anonymous :)</small></p>
-      </div>
-      <div class="modal-footer">
-          <a id="b_set_nickname" href="#" class="btn btn-primary">Set nickname</a>
-      </div>
+       <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+           <h3>Set nickname</h3>
+       </div>
+       <div class="modal-body">
+           <input id="nickname" type="text" class="input-xlarge" placeholder="Type your nickname here">
+           <p><small>Pick up something more cool than anonymous :)</small></p>
+       </div>
+       <div class="modal-footer">
+           <a id="b_set_nickname" href="#" class="btn btn-primary">Set nickname</a>
+       </div>
    </div>
+   
 </section>
 </div>
 </div>

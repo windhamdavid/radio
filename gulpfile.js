@@ -13,14 +13,15 @@ var copyTask = function() {
     .pipe(minifycss())
     .pipe(concat('style.min.css'))
     .pipe(gulp.dest('./app/css'));
-  gulp.src(['./src/js/jquery.min.js', '.src/js/bootstrap.js', '.src/js/underscore.min.js', './src/js/handlebars.js'])
-    .pipe(minify())
-    .pipe(concat('vendor.min.js'))
-    .pipe(gulp.dest('./app/js'));
-  gulp.src(['.src/js/main.js', '.src/js/radio.js'])
-    .pipe(minify())
+  gulp.src(['./src/js/main.js', './src/js/radio.js'])
     .pipe(concat('radio.min.js'))
     .pipe(gulp.dest('./app/js'));
+  gulp.src('./src/js/templates/*')
+    .pipe(gulp.dest('./app/js/templates'));
+  gulp.src(['./src/js/jquery.min.js', './src/js/bootstrap.js', './src/js/underscore.min.js', './src/js/handlebars.js'])
+    .pipe(concat('vendor.min.js'))
+    .pipe(gulp.dest('./app/js'));
+
   console.log('Minify/Concat/Copy /src to /public');
 };
 
