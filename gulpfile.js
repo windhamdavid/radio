@@ -9,8 +9,7 @@ var concat = require('gulp-concat');
 var copyTask = function() {
   gulp.src('./src/index.html')
     .pipe(gulp.dest('./app'));
-  gulp.src('./src/css/*.css')
-    .pipe(minifycss())
+  gulp.src(['./src/css/bootstrap-v3.3.6.css', './src/css/main.css'])
     .pipe(concat('style.min.css'))
     .pipe(gulp.dest('./app/css'));
   gulp.src(['./src/js/main.js', './src/js/radio.js'])
@@ -18,7 +17,8 @@ var copyTask = function() {
     .pipe(gulp.dest('./app/js'));
   gulp.src('./src/js/templates/*')
     .pipe(gulp.dest('./app/js/templates'));
-  gulp.src(['./src/js/jquery.min.js', './src/js/bootstrap.js', './src/js/underscore.min.js', './src/js/handlebars.js'])
+  //gulp.src(['./src/js/jquery.min.js', './src/js/bootstrap.js', './src/js/underscore.min.js', './src/js/handlebars.js'])
+  gulp.src(['./src/js/jquery.min.js', './src/js/bootstrap-v3.3.6.js', './src/js/underscore.min.js', './src/js/handlebars.js'])
     .pipe(concat('vendor.min.js'))
     .pipe(gulp.dest('./app/js'));
 

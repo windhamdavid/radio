@@ -32,13 +32,13 @@
 
     // Disconnected from server
     socket.on('disconnect', function (data) {
-        var info = {'room':'MainRoom', 'username':'ServerBot', 'msg':'----- Lost connection to server -----'};
+        var info = {'room':'MainRoom', 'username':'RadioRobot', 'msg':'- Lost connection -'};
         addMessage(info);
     });
     
     // Reconnected to server
     socket.on('reconnect', function (data) {
-        var info = {'room':'MainRoom', 'username':'ServerBot', 'msg':'----- Reconnected to server -----'};
+        var info = {'room':'MainRoom', 'username':'RadioRobot', 'msg':'- Reconnected -'};
         addMessage(info);
     });
 
@@ -109,7 +109,7 @@
         updateNickname(data);
 
         msg = '----- ' + data.oldUsername + ' is now ' + data.newUsername + ' -----';
-        var info = {'room':data.room, 'username':'ServerBot', 'msg':msg};
+        var info = {'room':data.room, 'username':'RadioRobot', 'msg':msg};
         addMessage(info);
     });
 

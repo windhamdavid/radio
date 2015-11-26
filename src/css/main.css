@@ -1,2 +1,83 @@
 /*! Main CSS file */
 
+header .intro-text {
+    padding-top: 100px;
+    padding-bottom: 50px;
+}
+.vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+    pointer-events:none; /* This makes sure that we can still click outside of the modal to close it */
+}
+.vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+    pointer-events:none;
+}
+.modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width:inherit;
+    height:inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+    pointer-events: all;
+}
+
+
+
+/* ========== Audio ============ */
+
+.scrollable-list {
+  overflow: scroll;
+  height: 250px;
+}
+
+div#player{
+	width: 100%;
+	color: #555555;
+	font-family: 'PT Sans', sans-serif;
+	font-weight: 700;
+	font-size: 12px;
+}
+#song-information{
+	text-align: left;
+	margin: 0 0 10px;
+}
+#controls{
+	float: left;
+}
+#amplitude-volume-slider{
+	width: 90%;
+	float: right;
+}
+#amplitude-play-pause{
+	width: 15px;
+	height: 17px;
+	margin: 0 5px 0 0;
+	cursor: pointer;
+	float: right;
+}
+#amplitude-current-time{
+	font-family: 'PT Sans', sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+}
+.amplitude-paused{
+	background-image: url('../img/small-gray-play.png');
+	background-repeat: no-repeat;
+}
+.amplitude-playing{
+	background-image: url('../img/small-gray-pause.png');
+	background-repeat: no-repeat;
+}
+#amplitude-now-playing-name{
+
+}
+#amplitude-now-playing-listeners{
+
+}
+#amplitude-now-playing-bitrate{
+
+}

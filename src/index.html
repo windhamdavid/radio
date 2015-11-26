@@ -1,183 +1,207 @@
 <!DOCTYPE html>
 <head>
    <meta charset="utf-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+   <meta http-equiv="x-ua-compatible" content="ie=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
    <title>Daveo Radio</title>
    <meta name="description" content="">
-   <meta name="viewport" content="width=device-width">
    <link rel="stylesheet" href="css/style.min.css">
 </head>
 <body>
- <div class="row-fluid">
-     <div class="span12">
-         <div class="navbar navbar-inverse navbar-fixed-top">
-             <div class="navbar-inner">
-                     <a class="brand" href="./index.html">&nbsp;&nbsp;&nbsp;<i class="icon-comment icon-white"></i>&nbsp;SimpleChat&nbsp;</a>
-                     <ul class="nav pull-right">
-                         <li class="divider-vertical"></li>
-                         <li class="">
-                             <i class="icon-star icon-white"></i>
-                         </li>
-                     </ul>
-             </div>
-         </div>
-     </div>
- </div>
-<div class="container">
-<div class="col-lg-6 text-center">
-<section id="audo" class="bg-light-gray">
-   <p>Audio Player</p>
-		<div class="panel panel-default">
-			<div class="panel-body">
-				<div id="player">
-					<div id="song-information">
-						<div class="row">
-							<div class="col-xs-8">
-								<img id="radio" src="" title="radio" width="25px" style="float:left;margin-right:15px;">
-								<span id="amplitude-now-playing-listeners">Listeners: <span id="listeners">00</span> - Peak: <span id="peak-listeners">00</span></span><br>
-								<span id="amplitude-now-playing-bitrate">Bitrate: <span id="bitrate">00</span> Kbps 44.100 Khz</span>
-							</div>
-							<div class="col-xs-4">
-								
-							</div>
-						</div>
-					</div>
-					<input class="bar" type="range" id="amplitude-volume-slider" value="90"/>
-				<div id="controls">
-					<div id="amplitude-play-pause" class="amplitude-paused"></div><br>
-						<span id="amplitude-current-time">0:00</span>
-					</div>
-			
-				</div>
-			</div>
-			<div class="panel-footer">
-				<h6 style="margin:0;"><img id="eq" src="" title="eq" style="float:left;margin:3px 10px 0 7px;"> <span id="amplitude-now-playing-name">Current track: <span id="track">* Off Air *</span></span></h6>
-			</div>
+<nav class="navbar navbar-default navbar-fixed-top">
+	<div class="container">
+		<div class="navbar-header page-scroll">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand page-scroll" href="#page-top">Radio Daveo</a>
 		</div>
-</section>
-</div>
-</div>
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav navbar-right">
+				<li class="hidden"><a href="#page-top"></a></li>
+				<li><a class="page-scroll" href="#about">About</a></li>
+				<li><a class="page-scroll" href="#contact">Contact</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
 
+<header>
+	<div class="container">
+		<div class="intro-text">
+			<div class="intro-lead-in">Leave some room for some stuff up here</div>
+			<div class="intro-heading">Like maybe a cool header banner with a couple meters</div>
+			<a href="#intro" class="page-scroll btn btn-xl">how to listen</a>
+		</div>
+	</div>
+</header>
 
-<div class="container">
-<div class="col-lg-6 text-center">
-<section id="request-line" class="bg-light-gray">
-   
-   <!-- Content -->
-   <div class="row-fluid">
-       <!-- Header -->
-
-       <!-- End Header -->
-
-       <!-- Rooms -->
-       <div class="row-fluid">
-           <div class="span12 well" style="background-color:white; border:0px"> 
-               <!-- Tabs -->
-               <div class="row-fluid">
-                   <div class="span12">
-                       <ul id="rooms_tabs" class="nav nav-tabs">
-                           <li class="dropdown">
-                               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-th"></i>&nbsp;Options&nbsp;<b class="caret"></b></a>
-                               <ul class="dropdown-menu">
-                                   <li><a href="#modal_joinroom" data-toggle="modal"><i class="icon-plus"></i>&nbsp;Join room</a></li>
-                                   <li><a id="b_leave_room" href="#"><i class="icon-minus"></i>&nbsp;Leave current room</a></li>
-                                   <li class="divider"></li>
-                                   <li><a href="#modal_setnick" data-toggle="modal"><i class="icon-user"></i>&nbsp;Set nickname</a></li>
-                               </ul>
-                           </li>
-                           <!-- Room tab -->
-                           <li id="MainRoom_tab" class="active"><a href="#MainRoom" data-toggle="tab">MainRoom</a></li>
-                           <!-- End Room tab -->
-                       </ul>
-                   </div>
+<section id="audio" class="bg-light-gray">
+   <div class="container">
+      <div class="row">
+         <div class="col-md-6">
+            <!-- player -->
+            <div class="panel panel-default">
+               <div class="panel-body">
+                  <div id="player">
+                     <div id="song-information">
+                        <div class="row">
+                           <div class="col-xs-8">
+                              <img id="radio" src="" title="radio" width="25px" style="float:left;margin-right:15px;">
+                              <span id="amplitude-now-playing-listeners">Listeners: <span id="listeners">00</span> - Peak: <span id="peak-listeners">00</span></span><br>
+                              <span id="amplitude-now-playing-bitrate">Bitrate: <span id="bitrate">00</span> Kbps 44.100 Khz</span>
+                           </div>
+                           <div class="col-xs-4">
+                        </div>
+                     </div>
+                  </div>
+                  <input class="bar" type="range" id="amplitude-volume-slider" value="90"/>
+                  <div id="controls">
+                     <div id="amplitude-play-pause" class="amplitude-paused"></div><br>
+                     <span id="amplitude-current-time">0:00</span>
+                  </div>
                </div>
-               <!-- End Tabs -->
-               <!-- Rooms -->
-               <div id="rooms" class="tab-content">
-                   <!-- Room -->
-                   <div class="tab-pane active" id="MainRoom">
-                       <div class="row-fluid">
-                           <div class="span12 well">
-                               <div id="room_messages" style="min-height:220px; max-height:220px; overflow:auto;">
-                                   <!-- Message -->
-                                   <span class="label label-info">ServerBot</span>&nbsp;&nbsp;Welcome to the room :)<br/>
-                                   <!-- End Message -->
+            </div>
+            <div class="panel-footer">
+               <h6 style="margin:0;"><img id="eq" src="" title="eq" style="float:left;margin:3px 10px 0 7px;"> <span id="amplitude-now-playing-name">Current track: <span id="track">* Off Air *</span></span></h6>
+            </div>
+            </div>
+            <!-- player -->
+
+   			<h5 class="cm-type"><em>Last 100 Tracks:</em></h5>
+      		<div class="scrollable-list">
+               <ul class="list-group">
+      				<div class="recent"></div>
+      			</ul>
+            </div>
+      	</div>
+
+      <div class="col-md-6">
+   		<div class="panel panel-default">
+            <section id="request-line" class="bg-light-gray">
+                  <div class="row-fluid">
+                      <div class="span12">
+                          <ul id="rooms_tabs" class="nav nav-tabs">
+                              <li class="dropdown">
+                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-th"></i>&nbsp;Options&nbsp;<b class="caret"></b></a>
+                                  <ul class="dropdown-menu">
+                                      <li><a href="#modal_joinroom" data-toggle="modal"><i class="icon-plus"></i>&nbsp;Join room</a></li>
+                                      <li><a id="b_leave_room" href="#"><i class="icon-minus"></i>&nbsp;Leave current room</a></li>
+                                      <li class="divider"></li>
+                                      <li><a href="#modal_setnick" data-toggle="modal"><i class="icon-user"></i>&nbsp;Set nickname</a></li>
+                                  </ul>
+                              </li>
+                              <li id="MainRoom_tab" class="active"><a href="#MainRoom" data-toggle="tab">Lobby</a></li>
+                          </ul>
+                      </div>
+                  </div>
+                  <div id="rooms" class="tab-content">
+                      <div class="tab-pane active" id="MainRoom">
+                          <div class="row-fluid">
+                              <div class="span12 well">
+                                  <div id="room_messages" style="min-height:220px; max-height:220px; overflow:auto;">
+                                      <span class="label label-danger">Radio-Robot</span>&nbsp;&nbsp;Welcome to the Daveo Radio!<br/>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row-fluid">
+                              <div id="room_users" class="span12">
+                                  <span class="badge badge-inverse">Radio-Robot</span>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                   <!-- New message input -->
+                   <div class="row-fluid">
+                       <div class="span12"> 
+                           <div class="navbar">
+                               <div class="navbar-inner">
+                                   <form class="navbar-form">
+                                       <input id="message_text" type="text" class="form-control">
+                                       <button id="b_send_message" class="btn btn-primary">Post</button>
+                                   </form>
                                </div>
                            </div>
                        </div>
-                       <div class="row-fluid">
-                           <div class="span12">
-                               <h3>Now chatting...</h3>
-                           </div>
-                       </div>
-                       <div class="row-fluid">
-                           <div id="room_users" class="span12">
-                               <span class="badge badge-inverse">ServerBot</span>
-                           </div>
-                       </div>
                    </div>
-                   <!-- End Room -->
+                   <!-- End New message -->
                </div>
-               <!-- End Rooms -->
-           </div>
-       </div>
-       <!-- End Rooms -->
 
-       <!-- New message input -->
-       <div class="row-fluid">
-           <div class="span12"> 
-               <div class="navbar">
-                   <div class="navbar-inner">
-                       <form class="navbar-form">
-                           <input id="message_text" type="text" class="span9">
-                           <button id="b_send_message" class="btn btn-primary">Send</button>
-                       </form>
-                   </div>
+
+               <div id="modal_joinroom" class="modal fade">
+               <div class="vertical-alignment-helper">
+                  <div class="modal-dialog vertical-align-center">
+                      <div class="modal-content">
+                         <div class="modal-header">
+                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                             <h3>Join Room</h3>
+                         </div>
+                         <div class="modal-body">
+                             <input id="room_name" type="text" class="form-control"  placeholder="Room Name">
+                             <p><small>Room will be created if it doesn't exist</small></p>
+                         </div>
+                         <div class="modal-footer">
+                             <a id="b_join_room" href="#" class="btn btn-success">Create Room</a>
+                         </div>
+                     </div>
+                  </div>
                </div>
-           </div>
-       </div>
-       <!-- End New message -->
-
-   </div>
-   <!-- End Content -->
-
-   <!-- Join room modal -->
-   <div id="modal_joinroom" class="modal hide fade">
-       <div class="modal-header">
-           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-           <h3>Join room</h3>
-       </div>
-       <div class="modal-body">
-           <input id="room_name" type="text" class="input-xlarge" placeholder="Room name">
-           <p><small>Room will be created if it doesn't exist</small></p>
-       </div>
-       <div class="modal-footer">
-           <a id="b_join_room" href="#" class="btn btn-primary">Join now</a>
-       </div>
-   </div>
-   <!-- End Join room modal -->
-
-   <!-- Set nick modal -->
-   <div id="modal_setnick" class="modal hide fade">
-       <div class="modal-header">
-           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-           <h3>Set nickname</h3>
-       </div>
-       <div class="modal-body">
-           <input id="nickname" type="text" class="input-xlarge" placeholder="Type your nickname here">
-           <p><small>Pick up something more cool than anonymous :)</small></p>
-       </div>
-       <div class="modal-footer">
-           <a id="b_set_nickname" href="#" class="btn btn-primary">Set nickname</a>
-       </div>
-   </div>
+               </div>
+               <div id="modal_setnick" class="modal fade">
+               <div class="vertical-alignment-helper">
+                  <div class="modal-dialog vertical-align-center">
+                      <div class="modal-content">
+                         <div class="modal-header">
+                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                             <h3>Set nickname</h3>
+                         </div>
+                         <div class="modal-body">
+                             <input id="nickname" type="text" class="form-control" placeholder="Type your nickname here">
+                             <p><small>Pick up something more cool than anonymous :)</small></p>
+                         </div>
+                         <div class="modal-footer">
+                             <a id="b_set_nickname" href="#" class="btn btn-success">Set nickname</a>
+                         </div>
+                     </div>
+                  </div>
+               </div>
+               </div>
    
+            </div>
+            </div>
+            </section>
+            
+   		</div>
+      </div>
+   </div>
 </section>
-</div>
-</div>
+
+
+
+
+
+
 
    <script src="js/vendor.min.js"></script>
    <script src="/socket.io/socket.io.js"></script>
    <script src="js/radio.min.js"></script>
+
+<script>
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//davidawindham.com/wik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 1]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//davidawindham.com/wik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
 </body>
 </html>

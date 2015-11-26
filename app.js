@@ -5,6 +5,8 @@ var conf = {
     debug: false,
     dbPort: 6379,
     dbHost: '127.0.0.1',
+    dbOptions: {},
+    mainroom: 'MainRoom'
 };
 
 
@@ -58,7 +60,7 @@ var sanitizeMessage = function(req, res, next) {
 var sendBroadcast = function(text) {
     _.each(io.nsps['/'].adapter.rooms, function(room) {
         if (room) {
-            var message = {'room':room, 'username':'ServerBot', 'msg':text, 'date':new Date()};
+            var message = {'room':room, 'username':'Radio-Robbot', 'msg':text, 'date':new Date()};
             io.to(room).emit('newMessage', message);
         }
     });
