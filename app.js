@@ -1,11 +1,20 @@
-var express = require('express'),
-    http = require('http')
+/*global require:true, __dirname:true */
+
+var conf = {
+    port: 8888,
+    debug: false
+};
+
+
+var express = require('express');
+var http = require('http');
+var path = require('path');
+var bodyParser = require('body-parser');
 
 var app = express(),
     server = http.createServer(app);
     server.listen(conf.port);
 
-app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
-});
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'app')));
