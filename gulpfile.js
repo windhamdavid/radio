@@ -12,8 +12,8 @@ var copyTask = function() {
   gulp.src(['./src/css/bootstrap-v3.3.6.css', './src/css/main.css'])
     .pipe(concat('style.min.css'))
     .pipe(gulp.dest('./app/css'));
-  gulp.src('./src/js/main.js')
-    .pipe(gulp.dest('./app/js'));
+  gulp.src('./src/app.js')
+    .pipe(gulp.dest('./app'));
   gulp.src(['./src/js/main.js', './src/js/radio.js'])
     .pipe(concat('radio.min.js'))
     .pipe(gulp.dest('./app/js'));

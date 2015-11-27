@@ -1,0 +1,3 @@
+<!-- Message -->
+<span class="label label-default" id="user-label">{{username}}</span>&nbsp;&nbsp;{{msg}}<br/>
+<!-- End Message -->

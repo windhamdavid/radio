@@ -33,13 +33,13 @@
     // Disconnected from server
     socket.on('disconnect', function (data) {
         var info = {'room':'Lobby', 'username':'Radio-bot', 'msg':'---- Lost connection ----'};
-        addMessage(info);
+        addBotMessage(info);
     });
     
     // Reconnected to server
     socket.on('reconnect', function (data) {
         var info = {'room':'Lobby', 'username':'Radio-bot', 'msg':'---- Reconnected ----'};
-        addMessage(info);
+        addBotMessage(info);
     });
 
     // Subscription to room confirmed
@@ -110,7 +110,7 @@
 
         msg = '----- ' + data.oldUsername + ' is now ' + data.newUsername + ' -----';
         var info = {'room':data.room, 'username':'Radio-bot', 'msg':msg};
-        addMessage(info);
+        addBotMessage(info);
     });
 
     // ***************************************************************************
@@ -176,6 +176,14 @@
     // Add message to room
     var addMessage = function(msg) {
         getTemplate('js/templates/message.handlebars', function(template) {
+            var room_messages = '#'+msg.room+' #room_messages';
+            $(room_messages).append(template(msg));
+        });
+    };
+    
+    // Robot Add message to room
+    var addBotMessage = function(msg) {
+        getTemplate('js/templates/message-bot.handlebars', function(template) {
             var room_messages = '#'+msg.room+' #room_messages';
             $(room_messages).append(template(msg));
         });
