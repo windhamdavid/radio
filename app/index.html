@@ -93,12 +93,14 @@
             <!-- END Player -->
 
    			<!-- START Playlist -->
-      		<div class="scrollable-list">
-               <ul class="list-group">
-      				<div class="recent"></div>
-      			</ul>
+            <div class="panel panel-default">
+         		<div class="scrollable-list">
+                  <ul class="list-group">
+         				<div class="recent"></div>
+         			</ul>
+               </div>
+               <h5 class="cm-type">Last 100 Tracks:</h5>
             </div>
-            <h5 class="cm-type"><em>Last 100 Tracks:</em></h5>
             <!-- END Playlist -->
          
          </section>
@@ -110,61 +112,57 @@
                
                <!-- START Room Tabs -->
                <div class="row-fluid">
-                   <div class="span12">
-                       <ul id="rooms_tabs" class="nav nav-tabs">
-                           <li class="dropdown">
-                               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-th" aria-hidden="true"></span>&nbsp;Options&nbsp;<b class="caret"></b></a>
-                               <ul class="dropdown-menu">
-                                   <li><a href="#modal_joinroom" data-toggle="modal"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>&nbsp;Join room</a></li>
-                                   <li><a id="b_leave_room" href="#"><span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>&nbsp;Leave room</a></li>
-                                   <li class="divider"></li>
-                                   <li><a href="#modal_setnick" data-toggle="modal"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;Set nickname</a></li>
-                               </ul>
-                           </li>
-                           <li id="MainRoom_tab" class="active"><a href="#MainRoom" data-toggle="tab">MainRoom</a></li>
-                       </ul>
-                   </div>
+                    <ul id="rooms_tabs" class="nav nav-tabs">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-th" aria-hidden="true"></span>&nbsp;Options&nbsp;<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#modal_joinroom" data-toggle="modal"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>&nbsp;Join room</a></li>
+                                <li><a id="b_leave_room" href="#"><span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>&nbsp;Leave room</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#modal_setnick" data-toggle="modal"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;Set nickname</a></li>
+                            </ul>
+                        </li>
+                        <li id="MainRoom_tab" class="active"><a href="#MainRoom" data-toggle="tab">MainRoom</a></li>
+                    </ul>
                </div>
                <!-- END Room Tabs -->
                
                <!-- START Rooms -->
                <div id="rooms" class="tab-content">
                    <div class="tab-pane active" id="MainRoom">
-                       <div class="row-fluid">
-                           <div class="span12 well">
+                      <div class="well">
+                           <div class="row-fluid">
                                <div id="room_messages" style="min-height:220px; max-height:220px; overflow:auto;">
                                    <span class="label label-danger">Radio-bot</span>&nbsp;&nbsp;Welcome to the Daveo Radio!<br/>
                                </div>
-                           </div>
-                       </div>
-                       <div class="row-fluid">
-                           <div id="room_users" class="span12">
-                               <span class="badge badge-inverse">Radio-bot</span>
+                           </div>  
+                           <div class="row-fluid">
+                              <div id="room_users">
+                                  <span class="label label-success">online</span> <span class="label label-danger">Radio-bot</span>
+                              </div>
                            </div>
                        </div>
                    </div>
                </div>
                <!-- END Rooms -->
+               
+
 
                 <!-- START message -->
-                <div class="row">
-                    <div class="span12"> 
-                        <div class="navbar">
-                            <div class="navbar-inner">
-                                <form class="navbar-form">
-                                    <input id="message_text" type="text" class="form-control">
-                                       <button id="b_send_message" class="btn btn-primary"><span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span> Post</button>
-                                    </input>
-                                 </form>
-                                    <button id="set_nick" class="btn btn-success" data-toggle="modal" data-target="#modal_setnick"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Set Nick</button>
-                                
-                            </div>
+                <div class="row-fluid">
+                    <form class="form-inline">
+                       <div class="input-group">
+                          <input id="message_text" class="form-control" type="text" placeholder="What say you?" >
+                           <span class="input-group-btn">
+                              <button id="b_send_message" class="btn btn-primary"><span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span> Post</button>
+                           </span>
                         </div>
-                    </div>
+                     </form>
+                     <!--<button id="set_nick" class="btn btn-success" data-toggle="modal" data-target="#modal_setnick"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Set Nick</button>-->
                 </div>
                 <!-- END message -->
-             
-             </div>
+            </div>
+
              
             <!-- START Modal -->      
             <div id="modal_joinroom" class="modal fade">
@@ -180,7 +178,7 @@
                              <p><small>&nbsp;Room will be created if it doesn't exist</small></p>
                          </div>
                          <div class="modal-footer">
-                             <a id="b_join_room" href="#" class="btn btn-success">Create Room</a>
+                             <a id="b_join_room" href="#" class="btn btn-success">Join Room</a>
                          </div>
                      </div>
                   </div>

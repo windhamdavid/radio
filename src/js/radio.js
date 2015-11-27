@@ -111,3 +111,12 @@ $(document).ready(function () {
     //setTimeout(function () {radioTitle();}, 2000);
     //setInterval(function () {radioTitle();}, 30000); // update every 30 seconds
 });
+
+$(function() {
+    var randomColor = Math.floor(Math.random()*16777215).toString(16);
+    $("body").css({ backgroundColor: '#' + randomColor });
+    $("span#user-label").css({ backgroundColor: '#' + randomColor });
+    $("#colorcode").text("#" + randomColor);
+});
+
+
