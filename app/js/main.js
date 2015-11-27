@@ -13,7 +13,7 @@
         console.log(data);
 
         // Get users connected to mainroom
-        socket.emit('getUsersInRoom', {'room':'MainRoom'});
+        socket.emit('getUsersInRoom', {'room':'Lobby'});
 
         if (debug) {
             // Subscription to rooms
@@ -32,13 +32,13 @@
 
     // Disconnected from server
     socket.on('disconnect', function (data) {
-        var info = {'room':'MainRoom', 'username':'Radio-bot', 'msg':'---- Lost connection ----'};
+        var info = {'room':'Lobby', 'username':'Radio-bot', 'msg':'---- Lost connection ----'};
         addMessage(info);
     });
     
     // Reconnected to server
     socket.on('reconnect', function (data) {
-        var info = {'room':'MainRoom', 'username':'Radio-bot', 'msg':'---- Reconnected ----'};
+        var info = {'room':'Lobby', 'username':'Radio-bot', 'msg':'---- Reconnected ----'};
         addMessage(info);
     });
 
@@ -271,13 +271,13 @@
     $('#b_leave_room').click(function(eventObject) {
         eventObject.preventDefault();
         var currentRoom = getCurrentRoom();
-        if (currentRoom != 'MainRoom') {
+        if (currentRoom != 'Lobby') {
             socket.emit('unsubscribe', {'rooms':[getCurrentRoom()]}); 
 
             // Toogle to MainRoom
-            $('[href="#MainRoom"]').click();
+            $('[href="#Lobby"]').click();
         } else {
-            console.log('Cannot leave MainRoom, sorry');
+            console.log('Cannot leave Lobby, sorry');
         }
     });
 
