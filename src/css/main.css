@@ -77,7 +77,7 @@ header .intro-text {
 
 .scrollable-list {
   overflow: scroll;
-  height: 192px;
+  height: 194px;
 }
 
 .scrollable-list .list-group-item {
@@ -153,37 +153,109 @@ meter {
   -o-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
-#amplitude-play-pause{
-	width: 30px;
-	height: 34px;
-	margin: -40px 5px 0 0;
-	cursor: pointer;
-	float: right;
-  background-color:red;
+
+
+/* Ripple Out */
+@-webkit-keyframes hvr-ripple-out {
+  100% {
+    top: -12px;
+    right: -12px;
+    bottom: -12px;
+    left: -12px;
+    opacity: 0;
+  }
 }
+
+@keyframes hvr-ripple-out {
+  100% {
+    top: -12px;
+    right: -12px;
+    bottom: -12px;
+    left: -12px;
+    opacity: 0;
+  }
+}
+
+.hvr-ripple-out {
+  display: inline-block;
+  vertical-align: middle;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+.hvr-ripple-out:before {
+  content: '';
+  position: absolute;
+  border: #e1e1e1 solid 6px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+}
+.hvr-ripple-out:hover:before, .hvr-ripple-out:focus:before, .hvr-ripple-out:active:before {
+  -webkit-animation-name: hvr-ripple-out;
+  animation-name: hvr-ripple-out;
+}
+#amplitude-play-pause{
+  display: block;
+  height: 55px;
+  width: 55px;
+  line-height: 60px;
+  -moz-border-radius: 30px; /* or 50% */
+  border-radius: 30px; /* or 50% */
+  background-color: white;
+  color: black;
+  text-align: center;
+  border: 3px solid #cecece;
+  margin: -40px 0 0 0;
+  cursor: pointer;
+  float: right;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-transition: -webkit-transform .8s ease-in-out;
+  transition: transform .8s ease-in-out;
+}
+#amplitude-play-pause:hover{
+  background-color: black;
+  color: white;
+  -webkit-transform: rotate(360deg);
+  transform: rotate(360deg);
+}
+
 #amplitude-current-time{
 	font-family: 'PT Sans', sans-serif;
 	font-size: 14px;
 	font-weight: 400;
 }
-.amplitude-paused:before;{
-  content:"\20ac";
+.amplitude-paused:before{
+  content:"\e072";
   font-family:"Glyphicons Halflings";
+  font-size:35px;
   line-height:1;
   margin:10px;
   display:inline-block;
 }
+.amplitude-paused{  
 
-.amplitude-paused{
-  content:"\20ac";
+}
+.amplitude-playing:before {
+  content:"\e073";
   font-family:"Glyphicons Halflings";
-	background-image: url('../img/small-gray-play.png');
-	background-repeat: no-repeat;
+  font-size:35px;
+  line-height:1;
+  margin:10px;
+  display:inline-block;
 }
 .amplitude-playing{
-	background-image: url('../img/small-gray-pause.png');
-	background-repeat: no-repeat;
+
 }
+
+
 #amplitude-now-playing-name{
 
 }
@@ -193,3 +265,7 @@ meter {
 #amplitude-now-playing-bitrate{
 
 }
+
+
+
+
