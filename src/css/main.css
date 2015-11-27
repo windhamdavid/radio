@@ -32,6 +32,17 @@ header .intro-text {
 .scrollable-list {
   overflow: scroll;
   height: 250px;
+  border-top:1px solid #cecece;
+  border-bottom:1px solid #cecece;
+}
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
 }
 
 div#player{
@@ -46,25 +57,37 @@ div#player{
 	margin: 0 0 10px;
 }
 #controls{
-	float: left;
+	right: left;
 }
 #amplitude-volume-slider{
-	width: 90%;
-	float: right;
+	width: 80%;
+	margin: 0 auto;
+  line-height:14px;
 }
 #amplitude-play-pause{
-	width: 15px;
-	height: 17px;
-	margin: 0 5px 0 0;
+	width: 30px;
+	height: 34px;
+	margin: -40px 5px 0 0;
 	cursor: pointer;
 	float: right;
+  background-color:red;
 }
 #amplitude-current-time{
 	font-family: 'PT Sans', sans-serif;
 	font-size: 14px;
 	font-weight: 400;
 }
+.amplitude-paused:before;{
+  content:"\20ac";
+  font-family:"Glyphicons Halflings";
+  line-height:1;
+  margin:10px;
+  display:inline-block;
+}
+
 .amplitude-paused{
+  content:"\20ac";
+  font-family:"Glyphicons Halflings";
 	background-image: url('../img/small-gray-play.png');
 	background-repeat: no-repeat;
 }

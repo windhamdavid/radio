@@ -66,35 +66,25 @@ $(function(){
 });
 */
 
-
 amplitude_config = {
-	"amplitude_songs": [
-		{
-			"url": "http://code.davidawindham.com:8008/stream",
-			"live": true
-		}
-	],
-	"amplitude_volume": 90
+  amplitude_songs: []
+//	"amplitude_songs": [{
+//			"url": "http://code.davidawindham.com:8008/stream",
+//			"live": true
+//		}],
+//	"amplitude_volume": 90
 }
 
-function get_radio_tower() {
-	return 'img/radio.gif';
-}
-function get_radio_none() {
-	return 'img/none.svg';
-}
-function get_radio_eq() {
-	return 'img/eq.gif';
-}
-function get_radio_eq_none() {
-	return 'img/1.png';
-}
+function get_radio_tower() {return 'img/radio.gif';}
+function get_radio_none() {return 'img/none.svg';}
+function get_radio_eq() {return 'img/eq.gif';}
+function get_radio_eq_none() {return 'img/1.png';}
 
 function radioTitle() {
 	$('#radio').attr('src', get_radio_none()).fadeIn(300);
 	$('#eq').attr('src', get_radio_eq_none()).fadeIn(300);
-    var url = 'http://code.davidawindham.com:8008/status2.xsl';
-    var mountpoint = '/stream';
+//    var url = 'http://code.davidawindham.com:8008/status2.xsl';
+/*    var mountpoint = '/stream';
     $.ajax({ type: 'GET',
           url: url,
           async: true,
@@ -103,7 +93,7 @@ function radioTitle() {
           dataType: 'jsonp',
           success: function (json) {	
 			$('#track').text(json[mountpoint].title);
-            $('#listeners').text(json[mountpoint].listeners);
+      $('#listeners').text(json[mountpoint].listeners);
 			$('#peak-listeners').text(json[mountpoint].peak_listeners); 
 			$('#bitrate').text(json[mountpoint].bitrate); 
 			$('#radio').attr('src', get_radio_tower()).fadeIn(300);
@@ -114,9 +104,10 @@ function radioTitle() {
 			  $('#eq').attr('src', get_radio_eq_none()).fadeIn(300);
         }
     });
+*/
 }
 
 $(document).ready(function () {
-    setTimeout(function () {radioTitle();}, 2000);
-    setInterval(function () {radioTitle();}, 30000); // update every 30 seconds
+    //setTimeout(function () {radioTitle();}, 2000);
+    //setInterval(function () {radioTitle();}, 30000); // update every 30 seconds
 });

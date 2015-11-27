@@ -22,12 +22,28 @@
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav navbar-right">
 				<li class="hidden"><a href="#page-top"></a></li>
-				<li><a class="page-scroll" href="#about">About</a></li>
-				<li><a class="page-scroll" href="#contact">Contact</a></li>
+				<li><a class="page-scroll" href="#about" data-toggle="modal" data-target="#about">About</a></li>
 			</ul>
 		</div>
 	</div>
 </nav>
+
+<div class="modal fade" id="about" tabindex="-1" role="dialog" aria-labelledby="about">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="about">About</h4>
+      </div>
+      <div class="modal-body">
+        <p><b>Daveo Radio</b> is just a little place I can share and talk about some music with friends. I started toying around with different streaming servers and I am using an Icecast streaming media server I’ve set up. This page is powered by Linode, Node.js, Express, Socket.io, and Icecast-kh.</p>   <p>I enjoy listening to music and I spent quite a bit of time doing so. I’ve gone entirely digital in recent years. I sold my collection of albums years ago and I donated my CD collection to a music student at Vanderbilt. I now have a collection of about 100,000 files that I keep on a networked hard drive. I do pay for ad-free streaming services, but I agree with artists who want a better revenue model from streaming. The analog/digital debate is null in my opinion. I use Polk in my living room and Klipsch in my office. In the car, I most often use playlists I’ve created and I rarely tune into a radio or satellite stations even though I have service. On occasion, at home I like to tune into terrestrial stations that stream to help find new music, but I’ve found almost all of the robot mixes from the big streaming providers unsatisfying.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <header>
 	<div class="container">
@@ -39,11 +55,13 @@
 	</div>
 </header>
 
-<section id="audio" class="bg-light-gray">
-   <div class="container">
-      <div class="row">
-         <div class="col-md-6">
-            <!-- player -->
+
+<div class="container">
+   <div class="row">
+      <div class="col-md-6">
+         <section id="audio" class="bg-light-gray">
+             
+            <!-- START Player -->
             <div class="panel panel-default">
                <div class="panel-body">
                   <div id="player">
@@ -58,83 +76,100 @@
                         </div>
                      </div>
                   </div>
-                  <input class="bar" type="range" id="amplitude-volume-slider" value="90"/>
                   <div id="controls">
                      <div id="amplitude-play-pause" class="amplitude-paused"></div><br>
                      <span id="amplitude-current-time">0:00</span>
                   </div>
+                  <span class="glyphicon glyphicon-volume-off" aria-hidden="true" style="float:left;margin: 0 0 0 0;font-size:20px"></span>
+                  <input class="bar" type="range" id="amplitude-volume-slider" value="90"/>
+                  <span class="glyphicon glyphicon-volume-up" aria-hidden="true" style="float:right;margin:-18px 0 0;font-size:20px"></span>
+
                </div>
             </div>
             <div class="panel-footer">
                <h6 style="margin:0;"><img id="eq" src="" title="eq" style="float:left;margin:3px 10px 0 7px;"> <span id="amplitude-now-playing-name">Current track: <span id="track">* Off Air *</span></span></h6>
             </div>
             </div>
-            <!-- player -->
+            <!-- END Player -->
 
-   			<h5 class="cm-type"><em>Last 100 Tracks:</em></h5>
+   			<!-- START Playlist -->
       		<div class="scrollable-list">
                <ul class="list-group">
       				<div class="recent"></div>
       			</ul>
             </div>
-      	</div>
-
+            <h5 class="cm-type"><em>Last 100 Tracks:</em></h5>
+            <!-- END Playlist -->
+         
+         </section>
+   	</div>
+      
       <div class="col-md-6">
-   		<div class="panel panel-default">
-            <section id="request-line" class="bg-light-gray">
-                  <div class="row-fluid">
-                      <div class="span12">
-                          <ul id="rooms_tabs" class="nav nav-tabs">
-                              <li class="dropdown">
-                                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-th"></i>&nbsp;Options&nbsp;<b class="caret"></b></a>
-                                  <ul class="dropdown-menu">
-                                      <li><a href="#modal_joinroom" data-toggle="modal"><i class="icon-plus"></i>&nbsp;Join room</a></li>
-                                      <li><a id="b_leave_room" href="#"><i class="icon-minus"></i>&nbsp;Leave current room</a></li>
-                                      <li class="divider"></li>
-                                      <li><a href="#modal_setnick" data-toggle="modal"><i class="icon-user"></i>&nbsp;Set nickname</a></li>
-                                  </ul>
-                              </li>
-                              <li id="MainRoom_tab" class="active"><a href="#MainRoom" data-toggle="tab">Lobby</a></li>
-                          </ul>
-                      </div>
-                  </div>
-                  <div id="rooms" class="tab-content">
-                      <div class="tab-pane active" id="MainRoom">
-                          <div class="row-fluid">
-                              <div class="span12 well">
-                                  <div id="room_messages" style="min-height:220px; max-height:220px; overflow:auto;">
-                                      <span class="label label-danger">Radio-Robot</span>&nbsp;&nbsp;Welcome to the Daveo Radio!<br/>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="row-fluid">
-                              <div id="room_users" class="span12">
-                                  <span class="badge badge-inverse">Radio-Robot</span>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-
-                   <!-- New message input -->
-                   <div class="row-fluid">
-                       <div class="span12"> 
-                           <div class="navbar">
-                               <div class="navbar-inner">
-                                   <form class="navbar-form">
-                                       <input id="message_text" type="text" class="form-control">
-                                       <button id="b_send_message" class="btn btn-primary">Post</button>
-                                   </form>
+         <section id="request-line" class="bg-light-gray">
+   		   <div class="panel panel-default">
+               
+               <!-- START Room Tabs -->
+               <div class="row-fluid">
+                   <div class="span12">
+                       <ul id="rooms_tabs" class="nav nav-tabs">
+                           <li class="dropdown">
+                               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-th" aria-hidden="true"></span>&nbsp;Options&nbsp;<b class="caret"></b></a>
+                               <ul class="dropdown-menu">
+                                   <li><a href="#modal_joinroom" data-toggle="modal"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>&nbsp;Join room</a></li>
+                                   <li><a id="b_leave_room" href="#"><span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>&nbsp;Leave room</a></li>
+                                   <li class="divider"></li>
+                                   <li><a href="#modal_setnick" data-toggle="modal"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;Set nickname</a></li>
+                               </ul>
+                           </li>
+                           <li id="MainRoom_tab" class="active"><a href="#MainRoom" data-toggle="tab">MainRoom</a></li>
+                       </ul>
+                   </div>
+               </div>
+               <!-- END Room Tabs -->
+               
+               <!-- START Rooms -->
+               <div id="rooms" class="tab-content">
+                   <div class="tab-pane active" id="MainRoom">
+                       <div class="row-fluid">
+                           <div class="span12 well">
+                               <div id="room_messages" style="min-height:220px; max-height:220px; overflow:auto;">
+                                   <span class="label label-danger">Radio-bot</span>&nbsp;&nbsp;Welcome to the Daveo Radio!<br/>
                                </div>
                            </div>
                        </div>
+                       <div class="row-fluid">
+                           <div id="room_users" class="span12">
+                               <span class="badge badge-inverse">Radio-bot</span>
+                           </div>
+                       </div>
                    </div>
-                   <!-- End New message -->
                </div>
+               <!-- END Rooms -->
 
-
-               <div id="modal_joinroom" class="modal fade">
+                <!-- START message -->
+                <div class="row">
+                    <div class="span12"> 
+                        <div class="navbar">
+                            <div class="navbar-inner">
+                                <form class="navbar-form">
+                                    <input id="message_text" type="text" class="form-control">
+                                       <button id="b_send_message" class="btn btn-primary"><span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span> Post</button>
+                                    </input>
+                                 </form>
+                                    <button id="set_nick" class="btn btn-success" data-toggle="modal" data-target="#modal_setnick"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Set Nick</button>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END message -->
+             
+             </div>
+             
+            <!-- START Modal -->      
+            <div id="modal_joinroom" class="modal fade">
                <div class="vertical-alignment-helper">
-                  <div class="modal-dialog vertical-align-center">
+                  <div class="modal-dialog modal-sm vertical-align-center">
                       <div class="modal-content">
                          <div class="modal-header">
                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -142,7 +177,7 @@
                          </div>
                          <div class="modal-body">
                              <input id="room_name" type="text" class="form-control"  placeholder="Room Name">
-                             <p><small>Room will be created if it doesn't exist</small></p>
+                             <p><small>&nbsp;Room will be created if it doesn't exist</small></p>
                          </div>
                          <div class="modal-footer">
                              <a id="b_join_room" href="#" class="btn btn-success">Create Room</a>
@@ -150,46 +185,38 @@
                      </div>
                   </div>
                </div>
-               </div>
-               <div id="modal_setnick" class="modal fade">
+            </div>
+            
+            <div id="modal_setnick" class="modal fade">
                <div class="vertical-alignment-helper">
-                  <div class="modal-dialog vertical-align-center">
+                  <div class="modal-dialog modal-sm vertical-align-center">
                       <div class="modal-content">
                          <div class="modal-header">
                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                             <h3>Set nickname</h3>
+                             <h3>Set a Nickname</h3>
                          </div>
                          <div class="modal-body">
                              <input id="nickname" type="text" class="form-control" placeholder="Type your nickname here">
-                             <p><small>Pick up something more cool than anonymous :)</small></p>
                          </div>
                          <div class="modal-footer">
-                             <a id="b_set_nickname" href="#" class="btn btn-success">Set nickname</a>
+                             <a id="b_set_nickname" href="#" class="btn btn-success">Set a Nickname</a>
                          </div>
                      </div>
                   </div>
                </div>
-               </div>
-   
             </div>
-            </div>
-            </section>
+            <!-- End Modal -->
             
-   		</div>
+         </section>
       </div>
+         
    </div>
-</section>
+</div>
 
 
-
-
-
-
-
-   <script src="js/vendor.min.js"></script>
-   <script src="/socket.io/socket.io.js"></script>
-   <script src="js/radio.min.js"></script>
-
+<script src="js/vendor.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/radio.min.js"></script>
 <script>
   var _paq = _paq || [];
   _paq.push(['trackPageView']);
