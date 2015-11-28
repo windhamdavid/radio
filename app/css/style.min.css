@@ -6776,7 +6776,7 @@ header {
   min-height:150px;
   background:url(../img/daveo-header.svg) transparent;
   background-repeat:no-repeat;
-  background-size:contain;
+  background-size:cover;
   background-position:center;
   padding: 50px 0 0;
   margin: 0;
@@ -7064,7 +7064,7 @@ footer {
   min-height:100px;
   background:url(../img/daveo-footer.svg) transparent;
   background-repeat:no-repeat;
-  background-size:contain;
+  background-size:cover;
   background-position:center;
   padding: 50px 0 0;
   margin: 0 0 20px;
