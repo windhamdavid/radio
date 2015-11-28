@@ -6760,96 +6760,31 @@ button.close {
 /*# sourceMappingURL=bootstrap.css.map */
 
 /*! Main CSS file */
+
 body {
   background-color:#777;
-}
-header .intro-text {
-    padding-top: 100px;
-    padding-bottom: 50px;
-}
-#room_users {
-  margin-top: 10px;
-  border-top: 1px solid #cecece;
-  padding-top: 10px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background: -webkit-gradient(radial, center center, 0, center center, 460, from(#cecece), to(#222));
+  background: -webkit-radial-gradient(circle, #cecece, #222);
+  background: -moz-radial-gradient(circle, #cecece, #222);
+  background: -ms-radial-gradient(circle, #cecece, #222);
 }
 
-
-.vertical-alignment-helper {
-    display:table;
-    height: 100%;
-    width: 100%;
-    pointer-events:none; /* This makes sure that we can still click outside of the modal to close it */
-}
-.vertical-align-center {
-    /* To center vertically */
-    display: table-cell;
-    vertical-align: middle;
-    pointer-events:none;
-}
-.modal-content {
-    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
-    width:inherit;
-    height:inherit;
-    /* To center horizontally */
-    margin: 0 auto;
-    pointer-events: all;
-}
-
-.tabs-below > .nav-tabs {
-  border-bottom: 0;
-}
-.tabs-below > .nav-tabs {
-  border-top: 1px solid #ddd;
-}
-
-.tabs-below > .nav-tabs > li {
-  margin-top: -1px;
-  margin-bottom: 0;
-}
-
-.tabs-below > .nav-tabs > li > a {
-  -webkit-border-radius: 0 0 4px 4px;
-     -moz-border-radius: 0 0 4px 4px;
-          border-radius: 0 0 4px 4px;
-}
-
-.tabs-below > .nav-tabs > li > a:hover,
-.tabs-below > .nav-tabs > li > a:focus {
-  border-top-color: #ddd;
-  border-bottom-color: transparent;
-}
-
-.tabs-below > .nav-tabs > .active > a,
-.tabs-below > .nav-tabs > .active > a:hover,
-.tabs-below > .nav-tabs > .active > a:focus {
-  border-color: transparent #ddd #ddd #ddd;
-}
-
-::-webkit-scrollbar {
-  -webkit-appearance: none;
-  width: 7px;
-}
-
-::-webkit-scrollbar-thumb {
-  border-radius: 4px;
-  background-color: rgba(0, 0, 0, .5);
-  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
-} 
-
-.scrollable-list {
-  overflow: scroll;
-  height: 194px;
-}
-
-.scrollable-list .list-group-item {
-  padding: 3px 10px;
-  font-size:12px;
+header {
+  width:100%;
+  min-height:150px;
+  background:url(../img/daveo-header.svg) transparent;
+  background-repeat:no-repeat;
+  background-size:contain;
+  background-position:center;
+  padding: 50px 0 0;
+  margin: 0;
 }
 
 
 
-
-/* ========== Audio ============ */
+/* ========== Audio Player ============ */
 
 #audio_player {
   background: rgb(145,145,145); /* Old browsers */
@@ -6914,118 +6849,234 @@ meter {
   -o-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
-
-
-/* Ripple Out */
-@-webkit-keyframes hvr-ripple-out {
-  100% {
-    top: -12px;
-    right: -12px;
-    bottom: -12px;
-    left: -12px;
-    opacity: 0;
-  }
-}
-
-@keyframes hvr-ripple-out {
-  100% {
-    top: -12px;
-    right: -12px;
-    bottom: -12px;
-    left: -12px;
-    opacity: 0;
-  }
-}
-
-.hvr-ripple-out {
-  display: inline-block;
-  vertical-align: middle;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -moz-osx-font-smoothing: grayscale;
-  position: relative;
-}
-.hvr-ripple-out:before {
-  content: '';
-  position: absolute;
-  border: #e1e1e1 solid 6px;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-}
-.hvr-ripple-out:hover:before, .hvr-ripple-out:focus:before, .hvr-ripple-out:active:before {
-  -webkit-animation-name: hvr-ripple-out;
-  animation-name: hvr-ripple-out;
-}
-#amplitude-play-pause{
-  display: block;
-  height: 55px;
-  width: 55px;
-  line-height: 60px;
-  -moz-border-radius: 30px; /* or 50% */
-  border-radius: 30px; /* or 50% */
-  background-color: white;
-  color: black;
-  text-align: center;
-  border: 3px solid #cecece;
-  margin: -40px 0 0 0;
-  cursor: pointer;
-  float: right;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-transition: -webkit-transform .8s ease-in-out;
-  transition: transform .8s ease-in-out;
-}
-#amplitude-play-pause:hover{
-  background-color: black;
-  color: white;
-  -webkit-transform: rotate(360deg);
-  transform: rotate(360deg);
-}
-
 #amplitude-current-time{
 	font-family: 'PT Sans', sans-serif;
 	font-size: 14px;
 	font-weight: 400;
 }
-.amplitude-paused:before{
+#amplitude-play-pause {
+  height: 50px;
+  width: 50px;
+  line-height: 50px;
+  border-radius: 50%;
+  text-align: center;
+  margin: -40px 0 0 0;
+  cursor: pointer;
+  float: right;
+  position: relative;
+	-webkit-transition: all .1s linear;
+	transition: all .1s linear;
+}
+.amplitude-paused {  
+  color:rgba(88, 185, 87, .7);
+  display: block;
+  background-color: #f7f7f7;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f7f7f7), to(#e7e7e7));
+  background-image: -webkit-linear-gradient(top, #f7f7f7, #e7e7e7); 
+  background-image: -moz-linear-gradient(top, #f7f7f7, #e7e7e7); 
+  background-image: -ms-linear-gradient(top, #f7f7f7, #e7e7e7); 
+  background-image: -o-linear-gradient(top, #f7f7f7, #e7e7e7); 
+  box-shadow: 0px 3px 8px #aaa, inset 0px 2px 3px #fff;
+}
+@-webkit-keyframes pulseon {to {box-shadow: 0 0 0 15px rgba(88, 185, 87, .1);}}
+@-moz-keyframes pulseon {to {box-shadow: 0 0 0 15px rgba(88, 185, 87, .1);}}
+@-ms-keyframes pulseon {to {box-shadow: 0 0 0 15px rgba(88, 185, 87, .1);}}
+@keyframes pulseon {to {box-shadow: 0 0 0 15px rgba(88, 185, 87, .1);}}
+.amplitude-paused:hover {   
+  color:#58B957;
+  text-shadow: 0px 0px 6px #58B957;
+  box-shadow: 0 0 0 0 rgba(88, 185, 87, .7), inset 0px 4px 1px 1px white, inset 0px 4px 1px 1px rgba(204,198,197,.5);
+  -webkit-animation: pulseon 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+.amplitude-paused:after {
   content:"\e072";
   font-family:"Glyphicons Halflings";
-  font-size:35px;
-  line-height:1;
-  margin:10px;
-  display:inline-block;
+  font-size:25px;
+  line-height: 50px;
+  padding-left:4px;
+  text-shadow: 1px 4px 6px #def, 0 0 0 #555;
 }
-.amplitude-paused{  
+.amplitude-paused:before { 
 
 }
-.amplitude-playing:before {
+.amplitude-playing {
+  color:#DB524B;
+  text-shadow:0px 0px 3px #DB524B;
+  background-color: #f7f7f7;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f7f7f7), to(#e7e7e7));
+  background-image: -webkit-linear-gradient(top, #f7f7f7, #e7e7e7); 
+  background-image: -moz-linear-gradient(top, #f7f7f7, #e7e7e7); 
+  background-image: -ms-linear-gradient(top, #f7f7f7, #e7e7e7); 
+  background-image: -o-linear-gradient(top, #f7f7f7, #e7e7e7); 
+  box-shadow: 0px 3px 8px #aaa, inset 0px 2px 3px #fff;
+}
+@-webkit-keyframes pulseoff {to {box-shadow: 0 0 0 15px rgba(232, 76, 61, 0);}}
+@-moz-keyframes pulseoff {to {box-shadow: 0 0 0 15px rgba(232, 76, 61, 0);}}
+@-ms-keyframes pulseoff {to {box-shadow: 0 0 0 15px rgba(232, 76, 61, 0);}}
+@keyframes pulseoff {to {box-shadow: 0 0 0 15px rgba(232, 76, 61, 0);}}
+.amplitude-playing:hover {
+  color:#DB524B;
+  text-shadow:0px 0px 6px #DB524B;
+  box-shadow: 0 0 0 0 rgba(232, 76, 61, 0.7), inset 0px 4px 1px 1px white, inset 0px 4px 1px 1px rgba(204,198,197,.5);
+  -webkit-animation: pulseoff 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+.amplitude-playing:after {
   content:"\e073";
   font-family:"Glyphicons Halflings";
-  font-size:35px;
-  line-height:1;
-  margin:10px;
-  display:inline-block;
+  font-size:25px;
+  line-height: 50px;
+  padding-left:4px;
 }
-.amplitude-playing{
-
+.amplitude-playing:before {
 }
-
-
 #amplitude-now-playing-name{
-
 }
 #amplitude-now-playing-listeners{
-
 }
 #amplitude-now-playing-bitrate{
-
 }
+
+
+
+
+/* ========== Chat Rooms ============ */
+#room_users {
+  margin-top: 10px;
+  border-top: 1px solid #cecece;
+  padding-top: 10px;
+}
+
+
+
+
+/* =========  Vertical Align Modals ============ */
+
+.vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+    pointer-events:none; /* This makes sure that we can still click outside of the modal to close it */
+}
+.vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+    pointer-events:none;
+}
+.modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width:inherit;
+    height:inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+    pointer-events: all;
+}
+
+
+
+/* =========  Playlist/Calendar ============ */
+.tabs-below > .nav-tabs {
+  border-bottom: 0;
+}
+.tabs-below > .nav-tabs {
+  border-top: 1px solid #ddd;
+}
+.tabs-below > .nav-tabs > li {
+  margin-top: -1px;
+  margin-bottom: 0;
+}
+.tabs-below > .nav-tabs > li > a {
+  -webkit-border-radius: 0 0 4px 4px;
+     -moz-border-radius: 0 0 4px 4px;
+          border-radius: 0 0 4px 4px;
+}
+.tabs-below > .nav-tabs > li > a:hover,
+.tabs-below > .nav-tabs > li > a:focus {
+  border-top-color: #ddd;
+  border-bottom-color: transparent;
+}
+.tabs-below > .nav-tabs > .active > a,
+.tabs-below > .nav-tabs > .active > a:hover,
+.tabs-below > .nav-tabs > .active > a:focus {
+  border-color: transparent #ddd #ddd #ddd;
+}
+.scrollable-list {
+  overflow: scroll;
+  height: 194px;
+}
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+} 
+.scrollable-list .list-group-item {
+  padding: 3px 10px;
+  font-size:12px;
+}
+ul .badge {
+  font-weight:normal;
+}
+
+
+/* =========  Footer/Bottom Nav ============ */
+.panel-bottom {
+  background: rgba(0,0,0,.5);
+  border:none;
+}
+.panel-bottom .navbar-brand {
+  color:#fff;
+}
+.panel-bottom .navbar-nav > li > a {
+  color:#fff;
+}
+.panel-bottom .navbar-nav > li > a:hover {
+  color:#58B957;
+  background:none;
+}
+.panel-bottom .navbar-nav > li > a:focus,
+.panel-bottom .navbar-nav > li > a:active {
+  border:none;
+  text-decoration:none;
+  outline:none;
+  color:#fff;
+  background:none;
+}
+.panel-bottom .navbar-nav > li > a:visited {
+  border:none;
+}
+
+.listeners {
+  width:410px;
+  height:410px;
+}
+.chart {
+  width:410px;
+  height:410px;
+}
+
+footer {
+  width:100%;
+  min-height:100px;
+  background:url(../img/daveo-footer.svg) transparent;
+  background-repeat:no-repeat;
+  background-size:contain;
+  background-position:center;
+  padding: 50px 0 0;
+  margin: 0 0 20px;
+}
+
+
+
+
+
+
+
+
 
 
 

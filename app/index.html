@@ -8,49 +8,15 @@
    <link rel="stylesheet" href="css/style.min.css">
 </head>
 <body>
-<nav class="navbar navbar-default navbar-fixed-top">
-	<div class="container">
-		<div class="navbar-header page-scroll">
-			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand page-scroll" href="#page-top">Radio Daveo</a>
-		</div>
-		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav navbar-right">
-				<li class="hidden"><a href="#page-top"></a></li>
-				<li><a class="page-scroll" href="#about" data-toggle="modal" data-target="#about">About</a></li>
-			</ul>
-		</div>
-	</div>
-</nav>
 
-<div class="modal fade" id="about" tabindex="-1" role="dialog" aria-labelledby="about">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="about">About</h4>
-      </div>
-      <div class="modal-body">
-        <p><b>Daveo Radio</b> is just a little place I can share and talk about some music with friends. I started toying around with different streaming servers and I am using an Icecast streaming media server I’ve set up. This page is powered by Linode, Node.js, Express, Socket.io, and Icecast-kh.</p>   <p>I enjoy listening to music and I spent quite a bit of time doing so. I’ve gone entirely digital in recent years. I sold my collection of albums years ago and I donated my CD collection to a music student at Vanderbilt. I now have a collection of about 100,000 files that I keep on a networked hard drive. I do pay for ad-free streaming services, but I agree with artists who want a better revenue model from streaming. The analog/digital debate is null in my opinion. I use Polk in my living room and Klipsch in my office. In the car, I most often use playlists I’ve created and I rarely tune into a radio or satellite stations even though I have service. On occasion, at home I like to tune into terrestrial stations that stream to help find new music, but I’ve found almost all of the robot mixes from the big streaming providers unsatisfying.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+
+
 
 <header>
+
 	<div class="container">
 		<div class="intro-text">
-			<div class="intro-lead-in">Leave some room for some stuff up here</div>
-			<div class="intro-heading">Like maybe a cool header banner with a couple meters</div>
-			<a href="#intro" class="page-scroll btn btn-xl">how to listen</a>
+
 		</div>
 	</div>
 </header>
@@ -58,7 +24,7 @@
 
 <div class="container">
    <div class="row">
-      <div class="col-md-6">
+      <div class="col-sm-6">
          <section id="audio" class="bg-light-gray">
              
             <!-- START Player -->
@@ -96,31 +62,44 @@
 
    			<!-- START Playlist -->
             <div class="panel panel-default">
-               <div class="tabbable tabs-below">
-                  <div class="tab-content scrollable-list">
-                     <div class="tab-pane active" id="one_">
-                           <ul class="list-group">
-                              <div class="recent"></div>
-                           </ul>
-                     </div>
-                     <div class="tab-pane" id="two_">
-                     </div>
-                     <div class="tab-pane" id="twee_">
-                     </div>
-                  </div>
-                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#one" data-toggle="tab"><span class="glyphicon glyphicon-music" aria-hidden="true"></span>&nbsp;Last 100</a></li>
-                        <li><a href="#two" data-toggle="tab">Top Artist</a></li>
-                        <li><a href="#twee" data-toggle="tab">Top Tracks</a></li>
+               <div class="tab-content scrollable-list">
+                  <div class="tab-pane active" id="one">
+                     <ul class="list-group">
+                        <div class="recent"></div>
                      </ul>
+                  </div>
+                  <div class="tab-pane" id="two">
+                     <ul class="list-group">
+                        <div class="tracks"></div>
+                     </ul>          
+                  </div>
+                  <div class="tab-pane" id="three">
+                     <ul class="list-group">
+                        <div class="artists"></div>
+                     </ul>
+                  </div>
+                  <div class="tab-pane" id="four">
+                     <ul class="list-group">
+                        <li class="list-group-item list-group-item-info"><b>Dec 12th 2-4pm</b>: Example Something</li>
+                        <li class="list-group-item"><b>Dec 14th 8-10am</b>: Daveo Radio</li>
+                        <li class="list-group-item"><b>Dec 22th 2-4pm</b>: Daveo Radio</li>
+                     </ul>
+                  </div>
                </div>
+                  <ul class="nav nav-tabs">
+                     <li class="active"><a href="#one" data-toggle="tab"><span class="glyphicon glyphicon-headphones" aria-hidden="true"></span>&nbsp;Recent</a></li>
+                     <li><a href="#two" data-toggle="tab"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span>&nbsp;Tracks</a></li>
+                     <li><a href="#three" data-toggle="tab"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;Artist</a></li>
+                     <li><a href="#four" data-toggle="tab"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>&nbsp;Schedule</a></li>
+                  </ul>
             </div>
             <!-- END Playlist -->
          
          </section>
    	</div>
       
-      <div class="col-md-6">
+      <!-- START Chat -->
+      <div class="col-sm-6">
          <section id="request-line" class="bg-light-gray">
    		   <div class="panel panel-default">
                
@@ -221,10 +200,117 @@
             
          </section>
       </div>
+      <!-- End Chat -->
+      
          
    </div>
 </div>
 
+<!-- START Footer NAV -->
+<div class="container">
+   <div class="col-sm-12">
+      <div class="row">  
+         <div class="panel panel-bottom">
+   			<ul class="nav navbar-nav">
+   				<li><a href="#connected" data-toggle="modal" data-target="#connected"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span>&nbsp;Listeners</a></li>
+               <li><a href="#charts" data-toggle="modal" data-target="#charts"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span>&nbsp;Charts</a></li>
+   			</ul>
+   			<ul class="nav navbar-nav navbar-right">
+   				<li><a href="#about" data-toggle="modal" data-target="#about"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>&nbsp;About</a></li>
+               <li><a href="#help" data-toggle="modal" data-target="#help"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>&nbsp;Help</a></li>
+               <li><a href="#support" data-toggle="modal" data-target="#support"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>&nbsp;Support</a></li>
+   			</ul>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- END Footer NAV -->
+
+<!-- START Listeners Modal -->
+<div class="modal fade" id="connected" tabindex="-1" role="dialog" aria-labelledby="connected" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END Listerners Modal -->
+
+<!-- START Charts Modal -->
+<div class="modal fade" id="charts" tabindex="-1" role="dialog" aria-labelledby="charts" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<div class="chart">
+
+         </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END Charts Modal -->
+
+<!-- START Info Modal -->
+<div class="modal fade" id="about" tabindex="-1" role="dialog" aria-labelledby="about" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="about">About</h4>
+      </div>
+      <div class="modal-body">
+        <p><b>Daveo Radio</b> is just a little place I can share and talk about some music with friends. I started toying around with different streaming servers and I am using an Icecast streaming media server I’ve set up. This page is powered by Linode, Node.js, Express, Socket.io, and Icecast-kh.</p>   <p>I enjoy listening to music and I spent quite a bit of time doing so. I’ve gone entirely digital in recent years. I sold my collection of albums years ago and I donated my CD collection to a music student at Vanderbilt. I now have a collection of about 100,000 files that I keep on a networked hard drive. I do pay for ad-free streaming services, but I agree with artists who want a better revenue model from streaming. The analog/digital debate is null in my opinion. I use Polk in my living room and Klipsch in my office. In the car, I most often use playlists I’ve created and I rarely tune into a radio or satellite stations even though I have service. On occasion, at home I like to tune into terrestrial stations that stream to help find new music, but I’ve found almost all of the robot mixes from the big streaming providers unsatisfying.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END Info Modal -->
+
+<!-- START Help Modal -->
+<div class="modal fade" id="help" tabindex="-1" role="dialog" aria-labelledby="help" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="about">About</h4>
+      </div>
+      <div class="modal-body">
+        <p><b>Daveo Radio</b> is just a little place I can share and talk about some music with friends. I started toying around with different streaming servers and I am using an Icecast streaming media server I’ve set up. This page is powered by Linode, Node.js, Express, Socket.io, and Icecast-kh.</p>   <p>I enjoy listening to music and I spent quite a bit of time doing so. I’ve gone entirely digital in recent years. I sold my collection of albums years ago and I donated my CD collection to a music student at Vanderbilt. I now have a collection of about 100,000 files that I keep on a networked hard drive. I do pay for ad-free streaming services, but I agree with artists who want a better revenue model from streaming. The analog/digital debate is null in my opinion. I use Polk in my living room and Klipsch in my office. In the car, I most often use playlists I’ve created and I rarely tune into a radio or satellite stations even though I have service. On occasion, at home I like to tune into terrestrial stations that stream to help find new music, but I’ve found almost all of the robot mixes from the big streaming providers unsatisfying.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END Help Modal -->
+
+<!-- START Support Modal -->
+<div class="modal fade" id="support" tabindex="-1" role="dialog" aria-labelledby="support" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="about">About</h4>
+      </div>
+      <div class="modal-body">
+        <p><b>Daveo Radio</b> is just a little place I can share and talk about some music with friends. I started toying around with different streaming servers and I am using an Icecast streaming media server I’ve set up. This page is powered by Linode, Node.js, Express, Socket.io, and Icecast-kh.</p>   <p>I enjoy listening to music and I spent quite a bit of time doing so. I’ve gone entirely digital in recent years. I sold my collection of albums years ago and I donated my CD collection to a music student at Vanderbilt. I now have a collection of about 100,000 files that I keep on a networked hard drive. I do pay for ad-free streaming services, but I agree with artists who want a better revenue model from streaming. The analog/digital debate is null in my opinion. I use Polk in my living room and Klipsch in my office. In the car, I most often use playlists I’ve created and I rarely tune into a radio or satellite stations even though I have service. On occasion, at home I like to tune into terrestrial stations that stream to help find new music, but I’ve found almost all of the robot mixes from the big streaming providers unsatisfying.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END Support Modal -->
+
+<footer class="site-footer">
+   
+</footer>
 
 <script src="js/vendor.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
