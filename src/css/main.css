@@ -20,17 +20,24 @@ header {
   padding: 50px 0 0;
   margin: 0;
 }
+.outer-container {
+  width:100%;
+  background:url(../img/daveo-background.svg) transparent;
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-position:center;
+}
 
-
+.panel-default {
+    box-shadow: 5px 5px 8px #555, inset 0px 2px 3px #fff;
+    background: rgba (145,145,145,.5);
+}
 
 /* ========== Audio Player ============ */
 
 #audio_player {
-  background: rgb(145,145,145); /* Old browsers */
-  background: -moz-linear-gradient(top, rgba(145,145,145,1) 0%, rgba(204,204,204,1) 5%, rgba(237,237,237,1) 51%, rgba(237,237,237,1) 78%, rgba(237,237,237,1) 78%, rgba(196,196,196,1) 93%, rgba(196,196,196,1) 93%, rgba(145,145,145,1) 100%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(top, rgba(145,145,145,1) 0%,rgba(204,204,204,1) 5%,rgba(237,237,237,1) 51%,rgba(237,237,237,1) 78%,rgba(237,237,237,1) 78%,rgba(196,196,196,1) 93%,rgba(196,196,196,1) 93%,rgba(145,145,145,1) 100%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, rgba(145,145,145,1) 0%,rgba(204,204,204,1) 5%,rgba(237,237,237,1) 51%,rgba(237,237,237,1) 78%,rgba(237,237,237,1) 78%,rgba(196,196,196,1) 93%,rgba(196,196,196,1) 93%,rgba(145,145,145,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#919191', endColorstr='#919191',GradientType=0 ); /* IE6-9 */
+  background-color: #f7f7f7;
+
 }
 
 div#player{
@@ -48,9 +55,12 @@ div#player{
 	right: left;
 }
 #amplitude-volume-slider{
-	width: 80%;
+	width: 70%;
 	margin: 0 auto;
   line-height:14px;
+}
+.current-track {
+  margin:20px 0 0;
 }
 input[type=range] {
   -webkit-appearance: none;
@@ -181,6 +191,7 @@ meter {
 	font-family: 'PT Sans', sans-serif;
 	font-size: 14px;
 	font-weight: 400;
+  float:right;
 }
 #amplitude-play-pause {
   height: 50px;
@@ -343,7 +354,7 @@ video {
 }
 .scrollable-list {
   overflow: scroll;
-  height: 194px;
+  height: 220px;
 }
 ::-webkit-scrollbar {
   -webkit-appearance: none;
@@ -359,10 +370,15 @@ video {
   padding: 3px 10px;
   font-size:12px;
 }
+.scrollable-list-footer {
+  background:#fff;
+}
 ul .badge {
   font-weight:normal;
 }
-
+.scrollable-list .list-group {
+  margin: 0;
+}
 
 /* =========  Footer/Bottom Nav ============ */
 .panel-bottom {
