@@ -10,27 +10,6 @@ function hook_amplitude_functions(e){var a=window.onload;window.onload="function
 for(var t=document.getElementsByClassName("amplitude-song-slider"),i=0;i<t.length;i++)t[i].removeEventListener("input",amplitude_handle_song_sliders),t[i].addEventListener("input",amplitude_handle_song_sliders)}})}function amplitude_handle_play_pause_classes(){var e=document.getElementsByClassName("amplitude-play-pause");if(this.getAttribute("amplitude-song-index")!=amplitude_active_config.amplitude_list_playing_index){for(var a=0;a<e.length;a++){var i=" amplitude-list-paused";e[a].className=e[a].className.replace(" amplitude-list-playing",""),e[a].className=e[a].className.replace(i,""),e[a].className=e[a].className+i}var i=" amplitude-list-playing";this.className=this.className.replace(" amplitude-list-paused",""),this.className=this.className.replace(i,""),this.className=this.className+i}else if(amplitude_active_config.amplitude_active_song.paused){var i=" amplitude-list-playing";this.className=this.className.replace(" amplitude-list-paused",""),this.className=this.className.replace(i,""),this.className=this.className+i}else{var i=" amplitude-list-paused";this.className=this.className.replace(" amplitude-list-playing",""),this.className=this.className.replace(i,""),this.className=this.className+i}amplitude_prepare_list_play_pause(this.getAttribute("amplitude-song-index"))}function amplitude_handle_song_sliders(){amplitude_set_song_position(this.value)}function amplitude_disconnect_stream(){amplitude_active_config.amplitude_active_song.pause(),amplitude_active_config.amplitude_active_song.src="",amplitude_active_config.amplitude_active_song.load()}function amplitude_reconnect_stream(){amplitude_active_config.amplitude_active_song.src=amplitude_active_config.amplitude_active_song_information.url,amplitude_active_config.amplitude_active_song.load()}var amplitude_active_config={amplitude_active_song:null,amplitude_volume:.5,amplitude_pre_mute_volume:.5,amplitude_list_playing_index:null,amplitude_auto_play:!1,amplitude_songs:{},amplitude_shuffle:!1,amplitude_shuffle_list:{},amplitude_start_song:null,amplitude_volume_up_amount:10,amplitude_volume_down_amount:10,amplitude_continue_next:!1,amplitude_active_song_information:{},amplitude_before_play_callback:null,amplitude_after_play_callback:null,amplitude_before_stop_callback:null,amplitude_after_stop_callback:null,amplitude_before_next_callback:null,amplitude_after_next_callback:null,amplitude_before_prev_callback:null,amplitude_after_prev_callback:null,amplitude_before_pause_callback:null,amplitude_after_pause_callback:null,amplitude_before_shuffle_callback:null,amplitude_after_shuffle_callback:null,amplitude_before_volume_change_callback:null,amplitude_after_volume_change_callback:null,amplitude_before_mute_callback:null,amplitude_after_mute_callback:null,amplitude_before_time_update_callback:null,amplitude_after_time_update_callback:null,amplitude_before_song_information_set_callback:null,amplitude_after_song_information_set_callback:null,amplitude_before_song_added_callback:null,amplitude_after_song_added_callback:null},amplitude_active_song_information={};hook_amplitude_functions(amplitude_configure_variables),hook_amplitude_functions(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)?amplitude_web_mobile:amplitude_web_desktop),hook_amplitude_functions(amplitude_start);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 (function( $ ) {
 	$.fn.lfmr = function(options){
 		var urla = "https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=windhamdavid&api_key=e12ea1d0253898ee9a93edfe42ffdeab&format=json&limit=100";
@@ -218,7 +197,7 @@ $(document).ready(function () {
   }
                             
 
-
+  $('ul.nav-tabs a').tooltip();
   
 });
 
