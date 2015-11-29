@@ -1,13 +1,18 @@
 /*! Main CSS file */
 
 body {
-  background-color:#777;
+  background-repeat:no-repeat;
+  background-size:cover;
   background-position: center center;
-  background-repeat: no-repeat;
-  background: -webkit-gradient(radial, center center, 0, center center, 460, from(#cecece), to(#222));
-  background: -webkit-radial-gradient(circle, #ffffff, #000000);
-  background: -moz-radial-gradient(circle, #cecece, #222);
-  background: -ms-radial-gradient(circle, #cecece, #222);
+  background:url(../img/daveo-background.svg) transparent;
+  background:url(../img/daveo-background.svg),radial-gradient(yellow,#f06d06);
+
+/*
+  background: -webkit-gradient(radial, center center, 0, center center, 460, from(transparent), to(#333));
+  background: -webkit-radial-gradient(circle, transparent, #333);
+  background: -moz-radial-gradient(circle, transparent, #333);
+  background: -ms-radial-gradient(circle, transparent, #333);
+*/
 }
 
 header {
@@ -22,7 +27,7 @@ header {
 }
 .outer-container {
   width:100%;
-  background:url(../img/daveo-background.svg) transparent;
+
   background-repeat:no-repeat;
   background-size:cover;
   background-position:center;
@@ -33,7 +38,11 @@ header {
     background: rgba (145,145,145,.5);
 }
 
-/* ========== Audio Player ============ */
+
+
+/***********************************
+========== Audio Player ============ 
+***********************************/
 
 #audio_player {
   background-color: #f7f7f7;
@@ -276,9 +285,29 @@ meter {
 }
 
 
+#archives audio { 
+  width: 100px;
+  background: #fff;
+
+}
+#archives audio::-webkit-media-controls-timeline-container,
+#archives audio::-webkit-media-controls-timeline,
+#archives audio::-webkit-media-controls-mute-button,
+#archives audio::-webkit-media-controls-current-time-display
+#archives audio::-webkit-media-controls-time-remaining-display {
+  display:none !important;
+}
+.archive-audio {
+  height:50px;
+  text-align: center;
+  display: table-cell; 
+  vertical-align: middle !important;
+}
 
 
-/* ========== Chat Rooms ============ */
+/***********************************
+=========== Chat Rooms ============= 
+***********************************/
 #room_users {
   margin-top: 10px;
   border-top: 1px solid #cecece;
@@ -301,32 +330,12 @@ video {
 
 
 
-/* =========  Vertical Align Modals ============ */
-
-.vertical-alignment-helper {
-    display:table;
-    height: 100%;
-    width: 100%;
-    pointer-events:none; /* This makes sure that we can still click outside of the modal to close it */
-}
-.vertical-align-center {
-    /* To center vertically */
-    display: table-cell;
-    vertical-align: middle;
-    pointer-events:none;
-}
-.modal-content {
-    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
-    width:inherit;
-    height:inherit;
-    /* To center horizontally */
-    margin: 0 auto;
-    pointer-events: all;
-}
 
 
 
-/* =========  Playlist/Calendar ============ */
+/***********************************
+======= Playlist/Calendar ========== 
+***********************************/
 .tabs-below > .nav-tabs {
   border-bottom: 0;
 }
@@ -379,6 +388,36 @@ ul .badge {
 .scrollable-list .list-group {
   margin: 0;
 }
+
+
+
+/***********************************
+=========== Chat Rooms ============= 
+***********************************/
+
+/* =========  Vertical Align Modals ============ */
+
+.vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+    pointer-events:none; /* This makes sure that we can still click outside of the modal to close it */
+}
+.vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+    pointer-events:none;
+}
+.modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width:inherit;
+    height:inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+    pointer-events: all;
+}
+
 
 /* =========  Footer/Bottom Nav ============ */
 .panel-bottom {

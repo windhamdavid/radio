@@ -20,10 +20,12 @@
 <div class="outer-container">
 <div class="container">
    <div class="row">
-      <div class="col-sm-6">
-         <section id="audio" class="bg-light-gray">
-             
-            <!-- START Player -->
+      
+      <!-- START Player -->
+      <div class="col-sm-6">      
+         <section id="audio" class="bg-light-gray">  
+            
+            <!-- START Audio Player -->  
             <div id="audio_player" class="panel panel-default">
                <div class="panel-body">
                   <div id="player">
@@ -49,32 +51,42 @@
                      </div>
                   </div>
                </div>
-           
                <div class="well current-track">
-                  <h6 style="margin:0;"><img id="eq" src="" title="eq" style="float:left;margin:3px 10px 0 7px;"> <span id="amplitude-now-playing-name">Current track: <span id="track">* Off Air *</span></span><span id="amplitude-current-time">0:00</span></h6>
+                  <h6 style="margin:0;"><img id="eq" src="" title="eq" width="12px" style="float:left;margin:0 10px 0 0;"> <span id="amplitude-now-playing-name"><span id="track">* Off Air *</span></span><span id="amplitude-current-time">0:00</span></h6>
                </div>
-               </div>
-               <!-- END Player -->
+            </div>
+            <!-- END Audio Player -->
 
       			<!-- START Playlist -->
                <div class="tabs-below">
                   <div class="tab-content scrollable-list">
-                     <div class="tab-pane active" id="one">
+                     <div class="tab-pane active" id="recent">
                         <ul class="list-group">
                            <div class="recent"></div>
                         </ul>
                      </div>
-                     <div class="tab-pane" id="two">
+                     <div class="tab-pane" id="tracks">
                         <ul class="list-group">
                            <div class="tracks"></div>
                         </ul>          
                      </div>
-                     <div class="tab-pane" id="three">
+                     <div class="tab-pane" id="albums">
+                        <ul class="list-group">
+                           <div class="albums"></div>
+                        </ul>
+                     </div>
+                     <div class="tab-pane" id="artist">
                         <ul class="list-group">
                            <div class="artists"></div>
                         </ul>
                      </div>
-                     <div class="tab-pane" id="four">
+                     <div class="tab-pane" id="archives">
+                        <ul class="list-group">
+                           <button id="play" class="list-group-item"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> <b>11/5/15</b>: Interview w/ John Rogers <span class="badge">18:14</span></button>
+                           <button id="play" class="list-group-item"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> <b>12/1/15</b>: Monologue "On This and That" <span class="badge">7:42</span></button>
+                        </ul>
+                     </div>
+                     <div class="tab-pane" id="schedule">
                         <ul class="list-group">
                            <li class="list-group-item list-group-item-info"><b>Dec 12th 2-4pm</b>: Example Show</li>
                            <li class="list-group-item"><b>Dec 13th 2-4pm</b>: Guest Show</li>
@@ -90,16 +102,20 @@
                      </div>
                   </div>     
                      <ul class="nav nav-tabs scrollable-list-footer">
-                        <li class="active"><a href="#one" data-toggle="tab" data-original-title="Recent" data-placement="top"><span class="glyphicon glyphicon-headphones" aria-hidden="true"></span></a></li>
-                        <li><a href="#two" data-toggle="tab" data-original-title="Tracks" data-placement="top"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span></a></li>
-                        <li><a href="#three" data-toggle="tab" data-original-title="Artist" data-placement="top"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li>
-                        <li><a href="#four" data-toggle="tab" data-original-title="Calendar" data-placement="top"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></a></li>
+                        <li class="active"><a href="#recent" data-toggle="tab" data-original-title="Recent" data-placement="top"><span class="glyphicon glyphicon-headphones" aria-hidden="true"></span></a></li>
+                        <li><a href="#tracks" data-toggle="tab" data-original-title="Tracks" data-placement="top"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span></a></li>
+                        <li><a href="#albums" data-toggle="tab" data-original-title="Albums" data-placement="top"><span class="glyphicon glyphicon-cd" aria-hidden="true"></span></a></li>
+                        <li><a href="#artist" data-toggle="tab" data-original-title="Artist" data-placement="top"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a></li>
+                        <li><a href="#archives" data-toggle="tab" data-original-title="Archives" data-placement="top"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></li>
+                        <li><a href="#schedule" data-toggle="tab" data-original-title="Schedule" data-placement="top"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></a></li>
                      </ul>
+                  </div>          
                </div>
                <!-- END Playlist -->
-            </div>
+         
          </section>
    	</div>
+      <!-- END Player -->
       
       <!-- START Connect -->
       <div class="col-sm-6">
@@ -207,8 +223,7 @@
                <!-- END Rooms -->
                
             </div>
-
-             
+         
             <!-- START Modal -->      
             <div id="modal_joinroom" class="modal fade">
                <div class="vertical-alignment-helper">
@@ -255,8 +270,8 @@
       <!-- End Connect -->
       
          
+      </div>
    </div>
-</div>
 </div>
 
 <!-- START Footer NAV -->
