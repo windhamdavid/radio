@@ -9,18 +9,13 @@
 </head>
 <body>
 
-
-
-
 <header>
-
 	<div class="container">
 		<div class="intro-text">
 
 		</div>
 	</div>
 </header>
-
 
 <div class="container">
    <div class="row">
@@ -97,7 +92,7 @@
                      <li class="active"><a href="#one" data-toggle="tab"><span class="glyphicon glyphicon-headphones" aria-hidden="true"></span>&nbsp;Recent</a></li>
                      <li><a href="#two" data-toggle="tab"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span>&nbsp;Tracks</a></li>
                      <li><a href="#three" data-toggle="tab"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;Artist</a></li>
-                     <li><a href="#four" data-toggle="tab"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>&nbsp;Schedule</a></li>
+                     <li><a href="#four" data-toggle="tab"><span class="glyphicon glyphicon-time" aria-hidden="true"></span>&nbsp;Schedule</a></li>
                   </ul>
             </div>
             <!-- END Playlist -->
@@ -108,13 +103,14 @@
       <!-- START Chat -->
       <div class="col-sm-6">
          <section id="request-line" class="bg-light-gray">
-   		   <div class="panel panel-default">
+   		  
                
-               <!-- START Room Tabs -->
+            <!-- START Room Tabs -->
+            <div class="panel panel-default">
                <div class="row-fluid">
                     <ul id="rooms_tabs" class="nav nav-tabs">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-th" aria-hidden="true"></span>&nbsp;Options&nbsp;<b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-th" aria-hidden="true"></span>&nbsp;<b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#modal_joinroom" data-toggle="modal"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>&nbsp;Join room</a></li>
                                 <li><a id="b_leave_room" href="#"><span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>&nbsp;Leave room</a></li>
@@ -122,7 +118,9 @@
                                 <li><a href="#modal_setnick" data-toggle="modal"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;Set nickname</a></li>
                             </ul>
                         </li>
-                        <li id="Lobby_tab" class="active"><a href="#Lobby" data-toggle="tab">Lobby</a></li>
+                        <li id="Lobby_tab" class="active"><a href="#Lobby" data-toggle="tab"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span><span class="hidden-tab">Lobby</span></a></li>
+                        <li><a href="#call" data-toggle="tab"><span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span></a></li>
+                        <li><a href="#video" data-toggle="tab"><span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span></a></li>
                     </ul>
                </div>
                <!-- END Room Tabs -->
@@ -141,26 +139,69 @@
                                   <span class="label label-success">online:</span> <span class="label label-danger">Radio-bot</span>
                               </div>
                            </div>
+                       </div>              
+                   
+                      <!-- START message -->
+                      <div class="panel-footer">
+                         <div class="row-fluid">
+                             <form class="form">
+                                <div class="input-group">
+                                   <input id="message_text" class="form-control" type="text" placeholder="What say you?" >
+                                    <span class="input-group-btn">
+                                       <button id="b_send_message" class="btn btn-primary"><span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span> Post</button>
+                                    </span>
+                                 </div>
+                              </form>
+                              <!--<button id="set_nick" class="btn btn-success" data-toggle="modal" data-target="#modal_setnick"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Set Nick</button>-->
+                         </div>
+                      </div>
+                      <!-- END message -->
+                      
+                   </div>
+                   
+                   <div class="tab-pane" id="call">
+                      <div id="audio">
+                         <div class="well">
+                              <p><span class="label label-primary">Local audio:</span></p>
+                              <audio id="audio1" autoplay controls muted></audio>
+                              <p><span class="label label-primary">Remote audio:</span></p>
+                              <audio id="audio2" autoplay controls></audio>
+                          </div>
+                          <div class="panel-footer">
+                             <div id="buttons">
+                               <button id="callButton" class="btn btn-success">Call</button>
+                               <button id="hangupButton" class="btn btn-danger">Hang Up</button>
+                               <select id="codec" class="selectpicker" data-style="btn-primary">
+                                 <!-- Codec values are matched with how they appear in the SDP.
+                                 For instance, opus matches opus/48000/2 in Chrome, and ISAC/16000
+                                 matches 16K iSAC (but not 32K iSAC). -->
+                                 <option value="opus">Opus</option>
+                                 <option value="ISAC">iSAC 16K</option>
+                                 <option value="G722">G722</option>
+                                 <option value="PCMU">PCMU</option>
+                               </select>
+                             </div>
+                          </div>
                        </div>
+                   </div>
+                   <div class="tab-pane" id="video">
+                      <div id="video">
+                         <div class="well">
+                            <video id="localVideo" autoplay muted></video>
+                            <video id="remoteVideo" autoplay></video>
+                         </div>
+                            <div class="panel-footer">
+                              <button id="startButton" class="btn btn-success">Start</button>
+                              <button id="callButton" class="btn btn-primary">Call</button>
+                              <button id="hangupButton" class="btn btn-danger">Hang Up</button>
+                            </div>
+                         </div>
+                      <div>
                    </div>
                </div>
                <!-- END Rooms -->
                
-                <!-- START message -->
-                <div class="panel-footer">
-                   <div class="row-fluid">
-                       <form class="form">
-                          <div class="input-group">
-                             <input id="message_text" class="form-control" type="text" placeholder="What say you?" >
-                              <span class="input-group-btn">
-                                 <button id="b_send_message" class="btn btn-primary"><span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span> Post</button>
-                              </span>
-                           </div>
-                        </form>
-                        <!--<button id="set_nick" class="btn btn-success" data-toggle="modal" data-target="#modal_setnick"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Set Nick</button>-->
-                   </div>
-                </div>
-                <!-- END message -->
+
             </div>
 
              
@@ -239,7 +280,9 @@
     <div class="modal-content">
       <div class="modal-body">
          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<div class="listeners">
 
+         </div>
       </div>
     </div>
   </div>
