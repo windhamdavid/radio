@@ -1,7 +1,7 @@
 /*global require:true, __dirname:true */
 
 var conf = {
-    port: 8888,
+    port: 8881,
     debug: false,
     dbPort: 6379,
     dbHost: '127.0.0.1',
