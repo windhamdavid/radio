@@ -1,34 +1,9 @@
 /**** Last-fm API ****/
 
 (function( $ ) {
-	$.fn.lfmr = function(options){
-		var urla = "https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=windhamdavid&api_key=e12ea1d0253898ee9a93edfe42ffdeab&format=json&limit=100";
-		var tracks = [];
-		function isLoadedr (recentElement) {
-			for (var i = 0; i < tracks.length; i++){
-				var markup = $("<li class='list-group-item'>" + tracks[i].artist + " - <span class='artist'>" + tracks[i].title + " : " + tracks[i].album + "</li>");
-				recentElement.append(markup);
-			}
-		}
-		return this.each(function(){
-			var $this = $(this);
-			$.getJSON( urla, function(data){
-				$(data.recenttracks.track).each(function(){
-					tracks.push ({
-						artist:	this.artist["#text"],
-						title: this.name,
-						album: this.album["#text"]
-					});
-				});
-				isLoadedr($this);
-			});
-		});
-	};
-	
-	$('.recent').lfmr();
   
 	$.fn.lfya = function(options){
-		var urla = "https://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=windhamdavid&api_key=e12ea1d0253898ee9a93edfe42ffdeab&period=12month&format=json&limit=100";
+		var urla = "https://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=windhamdavid&api_key=e12ea1d0253898ee9a93edfe42ffdeab&period=12month&format=json&limit=200";
 		var artists = [];
 		function isLoadeda (artistElement) {
 			for (var i = 0; i < artists.length; i++){
@@ -53,11 +28,11 @@
   $('.artists').lfya();
   
 	$.fn.lfyt = function(options){
-		var urla = "https://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=windhamdavid&api_key=e12ea1d0253898ee9a93edfe42ffdeab&period=12month&format=json&limit=100";
+		var urla = "https://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=windhamdavid&api_key=e12ea1d0253898ee9a93edfe42ffdeab&period=12month&format=json&limit=200";
 		var tracks = [];
 		function isLoadedt (tracksElement) {
 			for (var i = 0; i < tracks.length; i++){
-				var markup = $("<li class='list-group-item'>" + tracks[i].artist + " - <span class='artist'>" + tracks[i].title + "</span><span class='badge'>" + tracks[i].played + "</span></li>");
+				var markup = $("<li class='list-group-item'>" + tracks[i].artist + ": <span class='artist'>" + tracks[i].title + "</span><span class='badge'>" + tracks[i].played + "</span></li>");
 				tracksElement.append(markup);
 			}
 		}
@@ -77,8 +52,77 @@
 	};
 	
 	$('.tracks').lfyt();
-		
+  
+	$.fn.lfm = function(options){
+		var url = "https://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=windhamdavid&api_key=e12ea1d0253898ee9a93edfe42ffdeab&period=12month&format=json&limit=200";
+		var albums = [];
+		function isLoaded (albumElement) {
+			for (var i = 0; i < albums.length; i++){
+				var markup = $("<li class='list-group-item'>" + albums[i].artist + ": <span class='artist'>" + albums[i].name + "</span></li>");
+				albumElement.append(markup);
+			}
+			albumElement.find('.album').hover(function(){
+				$(this).addClass('flip');
+			},function(){
+				$(this).removeClass('flip');
+			});
+		}
+		return this.each(function(){
+			var $this = $(this);
+			$.getJSON( url, function(data){
+				$(data.topalbums.album).each(function(){
+					albums.push ({
+						name:	this.name,
+						artist: this.artist.name,
+						played: this.playcount,
+						art:	this.image[this.image.length-1]["#text"]
+					});
+				});
+				isLoaded($this);
+			});
+		});
+	};
+	
+	$('.albums').lfm();
+  
 })( jQuery );
+
+
+getRecentTracks();  //call it once to avoid delay
+
+function getRecentTracks() {
+  
+	$.fn.lfmr = function(options){
+    interval = setInterval(getRecentTracks,180000);  // check every 3 minutes
+		var urla = "https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=windhamdavid&api_key=e12ea1d0253898ee9a93edfe42ffdeab&format=json&limit=100";
+		var tracks = [];
+		function isLoadedr (recentElement) {
+			for (var i = 0; i < tracks.length; i++){
+				var markup = $("<li class='list-group-item'>" + tracks[i].artist + " - <span class='artist'>" + tracks[i].title + " : " + tracks[i].album + "</li>");
+				recentElement.append(markup);
+			}
+		}
+		return this.each(function(){
+			var $this = $(this);
+			$.getJSON( urla, function(data){
+				$(data.recenttracks.track).each(function(){
+					tracks.push ({
+						artist:	this.artist["#text"],
+						title: this.name,
+						album: this.album["#text"]
+					});
+				});
+				isLoadedr($this);
+			});
+		});
+	};
+	
+	$('.recent').lfmr();
+  $('.recent').hide();
+  $('.recent').fadeIn(1000);
+}( jQuery );
+
+
 
 
 /**** Audio Player ****/
@@ -96,8 +140,6 @@ function get_radio_tower() {return 'img/radio.gif';}
 function get_radio_none() {return 'img/none.svg';}
 function get_radio_eq() {return 'img/eq.gif';}
 function get_radio_eq_none() {return 'img/1.png';}
-
-
 
 var interval = null;
 $(document).ready(function() {
@@ -126,6 +168,8 @@ function radioTitle() {
       success: function(json){
         if(json[mountpoint] == null) {
           $('#connection-error').modal('show');
+        	$('#radio').attr('src', get_radio_none()).fadeIn(300);
+        	$('#eq').attr('src', get_radio_eq_none()).fadeIn(300);
         }
         else {
           $('#track').text(json[mountpoint].title);
@@ -144,8 +188,6 @@ function radioTitle() {
   		  $('#eq').attr('src', get_radio_eq_none()).fadeIn(300);
       }
   });
-	$('#radio').attr('src', get_radio_none()).fadeIn(300);
-	$('#eq').attr('src', get_radio_eq_none()).fadeIn(300);
 }
 
 
