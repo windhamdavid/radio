@@ -382,6 +382,25 @@
 </div>
 <!-- END Support Modal -->
 
+<!-- START Connection Error Modal -->
+<div class="modal fade" id="connection-error" tabindex="-1" role="dialog" aria-labelledby="support" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="about">Connection Error</h4>
+      </div>
+      <div class="modal-body">
+        <p></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END Connection Error Modal -->
+
 <footer class="site-footer">
    
 </footer>
@@ -389,20 +408,7 @@
 <script src="js/vendor.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="js/radio.min.js"></script>
-<script src="js/webrtc-adapter.js"></script>
-<script src="js/webrtc-video.js"></script>
-<script>
-  var _paq = _paq || [];
-  _paq.push(['trackPageView']);
-  _paq.push(['enableLinkTracking']);
-  (function() {
-    var u="//davidawindham.com/wik/";
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
-    _paq.push(['setSiteId', 1]);
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-  })();
-</script>
-<noscript><p><img src="//davidawindham.com/wik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<script src="js/webrtc.min.js"></script>
+<script>var _paq = _paq || [];_paq.push(['trackPageView']);_paq.push(['enableLinkTracking']);(function(){var u="//davidawindham.com/wik/";_paq.push(['setTrackerUrl', u+'piwik.php']);_paq.push(['setSiteId', 1]);var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);})();</script><noscript><p><img src="//davidawindham.com/wik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
 </body>
 </html>
