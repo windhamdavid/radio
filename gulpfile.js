@@ -10,11 +10,9 @@ var del = require('del');
 
 
 gulp.task('test', function(){
-  gulp.src(['./src/css/bootstrap-v3.3.6.css', './src/css/main.css'])
-    .pipe(concat('style.min.css'))
-    .pipe(minifycss())
-    .pipe(gulp.dest('./app/css'));
+
 });
+
 
 var cleanTask = function () {
   return del([
@@ -24,7 +22,13 @@ var cleanTask = function () {
     '!app/fonts/',
     '!app/js/',
   ]);
+  console.log('CLEAN: Clean Complete');
 };
+
+gulp.task('clean', function() {
+  cleanTask();
+});
+
 
 var buildTask = function() {
   gulp.src('./src/app.js')
@@ -54,20 +58,42 @@ var buildTask = function() {
     .pipe(concat('radio.min.js'))
     //.pipe(uglify())
     .pipe(gulp.dest('./app/js'));
-  console.log('Minify/Concat/Copy /src to /app');
+  console.log('BUILD: Build Complete');
 };
-
-gulp.task('clean', function() {
-  cleanTask();
-});
 
 gulp.task('build', function() {
   buildTask();
 });
 
+
+var watchTask = function() {
+  gulp.src('./src/app.js')
+    .pipe(gulp.dest('./app'));
+  gulp.src('./src/index.html')
+    .pipe(minifyHTML())
+    .pipe(gulp.dest('./app'));
+  gulp.src(['./src/css/bootstrap-v3.3.6.css', './src/css/main.css'])
+    .pipe(concat('style.min.css'))
+    .pipe(minifycss())
+    .pipe(gulp.dest('./app/css'));
+  gulp.src('./src/js/templates/*')
+    .pipe(gulp.dest('./app/js/templates'));
+  gulp.src(['.src/js/amplitude-v2.2.0.js', './src/js/chat.js', './src/js/radio.js'])
+    .pipe(concat('radio.min.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest('./app/js'));
+  console.log('WATCH: Watch Complete');
+};
+
+gulp.task('watch', function() {
+  watchTask();
+});
+
+
+
 var nodemonTask = function() {
   nodemon({
-    tasks: ['build'],
+    tasks: ['watch'],
     script: 'app.js',
     verbose: true,
     env: { 'NODE_ENV': 'development' },
