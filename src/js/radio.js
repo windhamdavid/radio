@@ -1,6 +1,5 @@
-/**** Radio Functions ****/
+/**** Last-fm API ****/
 
-/* Last-fm API */
 (function( $ ) {
 	$.fn.lfmr = function(options){
 		var urla = "https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=windhamdavid&api_key=e12ea1d0253898ee9a93edfe42ffdeab&format=json&limit=100";
@@ -82,6 +81,8 @@
 })( jQuery );
 
 
+/**** Audio Player ****/
+
 amplitude_config = {
 //  amplitude_songs: []
 	"amplitude_songs": [{
@@ -94,43 +95,65 @@ amplitude_config = {
 function get_radio_tower() {return 'img/radio.gif';}
 function get_radio_none() {return 'img/none.svg';}
 function get_radio_eq() {return 'img/eq.gif';}
-function get_radio_eq_none() {return 'img/none.svg';}
+function get_radio_eq_none() {return 'img/1.png';}
+
+
 
 var interval = null;
 $(document).ready(function() {
-  interval = setInterval(radioTitle,30000); // every 30 seconds stop polling if offline
+  interval = setInterval(radioTitle,20000); // every 20 seconds or stop polling
+  $('#error-reconnecting').hide();
+  $('#connection-error-retry').on('click', function () {
+      var $btn = $(this).button('reconnecting...')
+      radioTitle();
+      $('#error-reconnecting').show();
+      $('#connection-error-reconnecting').progressbar();
+      $btn.button('reset')
+    })
 });
 
+radioTitle(); // call it once on load to avoid 20s delay
+
 function radioTitle() {
-	$('#radio').attr('src', get_radio_none()).fadeIn(300);
-	$('#eq').attr('src', get_radio_eq_none()).fadeIn(300);
     var url = 'http://stream.davidawindham.com/status2.xsl';
     var mountpoint = '/stream';
     $.ajax({ type: 'GET',
-        url: url,
-        async: true,
-        jsonpCallback: 'parseMusic',
-        contentType: "application/json",
-        dataType: 'jsonp',
-        success: function (json) {	
-      		$('#track').text(json[mountpoint].title);
+      url: url,
+      async: true,
+      jsonpCallback: 'parseMusic',
+      contentType: "application/json",
+      dataType: 'jsonp',
+      success: function(json){
+        if(json[mountpoint] == null) {
+          $('#connection-error').modal('show');
+        }
+        else {
+          $('#track').text(json[mountpoint].title);
           $('#listeners').text(json[mountpoint].listeners);
-      		$('#peak-listeners').text(json[mountpoint].peak_listeners); 
-      		$('#bitrate').text(json[mountpoint].bitrate); 
-      		$('#radio').attr('src', get_radio_tower()).fadeIn(300);
-      		$('#eq').attr('src', get_radio_eq()).fadeIn(300);
-        },
+          $('#peak-listeners').text(json[mountpoint].peak_listeners);
+          $('#bitrate').text(json[mountpoint].bitrate);
+          $('#radio').attr('src', get_radio_tower()).fadeIn(300);
+          $('#eq').attr('src', get_radio_eq()).fadeIn(300);
+          $('#connection-error').modal('hide');
+        }		
+      },
       error: function(e){
-        console.error('cannot connect to stream');
         $('#connection-error').modal('show');
         clearInterval(interval);
   		  $('#radio').attr('src', get_radio_none()).fadeIn(300);
   		  $('#eq').attr('src', get_radio_eq_none()).fadeIn(300);
       }
   });
+	$('#radio').attr('src', get_radio_none()).fadeIn(300);
+	$('#eq').attr('src', get_radio_eq_none()).fadeIn(300);
 }
 
 
+
+
+
+
+/**** Page Features ****/
 
 $(document).ready(function() {
   function spectrum() {

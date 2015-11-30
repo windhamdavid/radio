@@ -44,7 +44,7 @@ var buildTask = function() {
     .pipe(concat('style.min.css'))
     .pipe(minifycss())
     .pipe(gulp.dest('./app/css'));
-  gulp.src(['./src/js/jquery-v2.1.4.js', './src/js/bootstrap-v3.3.6.js', './src/js/underscore-v1.8.3.js', './src/js/handlebars-v4.0.5.js'])
+  gulp.src(['./src/js/jquery-v2.1.4.js', './src/js/bootstrap-v3.3.6.js', './src/js/bootstrap-progress-v0.9.0.js', './src/js/underscore-v1.8.3.js', './src/js/handlebars-v4.0.5.js'])
     .pipe(concat('vendor.min.js'))
     .pipe(uglify())
     .pipe(gulp.dest('./app/js'));
@@ -80,7 +80,7 @@ var watchTask = function() {
     .pipe(gulp.dest('./app/js/templates'));
   gulp.src(['.src/js/amplitude-v2.2.0.js', './src/js/chat.js', './src/js/radio.js'])
     .pipe(concat('radio.min.js'))
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(gulp.dest('./app/js'));
   console.log('WATCH: Watch Complete');
 };
@@ -102,7 +102,7 @@ var nodemonTask = function() {
   });
 };
 
-gulp.task('start', function () {
+gulp.task('run', function () {
   nodemonTask();
 });
 

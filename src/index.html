@@ -388,13 +388,21 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="about">Connection Error</h4>
+        <h4 class="modal-title" id="about">Off the Air</h4>
       </div>
       <div class="modal-body">
-        <p></p>
+         <div class="alert alert-danger" role="alert">
+            <b>Connection Error</b>: Cannot connect to Radio Stream (<i>stream.davidawindham.com</i>). You may try again below:
+
+         </div>
+         <div class="progress" id="error-reconnecting">
+           <div class="progress-bar progress-bar-danger progress-bar-striped" id="connection-error-reconnecting" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-transitiongoal="100">
+         </div>
+         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         <button type="button" id="connection-error-retry" data-loading-text="Loading..." class="btn btn-danger" autocomplete="off">Retry</button>
+         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
