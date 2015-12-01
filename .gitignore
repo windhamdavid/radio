@@ -4,5 +4,6 @@ npm-debug.log*
 node_modules
 *.rdb
 dump.rdb
-
+config.js
+config-dev.js
 app/*
