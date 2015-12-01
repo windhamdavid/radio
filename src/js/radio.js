@@ -93,7 +93,7 @@ getRecentTracks();  //call it once to avoid delay
 function getRecentTracks() {
   
 	$.fn.lfmr = function(options){
-    interval = setInterval(getRecentTracks,180000);  // check every 3 minutes
+    //tracksinterval = setInterval(getRecentTracks,180000);  // check every 3 minutes
 		var urla = "https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=windhamdavid&api_key=e12ea1d0253898ee9a93edfe42ffdeab&format=json&limit=100";
 		var tracks = [];
 		function isLoadedr (recentElement) {

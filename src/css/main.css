@@ -197,10 +197,10 @@ meter {
   transform: rotate(-90deg);
 }
 #amplitude-current-time{
-	font-family: 'PT Sans', sans-serif;
-	font-size: 14px;
+	font-family: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter', monospace;
+	font-size: 15px;
 	font-weight: 400;
-  float:right;
+  float:left;
 }
 #amplitude-play-pause {
   height: 50px;
