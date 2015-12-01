@@ -1,15 +1,5 @@
 /*global require:true, __dirname:true */
 
-var conf = {
-    port: 8881,
-    debug: false,
-    dbPort: 6379,
-    dbHost: '127.0.0.1',
-    dbOptions: {},
-    mainroom: 'Lobby'
-};
-
-
 var express = require('express');
 var http = require('http');
 var path = require('path');
@@ -17,6 +7,11 @@ var bodyParser = require('body-parser');
 var events = require('events');
 var _ = require('underscore');
 var sanitize = require('validator').sanitize;
+
+var config = {
+  development: require('./config-dev.js'),
+  production: require('./config.js')
+};
 
 var app = express(),
     server = http.createServer(app);
