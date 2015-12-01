@@ -44,10 +44,9 @@
                   <div id="controls">
                      <div id="amplitude-play-pause" class="amplitude-paused"></div>
                      <br />
-                     <div class="row">
-                        <!--<meter name="volume" value="9" min="0" max="10" low="0" high="10"></meter>-->             
+                     <div class="row">          
                         <span class="glyphicon glyphicon-volume-off" aria-hidden="true" style="float:left;margin: -6px 0 0 20px;font-size:20px"></span>
-                        <input type="range" class="bar" name="volume" id="amplitude-volume-slider" min=1 max=100 value=80>
+                        <input type="range" class="bar" name="volume" id="amplitude-volume-slider" min=1 max=100 value=73>
                         <span class="glyphicon glyphicon-volume-up" aria-hidden="true" style="float:right;margin:-15px 20px 0 0;font-size:20px"></span>
                      </div>
                   </div>
@@ -136,8 +135,9 @@
                             </ul>
                         </li>
                         <li id="Lobby_tab" class="active"><a href="#Lobby" data-toggle="tab" data-original-title="Chat" data-placement="bottom"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span><span class="hidden-tab">Lobby</span></a></li>
+                        <li><a href="#social" data-toggle="tab" data-original-title="Social" data-placement="bottom"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></a></li>
                         <li><a href="#call" data-toggle="tab" data-original-title="Phone" data-placement="bottom"><span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span></a></li>
-                        <li><a href="#video" data-toggle="tab" data-original-title="Video" data-placement="bottom"><span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span></a></li>
+                        <li><a href="#video" data-toggle="tab" data-original-title="Video" data-placement="bottom"><span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span></a></li>    
                     </ul>
                </div>
                <!-- END Room Tabs -->
@@ -176,29 +176,44 @@
                       
                    </div>
                    
+                   <!-- START Social -->
+                   <div class="tab-pane" id="social">
+                      <div id="fb-root"></div>
+                      <script>(function(d, s, id) {var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) return;js = d.createElement(s); js.id = id;js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk'));</script>
+                      <div class="well">           
+                         <div class="fb-comments" data-href="https://www.facebook.com/davidawindham" data-numposts="5" data-colorscheme="dark"></div>
+                      </div>
+                   </div>
+                   <!-- END Social -->
+                   
                    <!-- START Call -->
                    <div class="tab-pane" id="call">
                       <div id="audio">
                          <div class="well">
+                            <div class="row-fluid">
                               <p><span class="label label-primary">Local audio:</span></p>
                               <audio id="audio1" autoplay controls muted></audio>
                               <p><span class="label label-primary">Remote audio:</span></p>
                               <audio id="audio2" autoplay controls></audio>
+                           </div>
+                           <div class="row-fluid">
+                                 <p><b>Help</b>: This audio/video call features are only supported by the most recent versions of Mozilla Firefox and Google Chrome</p>
+                                 <p><b>803-712-3283(DAVE)</b>: You can also call this number to reach me.</p>
+                           </div>
+                              
                           </div>
                           <div class="panel-footer">
                              <div id="buttons">
                                <button id="callButton" class="btn btn-success">Call</button>
                                <button id="hangupButton" class="btn btn-danger">Hang Up</button>
+                              </div>
                                <select id="codec" class="selectpicker" data-style="btn-primary">
-                                 <!-- Codec values are matched with how they appear in the SDP.
-                                 For instance, opus matches opus/48000/2 in Chrome, and ISAC/16000
-                                 matches 16K iSAC (but not 32K iSAC). -->
                                  <option value="opus">Opus</option>
                                  <option value="ISAC">iSAC 16K</option>
                                  <option value="G722">G722</option>
                                  <option value="PCMU">PCMU</option>
                                </select>
-                             </div>
+                             
                           </div>
                        </div>
                    </div>
@@ -206,7 +221,7 @@
                    
                    <!-- START Video -->
                    <div class="tab-pane" id="video">
-                      <div id="video">
+                      <div class="video">
                          <div class="well">
                             <video id="localVideo" autoplay muted></video>
                             <video id="remoteVideo" autoplay></video>
@@ -219,7 +234,7 @@
                       <div>
                    </div>
                    <!-- END Video -->
-                   
+                       
                </div>
                <!-- END Rooms -->
                
@@ -270,7 +285,6 @@
       </div>
       <!-- End Connect -->
       
-         
       </div>
    </div>
 </div>
@@ -294,6 +308,33 @@
    </div>
 </div>
 <!-- END Footer NAV -->
+
+<!-- START Auth Modal -->
+<div class="modal fade" id="auth-modal" tabindex="-1" role="dialog" aria-labelledby="support" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="about"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> Off the Air</h4>
+      </div>
+      <div class="modal-body">
+         <div class="alert alert-danger" role="alert">
+            <b>Connection Error</b>: Unable to connect with <a href="http://stream.davidawindham.com/"><i>stream.davidawindham.com</i></a>. 
+            <div class="progress" id="error-reconnecting">
+              <div class="progress-bar progress-bar-danger progress-bar-striped" id="connection-error-reconnecting" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-transitiongoal="100">
+            </div>  
+         </div>
+         <p>I only play music when I'm listening to it live and the rest of the time the stream is offline. There is no reason to be here unless I am. Try again some other time, check the schedule, or <a href="https://davidawindham.com/contact">contact me</a>.</p>
+         </div>
+      </div>
+      <div class="modal-footer">
+         <button type="button" id="connection-error-retry" class="btn btn-danger">Retry</button>
+         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END Auth Modal -->
 
 <!-- START Listeners Modal -->
 <div class="modal fade" id="connected" tabindex="-1" role="dialog" aria-labelledby="connected" aria-hidden="true">
@@ -334,7 +375,8 @@
         <h4 class="modal-title" id="about">About</h4>
       </div>
       <div class="modal-body">
-        <p><b>Daveo Radio</b> is just a little place I can share and talk about some music with friends. I started toying around with different streaming servers and I am using an Icecast streaming media server I’ve set up. This page is powered by Linode, Node.js, Express, Socket.io, and Icecast-kh.</p>   <p>I enjoy listening to music and I spent quite a bit of time doing so. I’ve gone entirely digital in recent years. I sold my collection of albums years ago and I donated my CD collection to a music student at Vanderbilt. I now have a collection of about 100,000 files that I keep on a networked hard drive. I do pay for ad-free streaming services, but I agree with artists who want a better revenue model from streaming. The analog/digital debate is null in my opinion. I use Polk in my living room and Klipsch in my office. In the car, I most often use playlists I’ve created and I rarely tune into a radio or satellite stations even though I have service. On occasion, at home I like to tune into terrestrial stations that stream to help find new music, but I’ve found almost all of the robot mixes from the big streaming providers unsatisfying.</p>
+        <p>This is just a little place I can share some music and talk with friends. I enjoy listening to music and I spend quite a bit of time doing so. I like to tune into terrestrial stations that stream to help find new music, but I’ve found almost all of the robot mixes from the big streaming providers unsatisfying.</p>
+        <p><b>Kudos</b>: This page is powered by <a href="">Linode</a>, <a href="">Node.js</a>, <a href="">Express</a>, <a href="">Socket.io</a>, and <a href="">Icecast-kh</a>.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -393,16 +435,16 @@
       </div>
       <div class="modal-body">
          <div class="alert alert-danger" role="alert">
-            <b>Connection Error</b>: Cannot connect to Radio Stream (<i>stream.davidawindham.com</i>). You may try again below:
-
+            <p><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> <b>Connection Error</b>: Unable to connect with <a href="http://stream.davidawindham.com/"><i>stream.davidawindham.com</i></a>.</p> 
+            <div class="progress" id="error-reconnecting">
+              <div class="progress-bar progress-bar-danger progress-bar-striped" id="connection-error-reconnecting" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-transitiongoal="100">
+            </div>  
          </div>
-         <div class="progress" id="error-reconnecting">
-           <div class="progress-bar progress-bar-danger progress-bar-striped" id="connection-error-reconnecting" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-transitiongoal="100">
-         </div>
+         <p>I only play music when I'm listening to it live and the rest of the time the stream is offline. There is no reason to be here unless I am. Try again some other time, check my schedule, or <a href="https://davidawindham.com/contact">contact me</a>.</p>
          </div>
       </div>
       <div class="modal-footer">
-         <button type="button" id="connection-error-retry" data-loading-text="Loading..." class="btn btn-danger" autocomplete="off">Retry</button>
+         <button type="button" id="connection-error-retry" class="btn btn-danger">Retry</button>
          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>

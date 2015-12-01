@@ -133,7 +133,7 @@ amplitude_config = {
 			"url": "http://stream.davidawindham.com:8008/stream",
 			"live": true
 		}],
-	"amplitude_volume": 90
+	"amplitude_volume": 73
 }
 
 function get_radio_tower() {return 'img/radio.gif';}
@@ -142,19 +142,34 @@ function get_radio_eq() {return 'img/eq.gif';}
 function get_radio_eq_none() {return 'img/1.png';}
 
 var interval = null;
+
 $(document).ready(function() {
   interval = setInterval(radioTitle,20000); // every 20 seconds or stop polling
   $('#error-reconnecting').hide();
   $('#connection-error-retry').on('click', function () {
-      var $btn = $(this).button('reconnecting...')
       radioTitle();
       $('#error-reconnecting').show();
-      $('#connection-error-reconnecting').progressbar();
-      $btn.button('reset')
+      $('#connection-error-reconnecting').attr('data-transitiongoal', 100).progressbar();
     })
 });
 
-radioTitle(); // call it once on load to avoid 20s delay
+$('#amplitude-play-pause').click(function() {
+  radioTitle();
+});
+
+$('#connection-error-retry').click(function() {
+  setTimeout(function () {
+      $('#connection-error').modal('hide');
+  }, 2000);
+  setTimeout(function () {
+      radioTitle();
+      $('#connection-error-reconnecting').attr('data-transitiongoal', 0).progressbar();
+      $('#error-reconnecting').hide();
+      
+  }, 3000);
+});
+
+//radioTitle(); // call it once on load to avoid 20s delay
 
 function radioTitle() {
     var url = 'http://stream.davidawindham.com/status2.xsl';
@@ -170,6 +185,7 @@ function radioTitle() {
           $('#connection-error').modal('show');
         	$('#radio').attr('src', get_radio_none()).fadeIn(300);
         	$('#eq').attr('src', get_radio_eq_none()).fadeIn(300);
+          clearInterval(interval);
         }
         else {
           $('#track').text(json[mountpoint].title);
