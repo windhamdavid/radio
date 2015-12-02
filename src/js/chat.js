@@ -300,9 +300,6 @@
     $('#b_set_nickname').click(function(eventObject) {
         eventObject.preventDefault();
         socket.emit('setNickname', {'username':getNickname()});
-
-        // Close modal if opened
-        $('#modal_setnick').modal('hide');
     });
 
 })();

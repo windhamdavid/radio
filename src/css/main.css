@@ -38,7 +38,17 @@ header {
     background: rgba (145,145,145,.5);
 }
 
-
+#auth-modal {
+  background: #000;
+  color: #fff;
+}
+#auth-modal .modal-content{
+  background: #333;
+  color: #fff;
+}
+#modal_setnick {
+  background: rgba(0,0,0,.8);
+}
 
 /***********************************
 ========== Audio Player ============ 
@@ -377,14 +387,7 @@ meter {
   background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
 }
-.progress-bar-warning {
-  background-color: #f0ad4e;
-}
-.progress-striped .progress-bar-warning {
-  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-}
+
 .progress-bar-danger {
   background-color: #d9534f;
 }
@@ -417,22 +420,28 @@ li#Lobby_tab {
   display:none;
 }
 
+.social-comments {
+  min-height:355px;
+}
 #fb_comments { 
-  height:380px; 
   padding-bottom:10px; 
   overflow: scroll; 
 }
 .fb-comments, .fb-comments iframe[style], .fb-comments span {
-   width: 100% !important;
+  width: 100% !important;
 }
-
+.audio {
+  margin: 0 0 30px;
+  
+}
 video {
   background:#000;
-  height: 260px;
+  height: 256px;
   margin: 0 5px 5px 0;
   vertical-align: top;
   width: calc(50% - 12px);
 }
+
 
 
 
@@ -498,31 +507,10 @@ ul .badge {
 
 
 /***********************************
-=========== Chat Rooms ============= 
+============ Footer =============== 
 ***********************************/
 
-/* =========  Vertical Align Modals ============ */
 
-.vertical-alignment-helper {
-    display:table;
-    height: 100%;
-    width: 100%;
-    pointer-events:none; /* This makes sure that we can still click outside of the modal to close it */
-}
-.vertical-align-center {
-    /* To center vertically */
-    display: table-cell;
-    vertical-align: middle;
-    pointer-events:none;
-}
-.modal-content {
-    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
-    width:inherit;
-    height:inherit;
-    /* To center horizontally */
-    margin: 0 auto;
-    pointer-events: all;
-}
 
 
 /* =========  Footer/Bottom Nav ============ */
