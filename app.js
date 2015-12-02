@@ -100,7 +100,7 @@ io.sockets.on('connection', function(socket) {
     // Confirm subscription to user
     socket.emit('subscriptionConfirmed', {'room':conf.mainroom});
     // Notify subscription to all users in room
-    var data = {'room':conf.mainroom, 'username':'anonymous', 'msg':'----- Joined the room -----', 'id':socket.id};
+    var data = {'room':conf.mainroom, 'username':'anonymous', 'msg':'----- Joined -----', 'id':socket.id};
     io.to(conf.mainroom).emit('userJoinsRoom', data);
 
     // User wants to subscribe to [data.rooms]

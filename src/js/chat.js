@@ -32,13 +32,13 @@
 
     // Disconnected from server
     socket.on('disconnect', function (data) {
-        var info = {'room':'Lobby', 'username':'Radio-bot', 'msg':'---- Lost connection ----'};
+        var info = {'room':'Lobby', 'username':'Daveo-bot', 'msg':'---- Lost connection ----'};
         addBotMessage(info);
     });
     
     // Reconnected to server
     socket.on('reconnect', function (data) {
-        var info = {'room':'Lobby', 'username':'Radio-bot', 'msg':'---- Reconnected ----'};
+        var info = {'room':'Lobby', 'username':'Daveo-bot', 'msg':'---- Reconnected ----'};
         addBotMessage(info);
     });
 
@@ -109,7 +109,7 @@
         updateNickname(data);
 
         msg = '----- ' + data.oldUsername + ' is now ' + data.newUsername + ' -----';
-        var info = {'room':data.room, 'username':'Radio-bot', 'msg':msg};
+        var info = {'room':data.room, 'username':'Daveo-bot', 'msg':msg};
         addBotMessage(info);
     });
 
