@@ -194,6 +194,14 @@ interval = setInterval(radioTitle,20000); // every 20 seconds or stop polling
 
 $(document).ready(function() {
   $('#auth-modal').modal('show');
+  $('#auth').validator().on('submit', function (e) {
+    if (e.isDefaultPrevented()) {
+    } else {
+      e.preventDefault();
+      $('#auth-modal').modal('hide');
+      $('#modal_setnick').modal('show');
+    }
+  }); 
   $('#nick').validator();
   var socket = io.connect(window.location.host);
   var getNickname = function() {

@@ -40,6 +40,7 @@ header {
 
 #auth-modal {
   background: #000;
+  background-image: url(img/pirate.jpg) no-repeat #000;
   color: #fff;
 }
 #auth-modal .modal-content{

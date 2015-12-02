@@ -329,20 +329,29 @@
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h4 class="modal-title"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span> On Air</h4>
+                    <h4 class="modal-title"> You kids get off my &nbsp;<span class="glyphicon glyphicon-cloud" aria-hidden="true"></span></h4>
                   </div>
                   <div class="modal-body">
-                     <h5>Get Off My Lawn!</h5>
+                     <h5>Just some basic rules here:</h5>
                      <ol>
                         <li>This site is for demonstration purposes.</li>
                         <li>There is no reason to be here unless I am.</li>
                         <li>If you don't know me, you shouldn't be here.</li>
                         <li>Do Not Share this URL with Anyone.</li>
-                        <li>Do Not Post this URL Anywhere (that means you Dad... no Facebook!)</li>
                      </ol>                     
                   </div>
                   <div class="modal-footer">
-                     <button type="submit" class="btn btn-success" data-dismiss="modal" data-toggle="modal" data-target="#modal_setnick">Understood</button>
+                     <form role="form" id="auth" class="form">
+                        <div class="form-group">
+                           <div class="checkbox">
+                              <label><input type="checkbox" id="terms" data-error="really? So you don't agree?" required>I have read and agree</label>
+                              <div class="help-block with-errors"></div>
+                           </div>
+                        </div>
+                        <div class="form-group">
+                           <button type="submit" class="btn btn-success">Understood</button>
+                        </div>
+                     </form>
                   </div>
                 </div>
               </div>
