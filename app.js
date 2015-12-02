@@ -31,6 +31,8 @@ logger.on('newEvent', function(event, data) {
     console.log('%s: %s', event, JSON.stringify(data));
 });
 
+
+
 // ***************************************************************************
 // Express routes helpers
 // ***************************************************************************
@@ -68,7 +70,7 @@ var sendBroadcast = function(text) {
 
 // Welcome message
 app.get('/', function(req, res) {
-    res.send(200, "Welcome to chat server");
+    res.send(200, "Welcome to Daveo Radio");
 });
 
 // Broadcast message to all connected users
@@ -222,6 +224,15 @@ io.sockets.on('connection', function(socket) {
         db.del(socket.id, redis.print);
     });
 });
+
+app.get('/other', function (req, res) {
+  if (req.query.other === 'stillgame')
+    res.sendStatus(200)
+  else {
+    res.writeHead(400, 'WRONG!')
+    res.send()
+  }
+})
 
 // Automatic message generation (for testing purposes)
 if (conf.debug) {

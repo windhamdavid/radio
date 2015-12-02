@@ -289,31 +289,39 @@
                </div>
             </div>
             
-            <div id="modal_setnick" class="modal fade" data-keyboard="false" data-backdrop="static" >
-               <div class="vertical-alignment-helper">
-                  <div class="modal-dialog modal-sm vertical-align-center">
-                      <div class="modal-content">
-                         <form data-toggle="validator" role="form">
-                            <div class="modal-body">
-                               <div class="form-group has-feedback">
-                                  <label class="control-label" for="inputSuccess2">Set a Nickname:</label>
-                                  <div class="input-group">
-                                     <span class="input-group-addon">@</span>
-                                     <input id="nickname" type="text" class="form-control" pattern="^[a-zA-Z]+$" minlength="3" maxlength="25" placeholder="letters only (min 3)" required>
-                                  </div>
-                                  <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-                               </div>
-                            </div>
-                            <div class="modal-footer">
-                              <div class="form-group">
-                                <button id="b_set_nickname" type="submit" class="btn btn-success">OK</button>
-                              </div>
-                            </div>
-                         </form>
+<div id="modal_setnick" class="modal fade" data-keyboard="false" data-backdrop="static" >
+   <div class="vertical-alignment-helper">
+      <div class="modal-dialog modal-sm">
+         <div class="modal-content">
+            <form id="nick" role="form">
+               <div class="modal-body">
+                  <div class="form-group has-feedback">
+                     <label class="control-label" for="nickname">Nickname:</label>
+                     <div class="input-group">
+                        <span class="input-group-addon">@</span>
+                        <input id="nickname" type="text" class="form-control" pattern="^[a-zA-Z]+$" minlength="3" maxlength="25" placeholder="letters only (min 3)" required>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>               
                      </div>
+                     <div class="help-block with-errors"></div>
+                  </div>
+                  <div class="form-group has-feedback">
+                     <label class="control-label" for="password">Password:</label>
+                     <div class="input-group">                  
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></span>
+                        <input id="other" name="other" type="text" class="form-control" data-remote="/other" placeholder="" required>
+                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+                     </div>
+                     <div class="help-block with-errors"></div>
                   </div>
                </div>
-            </div>
+               <div class="modal-footer">
+                  <button id="b_set_nickname" type="submit" class="btn btn-success">Submit</button>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
             <!-- End Modal -->
             
             <!-- START Auth Modal -->

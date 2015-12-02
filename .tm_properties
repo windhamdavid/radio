@@ -1,4 +1,4 @@
-dwExtraExcludes = "log,vendor,tmp,node_modules"
+dwExtraExcludes = "log,vendor,tmp,node_modules,app"
 excludeInFileChooser  = "{$excludeInFileChooser,$dwExtraExcludes}" 
 excludeInFolderSearch = "{$excludeInFolderSearch,$dwExtraExcludes}" 
 excludeInBrowser      = "{$excludeInBrowser,log,vendor,tmp,node_modules}" 

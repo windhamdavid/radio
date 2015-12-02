@@ -93,7 +93,7 @@ var watchTask = function() {
     .pipe(gulp.dest('./app/css'));
   gulp.src('./src/js/templates/*')
     .pipe(gulp.dest('./app/js/templates'));
-  gulp.src(['.src/js/amplitude-v2.2.0.js', './src/js/chat.js', './src/js/radio.js'])
+  gulp.src(['./src/js/amplitude-v2.2.0.js', './src/js/chat.js', './src/js/radio.js'])
     .pipe(concat('radio.min.js'))
     //.pipe(uglify())
     .pipe(gulp.dest('./app/js'));

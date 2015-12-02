@@ -194,12 +194,24 @@ interval = setInterval(radioTitle,20000); // every 20 seconds or stop polling
 
 $(document).ready(function() {
   $('#auth-modal').modal('show');
-  $('#nickname').validator();
-
+  $('#nick').validator();
+  var socket = io.connect(window.location.host);
+  var getNickname = function() {
+      var nickname = $('#nickname').val();
+      $('#nickname').val("");
+      return nickname;
+  };
+  $('#nick').validator().on('submit', function (e) {
+    if (e.isDefaultPrevented()) {
+    } else {
+      e.preventDefault();
+      socket.emit('setNickname', {'username':getNickname()});
+      $('#modal_setnick').modal('hide');
+    }
+  }); 
   radioTitle(); // call it once on load to avoid 20s delay
   getRecentTracks();  //call it once to avoid 3m delay
   var randomColor = Math.floor(Math.random()*16777215).toString(16);
   $("span#user-label").css({ backgroundColor: '#' + randomColor });
   $('ul.nav-tabs a').tooltip();
-  
 });
