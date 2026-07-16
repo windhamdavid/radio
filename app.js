@@ -36,6 +36,10 @@ const config = {
   streamStatusUrl:
     process.env.STREAM_STATUS_URL ?? 'https://stream.davidawindham.com/status-json.xsl',
   streamMount: process.env.STREAM_MOUNT ?? '/stream',
+  // Proxied via /api/lastfm so the key stops shipping in the client bundle.
+  // Unset => the sidebar lists just stay empty.
+  lastfmKey: process.env.LASTFM_API_KEY ?? '',
+  lastfmUser: process.env.LASTFM_USER ?? 'windhamdavid',
 };
 
 function normalizeBasePath(value) {
@@ -90,6 +94,65 @@ router.get('/api/status', async (req, res) => {
     res.json(await getStreamStatus());
   } catch {
     res.status(502).json({ online: false, error: 'stream status unavailable' });
+  }
+});
+
+// Last.fm sidebar data, proxied so the API key stays on the server.
+//
+// The key used to be hardcoded in src/js/radio.js (4x) and shipped in the
+// bundle. It's read-only public data, so the exposure was mild, but a
+// credential in client JS is a credential you can't rotate quietly.
+//
+// Strictly allowlisted -- method, period and limit are all constrained, so
+// this can't be turned into an open relay for arbitrary Last.fm calls.
+const LASTFM_METHODS = new Set([
+  'user.gettopartists',
+  'user.gettoptracks',
+  'user.gettopalbums',
+  'user.getrecenttracks',
+]);
+const LASTFM_PERIODS = new Set(['overall', '7day', '1month', '3month', '6month', '12month']);
+const LASTFM_CACHE_MS = 60000;
+const lastfmCache = new Map();
+
+router.get('/api/lastfm', async (req, res) => {
+  const method = String(req.query.method ?? '');
+  if (!LASTFM_METHODS.has(method)) {
+    res.status(400).json({ error: 'unsupported method' });
+    return;
+  }
+  if (!config.lastfmKey) {
+    res.status(503).json({ error: 'lastfm not configured' });
+    return;
+  }
+
+  const period = LASTFM_PERIODS.has(String(req.query.period)) ? String(req.query.period) : '12month';
+  const limit = Math.min(Math.max(Number(req.query.limit) || 50, 1), 200);
+  const cacheKey = `${method}:${period}:${limit}`;
+
+  const hit = lastfmCache.get(cacheKey);
+  if (hit && Date.now() - hit.at < LASTFM_CACHE_MS) {
+    res.json(hit.value);
+    return;
+  }
+
+  const url = new URL('https://ws.audioscrobbler.com/2.0/');
+  url.searchParams.set('method', method);
+  url.searchParams.set('user', config.lastfmUser);
+  url.searchParams.set('api_key', config.lastfmKey);
+  url.searchParams.set('format', 'json');
+  url.searchParams.set('limit', String(limit));
+  // getrecenttracks has no notion of a period.
+  if (method !== 'user.getrecenttracks') url.searchParams.set('period', period);
+
+  try {
+    const upstream = await fetch(url, { signal: AbortSignal.timeout(8000) });
+    if (!upstream.ok) throw new Error(`lastfm responded ${upstream.status}`);
+    const value = await upstream.json();
+    lastfmCache.set(cacheKey, { at: Date.now(), value });
+    res.json(value);
+  } catch {
+    res.status(502).json({ error: 'lastfm unavailable' });
   }
 });
 

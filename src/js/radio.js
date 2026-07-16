@@ -5,10 +5,15 @@
 
 /**** Last-fm API ****/
 
+// These go through our own /api/lastfm rather than straight to audioscrobbler.
+// The API key used to be inlined here four times and shipped in the bundle; it
+// now lives in $LASTFM_API_KEY on the server. The server allowlists the method,
+// period and limit, so this is not an open relay.
+
 (function( $ ) {
-  
+
 	$.fn.lfya = function(){
-		var urla = "https://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=windhamdavid&api_key=e12ea1d0253898ee9a93edfe42ffdeab&period=12month&format=json&limit=200";
+		var urla = window.RADIO.url("api/lastfm?method=user.gettopartists&period=12month&limit=200");
 		var artists = [];
 		function isLoadeda (artistElement) {
 			for (var i = 0; i < artists.length; i++){
@@ -33,7 +38,7 @@
   $('.artists').lfya();
   
 	$.fn.lfyt = function(){
-		var urla = "https://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=windhamdavid&api_key=e12ea1d0253898ee9a93edfe42ffdeab&period=12month&format=json&limit=200";
+		var urla = window.RADIO.url("api/lastfm?method=user.gettoptracks&period=12month&limit=200");
 		var tracks = [];
 		function isLoadedt (tracksElement) {
 			for (var i = 0; i < tracks.length; i++){
@@ -59,7 +64,7 @@
 	$('.tracks').lfyt();
   
 	$.fn.lfm = function(){
-		var url = "https://ws.audioscrobbler.com/2.0/?method=user.gettopalbums&user=windhamdavid&api_key=e12ea1d0253898ee9a93edfe42ffdeab&period=12month&format=json&limit=200";
+		var url = window.RADIO.url("api/lastfm?method=user.gettopalbums&period=12month&limit=200");
 		var albums = [];
 		function isLoaded (albumElement) {
 			for (var i = 0; i < albums.length; i++){
@@ -99,7 +104,7 @@ function getRecentTracks() {
   
 	$.fn.lfmr = function(){
     //tracksinterval = setInterval(getRecentTracks,180000);  // check every 3 minutes
-		var urla = "https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=windhamdavid&api_key=e12ea1d0253898ee9a93edfe42ffdeab&format=json&limit=100";
+		var urla = window.RADIO.url("api/lastfm?method=user.getrecenttracks&limit=100");
 		var tracks = [];
 		function isLoadedr (recentElement) {
 			for (var i = 0; i < tracks.length; i++){

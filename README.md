@@ -68,6 +68,7 @@ where it's mounted at runtime, so the same build covers both.
 | `/` | the page |
 | `/health` | ok, room count, socket count |
 | `/api/status` | now-playing + listeners, proxied from Icecast |
+| `/api/lastfm` | sidebar data, proxied so the API key stays server-side |
 | `/api/broadcast` | POST `{msg}` — sends to every room |
 | `/other` | the modal's password check (not auth) |
 
@@ -112,3 +113,8 @@ handshake and the stream, not only the page.
 - Jul 2026 - Modernized. Server rewritten on Express 5 / socket.io 4; gulp (dead on
   Node 12+) replaced with esbuild; config moved to env vars; stream status proxied
   server-side over https; mountable under a subpath.
+- Jul 2026 - Trimmed for the davidawindham.com/radio rebuild. Dropped the Facebook
+  comments tab (third-party JS for a widget on the long-dead Graph v2.5) and the
+  Call/Video tabs (WebRTC sample code with no signaling — it could only call
+  itself). Last.fm moved behind a server-side proxy so the key no longer ships to
+  the browser.

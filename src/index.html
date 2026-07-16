@@ -164,9 +164,6 @@
                             </ul>
                         </li>
                         <li id="Lobby_tab" class="active"><a href="#Lobby" data-toggle="tab" data-original-title="Chat" data-placement="bottom"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span><span class="hidden-tab">Lobby</span></a></li>
-                        <li><a href="#social" data-toggle="tab" data-original-title="Social" data-placement="bottom"><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span></a></li>
-                        <li><a href="#call" data-toggle="tab" data-original-title="Phone" data-placement="bottom"><span class="glyphicon glyphicon-phone-alt" aria-hidden="true"></span></a></li>
-                        <li><a href="#video" data-toggle="tab" data-original-title="Video" data-placement="bottom"><span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span></a></li>    
                     </ul>
                </div>
                <!-- END Room Tabs -->
@@ -205,65 +202,6 @@
                       
                    </div>
                    
-                   <!-- START Social -->
-                   <div class="tab-pane" id="social">
-                      <div id="fb-root"></div>
-                      <script>(function(d, s, id) {var js, fjs = d.getElementsByTagName(s)[0];if (d.getElementById(id)) return;js = d.createElement(s); js.id = id;js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5";fjs.parentNode.insertBefore(js, fjs);}(document, 'script', 'facebook-jssdk'));</script>
-                      <div class="well social-comments">           
-                         <div class="fb-comments" data-href="https://www.facebook.com/davidawindham" data-numposts="5" data-colorscheme="dark"></div>
-                      </div>
-                   </div>
-                   <!-- END Social -->
-                   
-                   <!-- START Call -->
-                   <div class="tab-pane" id="call">
-                      <div id="audio">
-                         <div class="well">
-                            <div class="row-fluid audio">
-                              <p><span class="label label-primary">Local audio:</span></p>
-                              <audio id="audio1" autoplay controls muted></audio>
-                              <p><span class="label label-primary">Remote audio:</span></p>
-                              <audio id="audio2" autoplay controls></audio>
-                           </div>
-                           <div class="row-fluid">
-                                 <p><b>Help</b>: This audio/video call features are only supported by the most recent versions of Mozilla Firefox and Google Chrome</p>
-                                 <p>You can also call <b>803-712-3283(DAVE)</b> to reach me</p>
-                           </div>
-                              
-                          </div>
-                          <div class="panel-footer">
-                             <div id="buttons">
-                               <button id="callButton" class="btn btn-success">Call</button>
-                               <button id="hangupButton" class="btn btn-danger">Hang Up</button>
-                              </div>
-                               <select id="codec" class="selectpicker" data-style="btn-primary">
-                                 <option value="opus">Opus</option>
-                                 <option value="ISAC">iSAC 16K</option>
-                                 <option value="G722">G722</option>
-                                 <option value="PCMU">PCMU</option>
-                               </select>
-                             
-                          </div>
-                       </div>
-                   </div>
-                   <!-- END Call -->
-                   
-                   <!-- START Video -->
-                   <div class="tab-pane" id="video">
-                      <div class="video">
-                         <div class="well">
-                            <video id="localVideo" autoplay muted></video>
-                            <video id="remoteVideo" autoplay></video>
-                         </div>
-                         <div class="panel-footer">
-                           <button id="startButton" class="btn btn-success">Start</button>
-                           <button id="callButton" class="btn btn-primary">Call</button>
-                           <button id="hangupButton" class="btn btn-danger">Hang Up</button>
-                         </div>
-                      <div>
-                   </div>
-                   <!-- END Video -->
-                       
                </div>
                <!-- END Rooms -->
                
@@ -499,7 +437,6 @@
 <!-- Relative on purpose: resolves under /radio/ as well as at the root. -->
 <script src="socket.io/socket.io.js"></script>
 <script src="js/radio.min.js"></script>
-<script src="js/webrtc.min.js"></script>
 <script>var _paq = _paq || [];_paq.push(['trackPageView']);_paq.push(['enableLinkTracking']);(function(){var u="//davidawindham.com/wik/";_paq.push(['setTrackerUrl', u+'piwik.php']);_paq.push(['setSiteId', 1]);var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);})();</script><noscript><p><img src="//davidawindham.com/wik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
 </body>
 </html>

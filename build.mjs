@@ -55,12 +55,6 @@ const RADIO_JS = [
   path.join(SRC, 'js/radio.js'),
 ];
 
-const WEBRTC_JS = [
-  path.join(SRC, 'js/webrtc-adapter.js'),
-  path.join(SRC, 'js/webrtc-audio.js'),
-  path.join(SRC, 'js/webrtc-video.js'),
-];
-
 // Bootstrap's CSS ships with its JS, so it tracks the same 3.4.1 package. Its
 // glyphicon @font-face rules point at ../fonts/, which is what src/fonts/ is
 // copied to (those files are byte-identical between 3.3.6 and 3.4.1).
@@ -113,7 +107,6 @@ async function build() {
   await bundleCss(CSS, 'css/style.min.css');
   await bundleJs(VENDOR_JS, 'js/vendor.min.js');
   await bundleJs(RADIO_JS, 'js/radio.min.js', { define: DEFINE });
-  await bundleJs(WEBRTC_JS, 'js/webrtc.min.js');
 
   console.log(`BUILD: complete in ${Date.now() - started}ms -> ${path.relative(__dirname, OUT)}/`);
 }
