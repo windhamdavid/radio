@@ -114,6 +114,14 @@ body {
 
 }
 
+/* Player tab icons in the page's slate instead of Bootstrap's link blue. These
+   sit on the white player panel, so a dark colour reads fine.
+   Bootstrap's own `.nav-tabs > li.active > a` is more specific, so the active
+   tab keeps its #555 and still stands out from the rest. */
+.scrollable-list-footer > li > a {
+  color: #484c57;
+}
+
 div#player{
 	width: 100%;
 	color: #555555;
@@ -150,7 +158,7 @@ input[type=range]::-webkit-slider-runnable-track {
   cursor: pointer;
   animate: 0.2s;
   box-shadow: 0px 3px 8px #aaa, inset 0px 2px 3px #fff;
-  background: #337ab7;
+  background: #484c57;
   border-radius: 1.3px;
   border: 0.2px solid #010101;
 }
@@ -167,7 +175,7 @@ input[type=range]::-webkit-slider-thumb {
   margin-top: -8px;
 }
 input[type=range]:focus::-webkit-slider-runnable-track {
-  background: #367ebd;
+  background: #3a3d46;
 }
 input[type=range]::-moz-range-track {
   width: 100%;
@@ -175,7 +183,7 @@ input[type=range]::-moz-range-track {
   cursor: pointer;
   animate: 0.2s;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
-  background: #337ab7;
+  background: #484c57;
   border-radius: 1.3px;
   border: 0.2px solid #010101;
 }
@@ -199,13 +207,13 @@ input[type=range]::-ms-track {
   color: transparent;
 }
 input[type=range]::-ms-fill-lower {
-  background: #2a6495;
+  background: #3a3d46;
   border: 0.2px solid #010101;
   border-radius: 2.6px;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
 }
 input[type=range]::-ms-fill-upper {
-  background: #337ab7;
+  background: #484c57;
   border: 0.2px solid #010101;
   border-radius: 2.6px;
   box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
@@ -220,10 +228,10 @@ input[type=range]::-ms-thumb {
   cursor: pointer;
 }
 input[type=range]:focus::-ms-fill-lower {
-  background: #3071a9;
+  background: #3a3d46;
 }
 input[type=range]:focus::-ms-fill-upper {
-  background: #367ebd;
+  background: #3a3d46;
 }
 output.volume {
   position: absolute;
