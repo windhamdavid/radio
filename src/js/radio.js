@@ -130,9 +130,12 @@ function getRecentTracks() {
 
 /**** Audio Player ****/
 
+// __STREAM_URL__ is substituted at build time from $STREAM_URL (see build.mjs).
+// It must be https:// -- the page is served over TLS, and a http:// stream is
+// blocked as mixed content, which is what the old :8008 URL would hit today.
 amplitude_config = {
 	"amplitude_songs": [{
-			"url": "http://stream.davidawindham.com:8008/stream",
+			"url": __STREAM_URL__,
 			"live": true
 		}],
 	"amplitude_volume": 73
@@ -146,49 +149,51 @@ function get_radio_eq_none() {return 'img/1.png';}
 
 var interval = null;
 
-function radioTitle() {
-    var url = 'http://stream.davidawindham.com/status2.xsl';
-    var mountpoint = '/stream';
-    $.ajax({ type: 'GET',
-      url: url,
-      async: true,
-      jsonpCallback: 'parseMusic',
-      contentType: "application/json",
-      dataType: 'jsonp',
-      success: function(json){
-        if(json[mountpoint] == null) {
-          $('#connection-error').modal('show');
-          $('#error-reconnecting').hide();
-          $('#error-reconnecting-again').hide();
-          $('#connection-error-reconnecting').attr('data-transitiongoal', 0).progressbar();
-          $('#connection-error-retry').on('click', function () {
-            $('#error-reconnecting').show();
-            $('#connection-error-reconnecting').attr('data-transitiongoal', 100).progressbar({
-                done: function() { $('#error-reconnecting-again').show(); }
-            });
-          });
-          $('#radio').attr('src', get_radio_none()).fadeIn(300);
-          $('#eq').attr('src', get_radio_eq_none()).fadeIn(300);
-        }
-        else {
-          $('#connection-error').modal('hide');
-          $('#track').text(json[mountpoint].title);
-          $('#listeners').text(json[mountpoint].listeners);
-          $('#peak-listeners').text(json[mountpoint].peak_listeners);
-          $('#bitrate').text(json[mountpoint].bitrate);
-          $('#radio').attr('src', get_radio_tower()).fadeIn(300);
-          $('#eq').attr('src', get_radio_eq()).fadeIn(300);
-        }
-      },
-      error: function(){
-        $('#connection-error').modal('show');
-        clearInterval(interval);
-        $('#radio').attr('src', get_radio_none()).fadeIn(300);
-        $('#eq').attr('src', get_radio_eq_none()).fadeIn(300);
-      }
+function showOffAir() {
+  $('#connection-error').modal('show');
+  $('#error-reconnecting').hide();
+  $('#error-reconnecting-again').hide();
+  $('#connection-error-reconnecting').attr('data-transitiongoal', 0).progressbar();
+  $('#connection-error-retry').on('click', function () {
+    $('#error-reconnecting').show();
+    $('#connection-error-reconnecting').attr('data-transitiongoal', 100).progressbar({
+        done: function() { $('#error-reconnecting-again').show(); }
+    });
   });
+  $('#track').text('* Off Air *');
+  $('#radio').attr('src', get_radio_none()).fadeIn(300);
+  $('#eq').attr('src', get_radio_eq_none()).fadeIn(300);
 }
-interval = setInterval(radioTitle,20000); // every 20 seconds or stop polling
+
+// Now-playing info comes from our own /api/status, which proxies Icecast's
+// status-json.xsl server-side.
+//
+// This used to be a JSONP call straight to the stream host's status2.xsl. That
+// approach depended on a hand-edited XSL file that Icecast upgrades overwrite;
+// it 404s today and has since the 2021 upgrade noted in the README. Same-origin
+// JSON also means no mixed content and no JSONP.
+function radioTitle() {
+  $.getJSON(window.RADIO.url('api/status'))
+    .done(function(status) {
+      if (!status || !status.online) {
+        showOffAir();
+        return;
+      }
+      $('#connection-error').modal('hide');
+      $('#track').text(status.title || 'Unknown track');
+      $('#listeners').text(status.listeners);
+      $('#peak-listeners').text(status.peakListeners);
+      $('#bitrate').text(status.bitrate === null ? '--' : status.bitrate);
+      $('#radio').attr('src', get_radio_tower()).fadeIn(300);
+      $('#eq').attr('src', get_radio_eq()).fadeIn(300);
+    })
+    .fail(function() {
+      // Keep polling rather than clearInterval-ing on the first blip, so the
+      // page recovers on its own once the stream or server is back.
+      showOffAir();
+    });
+}
+interval = setInterval(radioTitle,20000); // every 20 seconds
 
 /**** Page Features ****/
 
@@ -203,7 +208,7 @@ $(document).ready(function() {
     }
   }); 
   $('#nick').validator();
-  var socket = io.connect(window.location.host);
+  var socket = window.RADIO.socket;
   var getNickname = function() {
       var nickname = $('#nickname').val();
       $('#nickname').val("");

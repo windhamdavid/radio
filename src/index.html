@@ -311,7 +311,7 @@
                                     <label class="control-label" for="password">Password:</label>
                                     <div class="input-group">                  
                                        <span class="input-group-addon"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></span>
-                                       <input id="other" name="other" type="text" class="form-control" data-remote="/other" placeholder="" required>
+                                       <input id="other" name="other" type="text" class="form-control" data-remote="other" placeholder="" required>
                                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                     </div>
                                     <div class="help-block with-errors"></div>
@@ -496,7 +496,8 @@
 </footer>
 
 <script src="js/vendor.min.js"></script>
-<script src="/socket.io/socket.io.js"></script>
+<!-- Relative on purpose: resolves under /radio/ as well as at the root. -->
+<script src="socket.io/socket.io.js"></script>
 <script src="js/radio.min.js"></script>
 <script src="js/webrtc.min.js"></script>
 <script>var _paq = _paq || [];_paq.push(['trackPageView']);_paq.push(['enableLinkTracking']);(function(){var u="//davidawindham.com/wik/";_paq.push(['setTrackerUrl', u+'piwik.php']);_paq.push(['setSiteId', 1]);var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);})();</script><noscript><p><img src="//davidawindham.com/wik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>

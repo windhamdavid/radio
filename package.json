@@ -2,31 +2,28 @@
   "name": "daveo-radio",
   "author": "windhamdavid",
   "description": "just a page on the interwebs",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "body-parser": "^1.14.1",
-    "express": "^4.13.3",
-    "redis": "^2.4.1",
-    "socket.io": "^1.3.7",
-    "socket.io-redis": "^0.1.4",
-    "underscore": "^1.8.3",
-    "validator": "^4.3.0"
-  },
-  "devDependencies": {
-    "del": "^2.1.0",
-    "gulp": "^3.9.0",
-    "gulp-concat": "^2.6.0",
-    "gulp-jshint": "^2.0.0",
-    "gulp-uglify": "^1.5.1",
-    "jshint-stylish": "^2.1.0",
-    "gulp-minify-css": "^1.2.1",
-    "gulp-minify-html": "^1.0.4",
-    "gulp-nodemon": "^2.0.4",
-    "nodemon": "^1.8.1"
+  "type": "module",
+  "engines": {
+    "node": ">=20"
   },
   "scripts": {
+    "build": "node build.mjs",
     "start": "node app.js",
-    "test": ""
+    "dev": "node build.mjs --watch & node --watch --env-file-if-exists=.env app.js",
+    "lint": "node --check app.js"
+  },
+  "dependencies": {
+    "@socket.io/redis-adapter": "^8.3.0",
+    "express": "^5.2.1",
+    "redis": "^6.1.0",
+    "socket.io": "^4.8.3",
+    "validator": "^13.15.35"
+  },
+  "devDependencies": {
+    "bootstrap": "^3.4.1",
+    "esbuild": "^0.28.1",
+    "handlebars": "^4.7.9"
   }
 }

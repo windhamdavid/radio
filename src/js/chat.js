@@ -6,7 +6,7 @@
     // Socket.io events
     // ***************************************************************************
     
-    var socket = io.connect(window.location.host);
+    var socket = window.RADIO.socket;
 
     // Connection established
     socket.on('connected', function (data) {
@@ -128,7 +128,7 @@
         // If not we get and compile it
         } else {
             $.ajax({
-                url: path,
+                url: window.RADIO.url(path),
                 success: function(data) {
                     source = data;
                     template = Handlebars.compile(source);
