@@ -1,22 +1,12 @@
 /*global amplitude_config:true */
 
-// ===========================================================================
-// TEMPORARY (2026-07-16) — REVIEW MODE. Set to false to restore normal behaviour.
+// TEMPORARY (2026-07-16) — suppresses the "Off the Air" modal, which pops up
+// whenever the stream has no source (i.e. right now) and covers the page.
 //
-// Suppresses every modal that covers the page on load, so the layout and the
-// site chrome can be looked at without clicking through:
-//   - #auth-modal      terms / "I have read and agree"
-//   - #modal_setnick   nickname + password (chained from the terms modal)
-//   - #connection-error "Off the Air" (shows whenever the stream has no source,
-//                       which is right now — it would cover the page otherwise)
-//
-// Only the modal *display* is suppressed. All the markup and handlers are
-// untouched, so flipping this back restores the entry flow exactly. The off-air
-// artwork still swaps in, so the player still reads as off air.
-//
-// Nothing security-relevant is lost here: the password modal never was real
-// protection (see the /other route in app.js).
-// ===========================================================================
+// This is all that's left of review mode: the terms and nickname/password
+// modals are gone for good now, not just hidden. The off-air artwork still
+// swaps in either way, so the player reads as off air regardless — this only
+// stops the dialog. Set to false to get the dialog back.
 var REVIEW_MODE = true;
 
 
@@ -224,20 +214,10 @@ interval = setInterval(radioTitle,20000); // every 20 seconds
 /**** Page Features ****/
 
 $(document).ready(function() {
-  // See REVIEW_MODE at the top of this file. Skipping the terms modal also skips
-  // the nickname/password modal it chains into, so everyone stays 'anonymous'
-  // in chat while review mode is on.
-  if (!REVIEW_MODE) {
-    $('#auth-modal').modal('show');
-  }
-  $('#auth').validator().on('submit', function (e) {
-    if (e.isDefaultPrevented()) {
-    } else {
-      e.preventDefault();
-      $('#auth-modal').modal('hide');
-      $('#modal_setnick').modal('show');
-    }
-  });
+  // Nothing is thrown up on load any more. The terms modal is gone, and the
+  // nickname modal opens from the person button beside the message box
+  // (data-toggle="modal" wires that up, no JS needed). Chatting as 'anonymous'
+  // is fine; naming yourself is opt-in.
   $('#nick').validator();
   var socket = window.RADIO.socket;
   var getNickname = function() {

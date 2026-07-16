@@ -2,9 +2,9 @@
 
 Just a litle page on the intrawebs where I can broadcast and chat with friends.
 
-> **Note:** the password prompt is *not* authentication — it gates a modal and
-> nothing else. The socket connection and the Icecast stream are both reachable
-> without it. See "Auth" below before putting this anywhere public.
+> **Note:** there is no authentication. The page, the chat socket and the Icecast
+> stream are all reachable by anyone who has the URL. See "Auth" below before
+> putting this anywhere public.
 
 ---
 #### Built With:
@@ -39,24 +39,33 @@ generated from `src/` and is not in git.
 
 #### Serving under davidawindham.com/radio
 
-Set `BASE_PATH=/radio` and `TRUST_PROXY=1`, then point nginx at it. `proxy_pass`
-deliberately has **no** trailing path, so the `/radio` prefix is passed through
-intact — the app expects to see it.
+Set `BASE_PATH=/radio` and `TRUST_PROXY=1`, then proxy to it from Apache — the
+same shape as the existing `/ask` proxy in the daw vhost:
 
-```nginx
-location = /radio { return 301 /radio/; }
-
-location /radio/ {
-    proxy_pass http://127.0.0.1:3000;
-    proxy_http_version 1.1;
-    proxy_set_header Upgrade    $http_upgrade;   # websockets
-    proxy_set_header Connection "upgrade";
-    proxy_set_header Host       $host;
-    proxy_set_header X-Real-IP  $remote_addr;
-    proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-}
+```apache
+# radio: proxy /radio to the node app (mirrors /ask)
+ProxyPreserveHost On
+ProxyPass        /radio http://127.0.0.1:3000/radio upgrade=websocket
+ProxyPassReverse /radio http://127.0.0.1:3000/radio
 ```
+
+Both sides keep the `/radio` prefix on purpose — the app is mounted at it and
+expects to see it, and that keeps its own `/radio` → `/radio/` redirect correct
+through `ProxyPassReverse`.
+
+`upgrade=websocket` is what carries socket.io. It needs **Apache 2.4.47+**, where
+`mod_proxy_http` handles protocol upgrades itself — `mod_proxy_wstunnel` is *not*
+required (on older Apache it would be). Without the upgrade, socket.io still
+works but silently falls back to HTTP long-polling.
+
+ProxyPass is matched before the request is mapped to the filesystem, so
+WordPress and its `.htaccess` never see `/radio`.
+
+> **If `/radio` redirects you to `/online-radio`:** that's a **cached 301**. The
+> WordPress page that used to live at `/radio` moved, and WP issues a permanent
+> old-slug redirect, which browsers cache hard. Once the proxy is in place
+> Apache answers `/radio` before WP ever sees it — but a browser that cached the
+> 301 beforehand will keep redirecting itself. Hard-reload, or clear that entry.
 
 Leave `BASE_PATH` empty to serve at a domain root instead; the client works out
 where it's mounted at runtime, so the same build covers both.
@@ -90,7 +99,6 @@ from the docroot alongside `/radio`. Locally there's no Apache in front, so set
 | `/api/status` | now-playing + listeners, proxied from Icecast |
 | `/api/lastfm` | sidebar data, proxied so the API key stays server-side |
 | `/api/broadcast` | POST `{msg}` — sends to every room |
-| `/other` | the modal's password check (not auth) |
 
 All are relative to `BASE_PATH`.
 
@@ -113,15 +121,26 @@ Optional. Unset `REDIS_URL` and it runs single-process, keeping per-connection
 state in memory. Set it and socket.io uses the Redis adapter so rooms and
 presence work across multiple processes.
 
+#### Chat
+
+One room. The join/leave UI is gone and the server has no
+`subscribe`/`unsubscribe` handlers, so the Lobby is the only room there is —
+removing the buttons alone wouldn't have stopped anyone emitting `subscribe` by
+hand.
+
+Nicknames are opt-in: the person button beside the message box opens the nickname
+dialog. Nothing is demanded on load; unnamed users chat as `anonymous`.
+
 #### Auth
 
-There isn't any, despite appearances. `ROOM_PASSWORD` is checked client-side via
-the modal's `data-remote` hook; passing it just closes the modal. `/api/broadcast`
-is unauthenticated, the socket handshake is unauthenticated, and the Icecast
-stream can be opened directly.
+There isn't any, and there's no longer anything pretending otherwise — the old
+password prompt was only ever a client-side modal gate, so it was removed rather
+than left to imply protection it never gave.
 
-Doing this properly means a server-verified session that covers the socket
-handshake and the stream, not only the page.
+`/api/broadcast` is unauthenticated, the socket handshake is unauthenticated, and
+the Icecast stream can be opened directly. Doing this properly means a
+server-verified session covering the socket handshake and the stream, not just
+the page.
 
 ---
 

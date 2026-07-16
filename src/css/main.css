@@ -20,6 +20,24 @@ body {
   background: #484c57;
 }
 
+/* Post button in the page's own slate instead of Bootstrap's default blue.
+   Targeted by id so it outranks .btn-primary and its :hover/:active variants
+   without having to fight specificity or reach for !important. */
+#b_send_message,
+#b_send_message:focus {
+  background-color: #484c57;
+  border-color: #484c57;
+  color: #fff;
+}
+#b_send_message:hover,
+#b_send_message:active,
+#b_send_message:focus:active,
+#b_send_message.active {
+  background-color: #3a3d46;
+  border-color: #3a3d46;
+  color: #fff;
+}
+
 /* The Daveo Radio banner (daveo-header.svg, a 1280x150 artboard).
  *
  * This used to be the background of a bare <header> element. <daw-header> now
@@ -34,6 +52,9 @@ body {
   min-height: 150px;
   background: url(../img/daveo-header.svg) no-repeat center center transparent;
   background-size: cover;
+  /* margin, not padding: a background image paints across the padding box, so
+     padding-top would just stretch the artwork instead of moving it down. */
+  margin-top: 2rem;
 }
 .outer-container {
   width:100%;

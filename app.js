@@ -27,8 +27,6 @@ const config = {
   // Number of reverse proxies in front of us, or a preset like 'loopback'.
   trustProxy: process.env.TRUST_PROXY ?? '',
   debug: process.env.DEBUG === 'true',
-  // NOT authentication. See the /other route below.
-  roomPassword: process.env.ROOM_PASSWORD ?? 'stillgame',
   // Icecast's own JSON status. The old code polled a hand-customized
   // status2.xsl over JSONP; Icecast upgrades overwrite those XSL files (it
   // 404s today, and has since 2021 per the README), so use the stock endpoint
@@ -52,7 +50,6 @@ function normalizeBasePath(value) {
 
 const MAX_MESSAGE_LENGTH = 500;
 const MAX_ROOM_LENGTH = 25;
-const MAX_ROOMS_PER_REQUEST = 10;
 
 const logger = new EventEmitter();
 logger.on('newEvent', (event, data) => {
@@ -167,16 +164,6 @@ router.post('/api/broadcast', requireAuthentication, (req, res) => {
   }
   sendBroadcast(validator.escape(text.slice(0, MAX_MESSAGE_LENGTH)));
   res.status(201).send('Message sent to all rooms');
-});
-
-// The front-end's "password" field posts here via bootstrap-validator's
-// data-remote. This is a speed bump, not a lock: it gates a modal and nothing
-// else. The socket handshake and the Icecast stream remain wide open, so this
-// must not be treated as protection. Real auth is a separate piece of work --
-// it needs to cover the handshake and the stream too, not just this route.
-router.get('/other', (req, res) => {
-  if (req.query.other === config.roomPassword) res.sendStatus(200);
-  else res.status(400).send('WRONG!');
 });
 
 // Local dev only: serve the shared site chrome (/embed/chrome.js + its fonts)
@@ -338,7 +325,6 @@ io.on('connection', (socket) => {
 
   socket.join(config.mainRoom);
   logger.emit('newEvent', 'userJoinsRoom', { socket: socket.id, room: config.mainRoom });
-  socket.emit('subscriptionConfirmed', { room: config.mainRoom });
   io.to(config.mainRoom).emit('userJoinsRoom', {
     room: config.mainRoom,
     username: socket.data.username,
@@ -346,56 +332,12 @@ io.on('connection', (socket) => {
     id: socket.id,
   });
 
-  socket.on('subscribe', (data) => {
-    const rooms = Array.isArray(data?.rooms) ? data.rooms.slice(0, MAX_ROOMS_PER_REQUEST) : [];
-    for (const raw of rooms) {
-      const room = cleanRoomName(raw);
-      if (!room) continue;
-
-      socket.join(room);
-      logger.emit('newEvent', 'userJoinsRoom', {
-        socket: socket.id,
-        username: socket.data.username,
-        room,
-      });
-
-      socket.emit('subscriptionConfirmed', { room });
-      io.to(room).emit('userJoinsRoom', {
-        room,
-        username: socket.data.username,
-        msg: '----- Joined the room -----',
-        id: socket.id,
-      });
-    }
-  });
-
-  socket.on('unsubscribe', (data) => {
-    const rooms = Array.isArray(data?.rooms) ? data.rooms.slice(0, MAX_ROOMS_PER_REQUEST) : [];
-    for (const raw of rooms) {
-      const room = cleanRoomName(raw);
-      if (!room || room === config.mainRoom) continue;
-
-      socket.leave(room);
-      logger.emit('newEvent', 'userLeavesRoom', {
-        socket: socket.id,
-        username: socket.data.username,
-        room,
-      });
-
-      socket.emit('unsubscriptionConfirmed', { room });
-      io.to(room).emit('userLeavesRoom', {
-        room,
-        username: socket.data.username,
-        msg: '----- Left the room -----',
-        id: socket.id,
-      });
-    }
-  });
-
-  socket.on('getRooms', () => {
-    socket.emit('roomsReceived', joinedRooms(socket));
-    logger.emit('newEvent', 'userGetsRooms', { socket: socket.id });
-  });
+  // No 'subscribe' / 'unsubscribe' / 'getRooms' handlers: there is one room and
+  // everyone is in it. Dropping them server-side rather than only hiding the UI
+  // is the point -- otherwise anyone could still emit 'subscribe' by hand and
+  // wander off into a private room. Every socket joins config.mainRoom on
+  // connect and never leaves, so the `socket.rooms.has(room)` check in
+  // 'newMessage' below can only ever pass for that one room.
 
   socket.on('getUsersInRoom', async (data) => {
     const room = cleanRoomName(data?.room);

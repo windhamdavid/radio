@@ -1,11 +1,9 @@
 (function(){
 
-    var debug = false;
-
     // ***************************************************************************
     // Socket.io events
     // ***************************************************************************
-    
+
     var socket = window.RADIO.socket;
 
     // Connection established
@@ -14,20 +12,6 @@
 
         // Get users connected to mainroom
         socket.emit('getUsersInRoom', {'room':'Lobby'});
-
-        if (debug) {
-            // Subscription to rooms
-            socket.emit('subscribe', {'username':'sergio', 'rooms':['sampleroom']});
-
-            // Send sample message to room
-            socket.emit('newMessage', {'room':'sampleroom', 'msg':'Hellooooooo!'});
-
-            // Auto-disconnect after 10 minutes
-            setInterval(function() {
-                socket.emit('unsubscribe', {'rooms':['sampleroom']});
-                socket.disconnect();
-            }, 600000);
-        }
     });
 
     // Disconnected from server
@@ -42,26 +26,9 @@
         addBotMessage(info);
     });
 
-    // Subscription to room confirmed
-    socket.on('subscriptionConfirmed', function(data) {
-        // Create room space in interface
-        if (!roomExists(data.room)) {
-            addRoomTab(data.room);
-            addRoom(data.room);
-        }
-
-        // Close modal if opened
-        $('#modal_joinroom').modal('hide');
-    });
-
-    // Unsubscription to room confirmed
-    socket.on('unsubscriptionConfirmed', function(data) {
-        // Remove room space in interface
-        if (roomExists(data.room)) {
-            removeRoomTab(data.room);
-            removeRoom(data.room);
-        }
-    });
+    // subscriptionConfirmed / unsubscriptionConfirmed are gone with rooms. The
+    // Lobby tab is static markup, so there is no room UI left to build or tear
+    // down at runtime.
 
     // User joins room
     socket.on('userJoinsRoom', function(data) {
@@ -140,39 +107,6 @@
         }
     }
 
-    // Add room tab
-    var addRoomTab = function(room) {
-        getTemplate('js/templates/room_tab.handlebars', function(template) {
-            $('#rooms_tabs').append(template({'room':room}));
-        });
-    };
-
-    // Remove room tab
-    var removeRoomTab = function(room) {
-        var tab_id = "#"+room+"_tab";
-        $(tab_id).remove();
-    };
-
-    // Add room
-    var addRoom = function(room) {
-        getTemplate('js/templates/room.handlebars', function(template) {
-            $('#rooms').append(template({'room':room}));
-        
-            // Toogle to created room
-            var newroomtab = '[href="#'+room+'"]';
-            $(newroomtab).click();
-
-            // Get users connected to room
-            socket.emit('getUsersInRoom', {'room':room});
-        });
-    };
-    
-    // Remove room
-    var removeRoom = function(room) {
-        var room_id = "#"+room;
-        $(room_id).remove();
-    };
-
     // Add message to room
     var addMessage = function(msg) {
         getTemplate('js/templates/message.handlebars', function(template) {
@@ -207,16 +141,6 @@
         $(user_badge).remove();
     };
 
-    // Check if room exists
-    var roomExists = function(room) {
-        var room_selector = '#'+room;
-        if ($(room_selector).length) {
-            return true;
-        } else {
-            return false;
-        }
-    };
-
     // Get current room
     var getCurrentRoom = function() {
         return $('li[id$="_tab"][class="active"]').text();
@@ -227,13 +151,6 @@
         var text = $('#message_text').val();
         $('#message_text').val("");
         return text;
-    };
-
-    // Get room name from input field
-    var getRoomName = function() {
-        var name = $('#room_name').val().trim();
-        $('#room_name').val("");
-        return name;
     };
 
     // Get nickname from input field
@@ -261,43 +178,9 @@
         }
     });
 
-    // Join new room
-    $('#b_join_room').click(function(eventObject) {
-        var roomName = getRoomName();
-
-        if (roomName) {
-            eventObject.preventDefault();
-            socket.emit('subscribe', {'rooms':[roomName]}); 
-
-        // Added error class if empty room name
-        } else {
-            $('#room_name').addClass('error');
-        }
-    });
-
-    // Leave current room
-    $('#b_leave_room').click(function(eventObject) {
-        eventObject.preventDefault();
-        var currentRoom = getCurrentRoom();
-        if (currentRoom != 'Lobby') {
-            socket.emit('unsubscribe', {'rooms':[getCurrentRoom()]}); 
-
-            // Toogle to MainRoom
-            $('[href="#Lobby"]').click();
-        } else {
-            console.log('Cannot leave Lobby, sorry');
-        }
-    });
-
-    // Remove error style to hide modal
-    $('#modal_joinroom').on('hidden.bs.modal', function (e) {
-        if ($('#room_name').hasClass('error')) {
-            $('#room_name').removeClass('error');
-        }
-    });
-
-    // Set nickname
-
+    // Joining and leaving rooms is gone -- there is one room now, and the
+    // server no longer accepts subscribe/unsubscribe, so it isn't just the UI
+    // that's hidden.
 
 })();
 

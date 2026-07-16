@@ -154,16 +154,10 @@
                
                <!-- START Room Tabs -->
                <div class="row-fluid">
+                    <!-- Single room. The join/leave dropdown is gone and the
+                         server no longer accepts subscribe/unsubscribe, so the
+                         Lobby is the only room there is. -->
                     <ul id="rooms_tabs" class="nav nav-tabs">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-original-title="Options" data-placement="bottom"><span class="glyphicon glyphicon-th" aria-hidden="true"></span>&nbsp;<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#modal_joinroom" data-toggle="modal"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>&nbsp;Join room</a></li>
-                                <li><a id="b_leave_room" href="#"><span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>&nbsp;Leave room</a></li>
-                                <li class="divider"></li>
-
-                            </ul>
-                        </li>
                         <li id="Lobby_tab" class="active"><a href="#Lobby" data-toggle="tab" data-original-title="Chat" data-placement="bottom"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span><span class="hidden-tab">Lobby</span></a></li>
                     </ul>
                </div>
@@ -190,13 +184,15 @@
                       <div class="row-fluid">
                           <form class="form">
                              <div class="input-group">
+                                 <span class="input-group-btn">
+                                    <button id="set_nick" type="button" class="btn btn-default" data-toggle="modal" data-target="#modal_setnick" title="Set your nickname"><span class="glyphicon glyphicon-user" aria-hidden="true"></span><span class="sr-only">Set your nickname</span></button>
+                                 </span>
                                 <input id="message_text" class="form-control" type="text" placeholder="What say you?" >
                                  <span class="input-group-btn">
                                     <button id="b_send_message" class="btn btn-primary"><span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span> Post</button>
                                  </span>
                               </div>
                            </form>
-                           <!--<button id="set_nick" class="btn btn-success" data-toggle="modal" data-target="#modal_setnick"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Set Nick</button>-->
                       </div>
                    </div>
                    <!-- END message -->
@@ -208,49 +204,25 @@
                
             </div>
          
-            <!-- START Room Modal -->      
-            <div id="modal_joinroom" class="modal fade">
-               <div class="vertical-alignment-helper">
-                  <div class="modal-dialog modal-sm vertical-align-center">
-                      <div class="modal-content">
-                         <div class="modal-header">
-                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                             <h3>Join Room</h3>
-                         </div>
-                         <div class="modal-body">
-                             <input id="room_name" type="text" class="form-control"  placeholder="Room Name">
-                             <p><small>&nbsp;Room will be created if it doesn't exist</small></p>
-                         </div>
-                         <div class="modal-footer">
-                             <a id="b_join_room" href="#" class="btn btn-success">Join Room</a>
-                         </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <!-- END Room Modal --> 
-            
-            <!-- START Nick Modal --> 
-               <div id="modal_setnick" class="modal fade" data-keyboard="false" data-backdrop="static" >
+            <!-- START Nick Modal -->
+               <!-- Opened from the person button next to the message box, rather
+                    than thrown up on load. Dismissible on purpose now: chatting
+                    as 'anonymous' is allowed, setting a nickname is opt-in. -->
+               <div id="modal_setnick" class="modal fade">
                   <div class="vertical-alignment-helper">
                      <div class="modal-dialog modal-sm">
                         <div class="modal-content">
                            <form id="nick" role="form">
+                              <div class="modal-header">
+                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                 <h4 class="modal-title">Set your nickname</h4>
+                              </div>
                               <div class="modal-body">
                                  <div class="form-group has-feedback">
                                     <label class="control-label" for="nickname">Nickname:</label>
                                     <div class="input-group">
                                        <span class="input-group-addon">@</span>
                                        <input id="nickname" type="text" class="form-control" pattern="^[a-zA-Z]+$" minlength="3" maxlength="25" placeholder="letters only (min 3)" required>
-                                       <span class="glyphicon form-control-feedback" aria-hidden="true"></span>               
-                                    </div>
-                                    <div class="help-block with-errors"></div>
-                                 </div>
-                                 <div class="form-group has-feedback">
-                                    <label class="control-label" for="password">Password:</label>
-                                    <div class="input-group">                  
-                                       <span class="input-group-addon"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></span>
-                                       <input id="other" name="other" type="text" class="form-control" data-remote="other" placeholder="" required>
                                        <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                                     </div>
                                     <div class="help-block with-errors"></div>
@@ -265,40 +237,6 @@
                   </div>
                </div>
             <!-- END Nick Modal -->
-            
-            <!-- START Auth Modal -->
-            <div class="modal fade" id="auth-modal" data-keyboard="false" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="support" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h4 class="modal-title"> You kids get off my &nbsp;<span class="glyphicon glyphicon-cloud" aria-hidden="true"></span></h4>
-                  </div>
-                  <div class="modal-body">
-                     <h5>Just some basic rules here:</h5>
-                     <ol>
-                        <li>This site is for demonstration purposes.</li>
-                        <li>There is no reason to be here unless I am.</li>
-                        <li>If you don't know me, you shouldn't be here.</li>
-                        <li>Do Not Share this URL with Anyone.</li>
-                     </ol>                     
-                  </div>
-                  <div class="modal-footer">
-                     <form role="form" id="auth" class="form">
-                        <div class="form-group">
-                           <div class="checkbox">
-                              <label><input type="checkbox" id="terms" data-error="really? So you don't agree?" required>I have read and agree</label>
-                              <div class="help-block with-errors"></div>
-                           </div>
-                        </div>
-                        <div class="form-group">
-                           <button type="submit" class="btn btn-success">Understood</button>
-                        </div>
-                     </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- END Auth Modal -->
             
          </section>
       </div>
