@@ -1,29 +1,39 @@
 /*! Main CSS file */
 
-body {
-  background-repeat:no-repeat;
-  background-size:cover;
-  background-position: center center;
-  background:url(../img/daveo-background.svg) transparent;
-  background:url(../img/daveo-background.svg),radial-gradient(yellow,#f06d06);
-
-/*
-  background: -webkit-gradient(radial, center center, 0, center center, 460, from(transparent), to(#333));
-  background: -webkit-radial-gradient(circle, transparent, #333);
-  background: -moz-radial-gradient(circle, transparent, #333);
-  background: -ms-radial-gradient(circle, transparent, #333);
-*/
+/* Undo Bootstrap 3's `html{font-size:10px}`.
+ *
+ * <daw-header>/<daw-footer> size themselves in rem, and rem always resolves
+ * against the document root -- shadow DOM doesn't isolate it, so `all:initial`
+ * on :host doesn't help. Bootstrap's 10px root was silently rendering the whole
+ * chrome at 62.5%: a 34px bar with a 14.5px brand, against 52px/23.2px on the
+ * rest of the site.
+ *
+ * Safe to override: nothing here uses rem units (Bootstrap 3 sizes in px and
+ * sets body{font-size:14px} explicitly), so this only affects the chrome.
+ */
+html {
+  font-size: 16px;
 }
 
-header {
-  width:100%;
-  min-height:150px;
-  background:url(../img/daveo-header.svg) transparent;
-  background-repeat:no-repeat;
-  background-size:cover;
-  background-position:center;
-  padding: 50px 0 0;
-  margin: 0;
+/* #484c57 matches the header and footer, and the main site's own body. */
+body {
+  background: #484c57;
+}
+
+/* The Daveo Radio banner (daveo-header.svg, a 1280x150 artboard).
+ *
+ * This used to be the background of a bare <header> element. <daw-header> now
+ * provides the site chrome, so the graphic gets its own element and sits below
+ * it. Same sizing as before, minus the old 50px top padding, which existed to
+ * clear the band's own artwork.
+ *
+ * The matching daveo-footer.svg band is still retired -- <daw-footer> occupies
+ * that end of the page now. It's in src/img/ if you want it back too. */
+.radio-banner {
+  width: 100%;
+  min-height: 150px;
+  background: url(../img/daveo-header.svg) no-repeat center center transparent;
+  background-size: cover;
 }
 .outer-container {
   width:100%;
@@ -573,16 +583,7 @@ ul .badge {
   height:410px;
 }
 
-footer {
-  width:100%;
-  min-height:100px;
-  background:url(../img/daveo-footer.svg) transparent;
-  background-repeat:no-repeat;
-  background-size:cover;
-  background-position:center;
-  padding: 50px 0 0;
-  margin: 0 0 20px;
-}
+/* footer{} band removed with the header band above -- see note there. */
 
 
 

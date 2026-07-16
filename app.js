@@ -40,6 +40,8 @@ const config = {
   // Unset => the sidebar lists just stay empty.
   lastfmKey: process.env.LASTFM_API_KEY ?? '',
   lastfmUser: process.env.LASTFM_USER ?? 'windhamdavid',
+  // Local dev only. See the /embed proxy below.
+  dawOrigin: process.env.DAW_ORIGIN ?? '',
 };
 
 function normalizeBasePath(value) {
@@ -176,6 +178,34 @@ router.get('/other', (req, res) => {
   if (req.query.other === config.roomPassword) res.sendStatus(200);
   else res.status(400).send('WRONG!');
 });
+
+// Local dev only: serve the shared site chrome (/embed/chrome.js + its fonts)
+// by proxying to the main site.
+//
+// index.html loads /embed/chrome.js root-relative. In production that path is
+// served by Apache from the WordPress docroot, alongside /radio -- nginx only
+// routes /radio/ here, so this never runs there. Locally there's no Apache in
+// front, so without this the chrome would 404 and the page would render bare.
+// Unset DAW_ORIGIN => not mounted at all.
+if (config.dawOrigin) {
+  app.use('/embed', async (req, res) => {
+    try {
+      const upstream = await fetch(new URL(`/embed${req.url}`, config.dawOrigin), {
+        signal: AbortSignal.timeout(5000),
+      });
+      if (!upstream.ok) {
+        res.sendStatus(upstream.status);
+        return;
+      }
+      const type = upstream.headers.get('content-type');
+      if (type) res.type(type);
+      res.send(Buffer.from(await upstream.arrayBuffer()));
+    } catch {
+      res.sendStatus(502);
+    }
+  });
+  logger.emit('newEvent', 'embedProxyEnabled', { origin: config.dawOrigin });
+}
 
 // Canonicalize /radio -> /radio/ before the router sees it. Without the
 // trailing slash the browser resolves the page's relative asset URLs against

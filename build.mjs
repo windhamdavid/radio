@@ -70,17 +70,23 @@ const DEFINE = {
   __STREAM_MOUNT__: JSON.stringify(STREAM_MOUNT),
 };
 
-async function concat(files) {
+// `separator` differs by language and it matters. JS files are joined with a
+// semicolon so a file ending in an expression can't swallow the next file's
+// leading paren (the classic IIFE concat hazard). CSS must NOT get one: a
+// stray top-level ';' is a parse error, and the recovery rule makes the parser
+// consume it as part of the *next* rule's selector -- silently dropping that
+// rule. It ate main.css's first rule until this was fixed.
+async function concat(files, separator) {
   const parts = [];
   for (const file of files) {
     if (!existsSync(file)) throw new Error(`missing build input: ${path.relative(__dirname, file)}`);
     parts.push(await readFile(file, 'utf8'));
   }
-  return parts.join('\n;\n');
+  return parts.join(separator);
 }
 
 async function bundleJs(files, outFile, { define } = {}) {
-  const source = await concat(files);
+  const source = await concat(files, '\n;\n');
   // These are old-style global scripts, not modules -- minify only, no bundling
   // or module resolution, or they'd lose their globals.
   const result = await transform(source, { loader: 'js', minify: true, define });
@@ -88,7 +94,7 @@ async function bundleJs(files, outFile, { define } = {}) {
 }
 
 async function bundleCss(files, outFile) {
-  const source = await concat(files);
+  const source = await concat(files, '\n');
   const result = await transform(source, { loader: 'css', minify: true });
   await writeFile(path.join(OUT, outFile), result.code);
 }

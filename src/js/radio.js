@@ -1,5 +1,24 @@
 /*global amplitude_config:true */
 
+// ===========================================================================
+// TEMPORARY (2026-07-16) — REVIEW MODE. Set to false to restore normal behaviour.
+//
+// Suppresses every modal that covers the page on load, so the layout and the
+// site chrome can be looked at without clicking through:
+//   - #auth-modal      terms / "I have read and agree"
+//   - #modal_setnick   nickname + password (chained from the terms modal)
+//   - #connection-error "Off the Air" (shows whenever the stream has no source,
+//                       which is right now — it would cover the page otherwise)
+//
+// Only the modal *display* is suppressed. All the markup and handlers are
+// untouched, so flipping this back restores the entry flow exactly. The off-air
+// artwork still swaps in, so the player still reads as off air.
+//
+// Nothing security-relevant is lost here: the password modal never was real
+// protection (see the /other route in app.js).
+// ===========================================================================
+var REVIEW_MODE = true;
+
 
 /* Radio Funtions */
 
@@ -155,7 +174,9 @@ function get_radio_eq_none() {return 'img/1.png';}
 var interval = null;
 
 function showOffAir() {
-  $('#connection-error').modal('show');
+  if (!REVIEW_MODE) {
+    $('#connection-error').modal('show');
+  }
   $('#error-reconnecting').hide();
   $('#error-reconnecting-again').hide();
   $('#connection-error-reconnecting').attr('data-transitiongoal', 0).progressbar();
@@ -203,7 +224,12 @@ interval = setInterval(radioTitle,20000); // every 20 seconds
 /**** Page Features ****/
 
 $(document).ready(function() {
-  $('#auth-modal').modal('show');
+  // See REVIEW_MODE at the top of this file. Skipping the terms modal also skips
+  // the nickname/password modal it chains into, so everyone stays 'anonymous'
+  // in chat while review mode is on.
+  if (!REVIEW_MODE) {
+    $('#auth-modal').modal('show');
+  }
   $('#auth').validator().on('submit', function (e) {
     if (e.isDefaultPrevented()) {
     } else {
@@ -211,7 +237,7 @@ $(document).ready(function() {
       $('#auth-modal').modal('hide');
       $('#modal_setnick').modal('show');
     }
-  }); 
+  });
   $('#nick').validator();
   var socket = window.RADIO.socket;
   var getNickname = function() {

@@ -61,6 +61,26 @@ location /radio/ {
 Leave `BASE_PATH` empty to serve at a domain root instead; the client works out
 where it's mounted at runtime, so the same build covers both.
 
+#### Site chrome
+
+The header and footer come from the main site's shared web components — the same
+ones `/rtc` uses:
+
+```html
+<daw-header></daw-header>
+<daw-footer></daw-footer>
+<script src="/embed/chrome.js"></script>
+```
+
+`chrome.js` renders into a shadow root, so the site's styles stay sealed off from
+this page's Bootstrap 3 and the two can't collide. Nothing is copied into this
+repo — the chrome is maintained in the main site and can't drift out of sync here.
+
+That script tag is root-relative on purpose: in production Apache serves `/embed`
+from the docroot alongside `/radio`. Locally there's no Apache in front, so set
+`DAW_ORIGIN=http://daw.stu` and the app proxies `/embed` to it. **Leave
+`DAW_ORIGIN` unset in production.**
+
 #### Routes
 
 | Route | Purpose |

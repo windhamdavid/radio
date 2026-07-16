@@ -9,13 +9,14 @@
 </head>
 <body>
 
-<header>
-	<div class="container">
-		<div class="intro-text">
+<!-- Shared site chrome, same as /rtc uses. Defined by /embed/chrome.js, which
+     renders into a shadow root -- so its Bootstrap-5-era styles are sealed off
+     from this page's Bootstrap 3 and the two can't collide. -->
+<daw-header></daw-header>
 
-		</div>
-	</div>
-</header>
+<!-- Daveo Radio banner. Was the background of the old <header> band; it now sits
+     under the site chrome rather than standing in for it. -->
+<div class="radio-banner"></div>
 
 <div class="outer-container">
 <div class="container">
@@ -429,14 +430,15 @@
 
 
 
-<footer class="site-footer">
-   
-</footer>
+<daw-footer></daw-footer>
 
 <script src="js/vendor.min.js"></script>
 <!-- Relative on purpose: resolves under /radio/ as well as at the root. -->
 <script src="socket.io/socket.io.js"></script>
 <script src="js/radio.min.js"></script>
+<!-- Root-relative, not relative: in production Apache serves this from the WP
+     docroot alongside /radio. Locally, app.js proxies /embed to $DAW_ORIGIN. -->
+<script src="/embed/chrome.js"></script>
 <script>var _paq = _paq || [];_paq.push(['trackPageView']);_paq.push(['enableLinkTracking']);(function(){var u="//davidawindham.com/wik/";_paq.push(['setTrackerUrl', u+'piwik.php']);_paq.push(['setSiteId', 1]);var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);})();</script><noscript><p><img src="//davidawindham.com/wik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
 </body>
 </html>
