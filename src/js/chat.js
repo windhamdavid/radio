@@ -1,5 +1,10 @@
 (function(){
 
+    // The only room. Must match the server's $MAIN_ROOM and the id of the pane
+    // in index.html -- messages are routed into '#<room> #room_messages', so
+    // all three have to agree.
+    var ROOM = 'Lobby';
+
     // ***************************************************************************
     // Socket.io events
     // ***************************************************************************
@@ -11,24 +16,24 @@
         console.log(data);
 
         // Get users connected to mainroom
-        socket.emit('getUsersInRoom', {'room':'Lobby'});
+        socket.emit('getUsersInRoom', {'room':ROOM});
     });
 
     // Disconnected from server
     socket.on('disconnect', function (data) {
-        var info = {'room':'Lobby', 'username':'Daveo-bot', 'msg':'---- Lost connection ----'};
+        var info = {'room':ROOM, 'username':'Daveo-bot', 'msg':'---- Lost connection ----'};
         addBotMessage(info);
     });
     
     // Reconnected to server
     socket.on('reconnect', function (data) {
-        var info = {'room':'Lobby', 'username':'Daveo-bot', 'msg':'---- Reconnected ----'};
+        var info = {'room':ROOM, 'username':'Daveo-bot', 'msg':'---- Reconnected ----'};
         addBotMessage(info);
     });
 
     // subscriptionConfirmed / unsubscriptionConfirmed are gone with rooms. The
-    // Lobby tab is static markup, so there is no room UI left to build or tear
-    // down at runtime.
+    // single pane is static markup, so there is no room UI left to build or
+    // tear down at runtime.
 
     // User joins room
     socket.on('userJoinsRoom', function(data) {
@@ -141,9 +146,13 @@
         $(user_badge).remove();
     };
 
-    // Get current room
+    // Get current room.
+    //
+    // This used to read the active tab's text. With the tab bar gone that
+    // returned '', which the server rejects as an invalid room name -- posting
+    // would have failed silently. There's one room, so name it directly.
     var getCurrentRoom = function() {
-        return $('li[id$="_tab"][class="active"]').text();
+        return ROOM;
     };
 
     // Get message text from input field

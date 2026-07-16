@@ -152,23 +152,19 @@
          <section id="request-line" class="bg-light-gray">
             <div class="panel panel-default">
                
-               <!-- START Room Tabs -->
-               <div class="row-fluid">
-                    <!-- Single room. The join/leave dropdown is gone and the
-                         server no longer accepts subscribe/unsubscribe, so the
-                         Lobby is the only room there is. -->
-                    <ul id="rooms_tabs" class="nav nav-tabs">
-                        <li id="Lobby_tab" class="active"><a href="#Lobby" data-toggle="tab" data-original-title="Chat" data-placement="bottom"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span><span class="hidden-tab">Lobby</span></a></li>
-                    </ul>
-               </div>
-               <!-- END Room Tabs -->
-               
-               <!-- START Rooms -->
+               <!-- No tab bar: there is one room, so it was a tab strip with a
+                    single tab. Its 42px went to the message area below, which
+                    keeps this panel level with the player beside it.
+
+                    #Lobby must keep its id -- messages are routed into
+                    '#<room> #room_messages', and the room name comes from the
+                    server ($MAIN_ROOM). The pane keeps .tab-pane.active because
+                    that's what makes it visible. -->
                <div id="rooms" class="tab-content">
                    <div class="tab-pane active" id="Lobby">
                       <div class="well">
                            <div class="row-fluid">
-                               <div id="room_messages" style="min-height:220px; max-height:220px; overflow:auto;">
+                               <div id="room_messages" style="min-height:262px; max-height:262px; overflow:auto;">
                                    <span class="label label-danger">Daveo-bot</span>&nbsp;&nbsp;Welcome to the Daveo Radio!<br/>
                                </div>
                            </div>  
