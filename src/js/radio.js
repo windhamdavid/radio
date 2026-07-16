@@ -1,13 +1,8 @@
 /*global amplitude_config:true */
 
-// TEMPORARY (2026-07-16) — suppresses the "Off the Air" modal, which pops up
-// whenever the stream has no source (i.e. right now) and covers the page.
-//
-// This is all that's left of review mode: the terms and nickname/password
-// modals are gone for good now, not just hidden. The off-air artwork still
-// swaps in either way, so the player reads as off air regardless — this only
-// stops the dialog. Set to false to get the dialog back.
-var REVIEW_MODE = true;
+// Whether the stream currently has a source, kept fresh by radioTitle()'s poll.
+// Read when the play button is pressed — see the interceptor further down.
+var streamOnline = false;
 
 
 /* Radio Funtions */
@@ -163,22 +158,25 @@ function get_radio_eq_none() {return 'img/1.png';}
 
 var interval = null;
 
-function showOffAir() {
-  if (!REVIEW_MODE) {
-    $('#connection-error').modal('show');
-  }
-  $('#error-reconnecting').hide();
-  $('#error-reconnecting-again').hide();
-  $('#connection-error-reconnecting').attr('data-transitiongoal', 0).progressbar();
-  $('#connection-error-retry').on('click', function () {
-    $('#error-reconnecting').show();
-    $('#connection-error-reconnecting').attr('data-transitiongoal', 100).progressbar({
-        done: function() { $('#error-reconnecting-again').show(); }
-    });
-  });
+// Off-air *artwork* only — no dialog. The poll calls this, so the player reads
+// as off air quietly in the background.
+function showOffAirArt() {
   $('#track').text('* Off Air *');
   $('#radio').attr('src', get_radio_none()).fadeIn(300);
   $('#eq').attr('src', get_radio_eq_none()).fadeIn(300);
+}
+
+// The dialog, shown only in response to someone actually trying to play, or a
+// retry that failed. It used to be fired by the 20s poll, which meant it threw
+// itself over the page unprompted whenever nobody was broadcasting.
+//
+// Resets the progress bar each time it opens, so a second attempt doesn't start
+// out showing the last one's finished bar and stale ERROR.
+function showConnectionError() {
+  $('#error-reconnecting').hide();
+  $('#error-reconnecting-again').hide();
+  $('#connection-error-reconnecting').attr('data-transitiongoal', 0).progressbar();
+  $('#connection-error').modal('show');
 }
 
 // Now-playing info comes from our own /api/status, which proxies Icecast's
@@ -188,13 +186,16 @@ function showOffAir() {
 // approach depended on a hand-edited XSL file that Icecast upgrades overwrite;
 // it 404s today and has since the 2021 upgrade noted in the README. Same-origin
 // JSON also means no mixed content and no JSONP.
+// Returns the jqXHR so the retry button can wait on it.
 function radioTitle() {
-  $.getJSON(window.RADIO.url('api/status'))
+  return $.getJSON(window.RADIO.url('api/status'))
     .done(function(status) {
-      if (!status || !status.online) {
-        showOffAir();
+      streamOnline = !!(status && status.online);
+      if (!streamOnline) {
+        showOffAirArt();
         return;
       }
+      // Back on air: close the dialog if someone's sitting in front of it.
       $('#connection-error').modal('hide');
       $('#track').text(status.title || 'Unknown track');
       $('#listeners').text(status.listeners);
@@ -206,7 +207,8 @@ function radioTitle() {
     .fail(function() {
       // Keep polling rather than clearInterval-ing on the first blip, so the
       // page recovers on its own once the stream or server is back.
-      showOffAir();
+      streamOnline = false;
+      showOffAirArt();
     });
 }
 interval = setInterval(radioTitle,20000); // every 20 seconds
@@ -218,6 +220,43 @@ $(document).ready(function() {
   // nickname modal opens from the person button beside the message box
   // (data-toggle="modal" wires that up, no JS needed). Chatting as 'anonymous'
   // is fine; naming yourself is opt-in.
+
+  // Press play with nothing broadcasting -> show the connection dialog.
+  //
+  // Bound on document in the CAPTURE phase so it runs before the event ever
+  // reaches the button, which is what lets stopPropagation keep Amplitude's own
+  // click handler from firing. (Binding on the button itself wouldn't do it:
+  // at the target, listeners run in registration order regardless of capture,
+  // and Amplitude registers first.) Without this the click silently starts a
+  // doomed playback attempt against a dead mount and nothing tells the user.
+  document.addEventListener('click', function (e) {
+    if (!e.target || !e.target.closest) return;
+    if (!e.target.closest('#amplitude-play-pause')) return;
+    if (streamOnline) return;   // let Amplitude have it
+    e.stopPropagation();
+    e.preventDefault();
+    showConnectionError();
+  }, true);
+
+  // Retry actually re-checks now. It used to just animate the bar to 100% and
+  // announce ERROR on the `done` callback, having asked the server nothing.
+  //
+  // Bound once, here. It used to be bound inside showOffAir(), which the poll
+  // called every 20 seconds, so the handlers stacked up for as long as the
+  // stream was down and then all fired on a single click.
+  $('#connection-error-retry').on('click', function () {
+    $('#error-reconnecting-again').hide();
+    $('#error-reconnecting').show();
+    $('#connection-error-reconnecting').attr('data-transitiongoal', 100).progressbar();
+    radioTitle().always(function () {
+      if (streamOnline) {
+        $('#connection-error').modal('hide');
+      } else {
+        $('#error-reconnecting-again').show();
+      }
+    });
+  });
+
   $('#nick').validator();
   var socket = window.RADIO.socket;
   var getNickname = function() {
