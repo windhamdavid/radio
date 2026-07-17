@@ -1,0 +1,86 @@
+# daveo-radio — reverse proxy for davidwindham.com/radio
+# ============================================================================
+#
+# The radio app is a long-running Node process (see radio.service.example /
+# ecosystem.config.cjs). It is NOT served from the web docroot like the
+# PHP/WordPress parts of the site — Apache proxies /radio through to node on
+# 127.0.0.1:3000.
+#
+# Add the block below to the EXISTING davidwindham.com <VirtualHost> (the same
+# one that serves WordPress). Do NOT create a new vhost for it — /radio has to
+# live under the main hostname so it is same-origin with the rest of the site;
+# that is what lets the client open its websocket with no hardcoded host, keeps
+# it clear of mixed-content blocking on https, and lets /embed/chrome.js (the
+# shared header/footer) resolve from the docroot alongside it.
+#
+# The WordPress "Radio" page moved to /online-radio, so /radio is free. WP still
+# issues a permanent old-slug 301 /radio -> /online-radio; Apache answers /radio
+# first once this proxy is in place, so it never fires — but a browser that hit
+# /radio before the proxy existed will have cached that 301. Hard-reload if so.
+#
+# ---------------------------------------------------------------------------
+# Which option? Check your Apache version first:
+#     apachectl -v      (or: apache2 -v  /  httpd -v)
+# ---------------------------------------------------------------------------
+#
+# >= 2.4.47  ->  Option A. One line carries both HTTP and the websocket.
+# <  2.4.47  ->  Option B. ProxyPass for HTTP + a mod_rewrite rule for the
+#                websocket upgrade.
+#
+# Use ONE option, not both. Modules needed either way:
+#     a2enmod proxy proxy_http rewrite
+# Option A additionally: nothing. Option B additionally: proxy_wstunnel.
+#
+# The node app must be running with BASE_PATH=/radio and TRUST_PROXY=1 — see
+# ecosystem.config.cjs / radio.service.example.
+
+# ===========================================================================
+# OPTION A — Apache 2.4.47+  (preferred)
+# ===========================================================================
+# Paste inside <VirtualHost *:443> for davidwindham.com.
+
+    ProxyPreserveHost On
+
+    # radio: node app mounted at /radio. Prefix kept on both sides;
+    # BASE_PATH=/radio tells the app to expect it. upgrade=websocket carries
+    # socket.io at /radio/socket.io (needs 2.4.47+).
+    ProxyPass         /radio  http://127.0.0.1:3000/radio  upgrade=websocket
+    ProxyPassReverse  /radio  http://127.0.0.1:3000/radio
+
+
+# ===========================================================================
+# OPTION B — Apache < 2.4.47  (mod_rewrite fallback)
+# ===========================================================================
+# Use this INSTEAD of Option A if your Apache predates upgrade=websocket
+# (e.g. Ubuntu 20.04 ships 2.4.41, Debian 10 ships 2.4.38). Without it,
+# socket.io still works but silently degrades to HTTP long-polling.
+#
+# The RewriteRule must appear before the ProxyPass. The two RewriteConds gate it
+# to genuine websocket-upgrade requests only; everything else — page loads,
+# static assets, socket.io's HTTP long-polling — falls through to ProxyPass.
+
+    ProxyPreserveHost On
+
+    RewriteEngine On
+    RewriteCond %{HTTP:Upgrade}    =websocket [NC]
+    RewriteCond %{HTTP:Connection} upgrade    [NC]
+    RewriteRule ^/radio/(.*) ws://127.0.0.1:3000/radio/$1 [P,L]
+
+    ProxyPass         /radio  http://127.0.0.1:3000/radio
+    ProxyPassReverse  /radio  http://127.0.0.1:3000/radio
+
+# ---------------------------------------------------------------------------
+# Notes
+# ---------------------------------------------------------------------------
+#
+# * /embed/chrome.js (the shared header/footer) is served by Apache from the
+#   WordPress docroot, NOT by this app. Nothing to configure here for it — the
+#   page loads it root-relative and it already resolves alongside /radio.
+#   DAW_ORIGIN is a LOCAL-DEV-ONLY shim and must stay UNSET in production.
+#
+# * No trailing-slash rule is needed in Apache: the app itself 301s /radio to
+#   /radio/ so relative asset URLs resolve.
+#
+# * The Icecast stream is a separate origin (stream.davidawindham.com) reached
+#   directly by the browser's audio element and by this app's /api/status
+#   proxy. Nothing to add here for it — just make sure the stream is https.
