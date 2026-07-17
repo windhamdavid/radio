@@ -7,10 +7,12 @@
 # apache-radio.conf.example). Adjust User/Group and WorkingDirectory to match
 # where the repo is checked out on the server.
 #
-# BUILD FIRST — this app serves the built bundle in app/, which is gitignored,
-# and systemd does NOT build. Before enabling the service, and after every pull:
+# BUILD LOCALLY — this app serves the built bundle in app/, which is gitignored,
+# and systemd does NOT build. Code is synced by FTP, so build on your machine
+# (`npm run build`) and include app/ in the upload. The server only needs the
+# runtime deps:
 #
-#     npm install && npm run build      # devDeps needed to build; app/ is output
+#     npm ci --omit=dev                  # 5 runtime deps only, no build tooling
 #
 # Then:
 #     sudo cp deploy/radio.service.example /etc/systemd/system/radio.service
@@ -19,8 +21,8 @@
 #     systemctl status radio
 #     journalctl -u radio -f             # logs (startup + connection events)
 #
-# On deploy of new code:
-#     git pull && npm install && npm run build && sudo systemctl restart radio
+# Redeploy: `npm run build` locally -> FTP up app/ + changed files ->
+#     sudo systemctl restart radio       (npm ci again only if package.json changed)
 
 [Unit]
 Description=daveo-radio (Icecast player + socket.io chat, node)

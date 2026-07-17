@@ -4,20 +4,22 @@
 // ecosystem.config.js would be parsed as ESM and `module.exports` would throw.
 // pm2 reads .cjs fine.
 //
-// IMPORTANT — build first. Unlike chess-io (which renders templates at
-// runtime), this app serves the built bundle in app/, which is gitignored.
-// pm2 does NOT build. So on the server, before starting or after any pull:
+// IMPORTANT — build LOCALLY, upload the result. Unlike chess-io (which renders
+// templates at runtime), this app serves the built bundle in app/, which is
+// gitignored. Code is synced by FTP, so app/ only reaches the server if you
+// build it first and include it in the upload. pm2 does NOT build.
 //
-//     npm install          # full install -- the build needs the devDeps
-//                          # (esbuild, bootstrap, handlebars)
-//     npm run build        # src/ -> app/
-//     pm2 start ecosystem.config.cjs      # first time
+// On the server (SSH), first time:
+//     npm ci --omit=dev                   # 5 runtime deps only, no build tooling
+//     pm2 start ecosystem.config.cjs
 //     pm2 logs radio --lines 5            # confirm  basePath":"/radio"
 //     pm2 save                            # remember across restarts
 //     pm2 startup                         # prints a sudo command to enable on boot
 //
-// Redeploy of new code:
-//     git pull && npm install && npm run build && pm2 restart radio
+// Redeploy: `npm run build` locally -> FTP up app/ + changed files ->
+//     pm2 restart radio        (npm ci again only if package.json changed)
+//
+// Full runbook: deploy/README.md
 //
 module.exports = {
   apps: [
