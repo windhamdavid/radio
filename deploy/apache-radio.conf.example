@@ -4,7 +4,7 @@
 # The radio app is a long-running Node process (see radio.service.example /
 # ecosystem.config.cjs). It is NOT served from the web docroot like the
 # PHP/WordPress parts of the site — Apache proxies /radio through to node on
-# 127.0.0.1:3000.
+# 127.0.0.1:3002.
 #
 # Add the block below to the EXISTING davidwindham.com <VirtualHost> (the same
 # one that serves WordPress). Do NOT create a new vhost for it — /radio has to
@@ -44,8 +44,8 @@
     # radio: node app mounted at /radio. Prefix kept on both sides;
     # BASE_PATH=/radio tells the app to expect it. upgrade=websocket carries
     # socket.io at /radio/socket.io (needs 2.4.47+).
-    ProxyPass         /radio  http://127.0.0.1:3000/radio  upgrade=websocket
-    ProxyPassReverse  /radio  http://127.0.0.1:3000/radio
+    ProxyPass         /radio  http://127.0.0.1:3002/radio  upgrade=websocket
+    ProxyPassReverse  /radio  http://127.0.0.1:3002/radio
 
 
 # ===========================================================================
@@ -64,10 +64,10 @@
     RewriteEngine On
     RewriteCond %{HTTP:Upgrade}    =websocket [NC]
     RewriteCond %{HTTP:Connection} upgrade    [NC]
-    RewriteRule ^/radio/(.*) ws://127.0.0.1:3000/radio/$1 [P,L]
+    RewriteRule ^/radio/(.*) ws://127.0.0.1:3002/radio/$1 [P,L]
 
-    ProxyPass         /radio  http://127.0.0.1:3000/radio
-    ProxyPassReverse  /radio  http://127.0.0.1:3000/radio
+    ProxyPass         /radio  http://127.0.0.1:3002/radio
+    ProxyPassReverse  /radio  http://127.0.0.1:3002/radio
 
 # ---------------------------------------------------------------------------
 # Notes

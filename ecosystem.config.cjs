@@ -47,7 +47,7 @@ module.exports = {
 
       env: {
         NODE_ENV: 'production',
-        PORT: 3000,
+        PORT: 3002,   // 3000 is Gogs, 3001 is ask, 8181 is chess
         BASE_PATH: '/radio',
         TRUST_PROXY: 1,
 
