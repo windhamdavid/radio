@@ -6,4 +6,4 @@ node_modules
 dump.rdb
 .env
 app/*
-_claude.md
+_claude/
