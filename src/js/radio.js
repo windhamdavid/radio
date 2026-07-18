@@ -4,6 +4,72 @@
 // Read when the play button is pressed — see the interceptor further down.
 var streamOnline = false;
 
+// One-shot autostart. It needs TWO things true: the stream is live (known from
+// the status poll) and Amplitude has finished initializing (it binds its play
+// handler on window.onload). Clicking before Amplitude is bound is a silent
+// no-op, and radioAutoplayTried would then block a retry — so gate on both and
+// let whichever finishes last fire it.
+var radioAutoplayTried = false;
+var amplitudeReady = false;
+// After the load event, defer one turn so Amplitude's own onload handler (which
+// binds the button) has definitely run.
+window.addEventListener('load', function () {
+  setTimeout(function () { amplitudeReady = true; maybeRadioAutoplay(); }, 0);
+});
+
+function maybeRadioAutoplay() {
+  if (radioAutoplayTried || !amplitudeReady || !streamOnline) return;
+  radioAutoplayTried = true;
+  tryRadioAutoplay();
+}
+
+// A tiny silent WAV. Playing it unmuted is subject to the same per-page autoplay
+// policy as the real stream, so a successful play() means autoplay is allowed.
+var SILENT_CLIP =
+  'data:audio/wav;base64,UklGRjQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YRAAAACAgICAgICAgICAgICAgICA';
+
+// Fallback for when the browser blocks load-autoplay (a cold visit, Safari,
+// etc.): start the radio on the first user interaction anywhere on the page.
+// The first real gesture is an activation the browser accepts, so audio starts
+// without the user having to find the play button. Fires at most once.
+function armFirstGestureAutoplay() {
+  function start(e) {
+    // If the gesture IS the play button, let Amplitude handle it — clicking it
+    // ourselves too would toggle it right back to paused.
+    if (e.target && e.target.closest && e.target.closest('#amplitude-play-pause')) {
+      remove();
+      return;
+    }
+    var btn = document.getElementById('amplitude-play-pause');
+    if (streamOnline && btn && btn.classList.contains('amplitude-paused')) {
+      btn.click();
+      remove(); // started; stop listening
+    }
+    // If offline, stay armed so a later gesture (once live) still starts it.
+  }
+  function remove() {
+    document.removeEventListener('pointerdown', start, true);
+    document.removeEventListener('keydown', start, true);
+  }
+  document.addEventListener('pointerdown', start, true);
+  document.addEventListener('keydown', start, true);
+}
+
+function tryRadioAutoplay() {
+  var probe;
+  try { probe = new Audio(SILENT_CLIP); } catch (e) { return; }
+  var p = probe.play();
+  if (!p || !p.then) return; // no promise: don't risk a fake-playing state
+  p.then(function () {
+    // Allowed. Stop the probe and start the real player via its button.
+    try { probe.pause(); } catch (e) { /* noop */ }
+    var btn = document.getElementById('amplitude-play-pause');
+    if (btn && streamOnline && btn.classList.contains('amplitude-paused')) btn.click();
+  }).catch(function () {
+    // Blocked: leave the radio paused; the play button is right there.
+  });
+}
+
 
 /* Radio Funtions */
 
@@ -104,36 +170,27 @@ var streamOnline = false;
 
 
 
-function getRecentTracks() {
-  
-	$.fn.lfmr = function(){
-    //tracksinterval = setInterval(getRecentTracks,180000);  // check every 3 minutes
-		var urla = window.RADIO.url("api/lastfm?method=user.getrecenttracks&limit=100");
-		var tracks = [];
-		function isLoadedr (recentElement) {
-			for (var i = 0; i < tracks.length; i++){
-				var markup = $("<li class='list-group-item'>" + tracks[i].artist + " - <span class='artist'>" + tracks[i].title + " : " + tracks[i].album + "</li>");
-				recentElement.append(markup);
-			}
-		}
-		return this.each(function(){
-			var $this = $(this);
-			$.getJSON( urla, function(data){
-				$(data.recenttracks.track).each(function(){
-					tracks.push ({
-						artist:	this.artist["#text"],
-						title: this.name,
-						album: this.album["#text"]
-					});
-				});
-				isLoadedr($this);
-			});
-		});
-	};
-	
-	$('.recent').lfmr();
-  $('.recent').hide();
-  $('.recent').fadeIn(1000);
+// Recently-played tracks, refreshed on an interval (see $(document).ready).
+//
+// REPLACES the list on each call — the old version appended, so polling would
+// have stacked duplicates. Only the first load fades in; refreshes swap the
+// items silently so the tab doesn't blink every couple of minutes. Values go in
+// via text nodes / .text() so a track or artist name can't inject markup.
+function getRecentTracks(initial) {
+  $.getJSON(window.RADIO.url("api/lastfm?method=user.getrecenttracks&limit=100"), function (data) {
+    var tracks = data && data.recenttracks && data.recenttracks.track;
+    if (!tracks) return;
+    $('.recent').each(function () {
+      var $el = $(this).empty();
+      $(tracks).each(function () {
+        var $li = $("<li class='list-group-item'></li>");
+        $li.append(document.createTextNode(this.artist["#text"] + " - "));
+        $li.append($("<span class='artist'></span>").text(this.name + " : " + this.album["#text"]));
+        $el.append($li);
+      });
+    });
+    if (initial) $('.recent').hide().fadeIn(1000);
+  });
 }
 
 
@@ -203,6 +260,9 @@ function radioTitle() {
       $('#bitrate').text(status.bitrate === null ? '--' : status.bitrate);
       $('#radio').attr('src', get_radio_tower()).fadeIn(300);
       $('#eq').attr('src', get_radio_eq()).fadeIn(300);
+
+      // Autostart if the browser allows it (see maybeRadioAutoplay / the probe).
+      maybeRadioAutoplay();
     })
     .fail(function() {
       // Keep polling rather than clearInterval-ing on the first blip, so the
@@ -273,7 +333,11 @@ $(document).ready(function() {
     }
   }); 
   radioTitle(); // call it once on load to avoid 20s delay
-  getRecentTracks();  //call it once to avoid 3m delay
+  armFirstGestureAutoplay(); // start audio on first interaction if load-autoplay was blocked
+  getRecentTracks(true); // initial load (fades in)
+  // Refresh recent tracks every 2 minutes. The /api/lastfm proxy caches for
+  // 60s, so a 120s poll always gets fresh data without hammering Last.fm.
+  setInterval(function () { getRecentTracks(false); }, 120000);
   var randomColor = Math.floor(Math.random()*16777215).toString(16);
   $("span#user-label").css({ backgroundColor: '#' + randomColor });
   $('ul.nav-tabs a').tooltip();
