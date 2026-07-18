@@ -24,6 +24,7 @@
   "devDependencies": {
     "bootstrap": "^3.4.1",
     "esbuild": "^0.28.1",
-    "handlebars": "^4.7.9"
+    "handlebars": "^4.7.9",
+    "hls.js": "^1.6.16"
   }
 }

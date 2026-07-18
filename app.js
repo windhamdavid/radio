@@ -34,6 +34,12 @@ const config = {
   streamStatusUrl:
     process.env.STREAM_STATUS_URL ?? 'https://stream.davidawindham.com/status-json.xsl',
   streamMount: process.env.STREAM_MOUNT ?? '/stream',
+  // the-ham.org video (nginx-rtmp -> HLS). /api/live proxies its stat.xml
+  // (which has no CORS, unlike the .m3u8/.ts) to discover the live stream and
+  // report online/offline, so the client never hardcodes a stream key.
+  hamStatUrl: process.env.HAM_STAT_URL ?? 'https://the-ham.org/stat.xml',
+  hamHlsBase: process.env.HAM_HLS_BASE ?? 'https://the-ham.org/stream/hls/',
+  hamApp: process.env.HAM_APP ?? 'live',
   // Proxied via /api/lastfm so the key stops shipping in the client bundle.
   // Unset => the sidebar lists just stay empty.
   lastfmKey: process.env.LASTFM_API_KEY ?? '',
@@ -93,6 +99,21 @@ router.get('/api/status', async (req, res) => {
     res.json(await getStreamStatus());
   } catch {
     res.status(502).json({ online: false, error: 'stream status unavailable' });
+  }
+});
+
+// the-ham.org video status, proxied from nginx-rtmp's stat.xml.
+//
+// stat.xml has no CORS header (the .m3u8/.ts do), so the browser can't read it
+// directly. This proxy discovers whatever is publishing under the `live` app
+// and hands back a ready-to-play HLS URL, so the client never hardcodes a
+// stream key and gets a clean offline state when nothing is broadcasting --
+// which, per the nginx logs, is most of the time.
+router.get('/api/live', async (req, res) => {
+  try {
+    res.json(await getHamStatus());
+  } catch {
+    res.status(502).json({ online: false, error: 'live status unavailable' });
   }
 });
 
@@ -289,6 +310,57 @@ async function getStreamStatus() {
 
   const value = normalizeIcecastStatus(await upstream.json(), config.streamMount);
   statusCache = { at: now, value };
+  return value;
+}
+
+// Parse nginx-rtmp stat.xml for a live publisher under `app`.
+//
+// The XML is small and machine-generated, so targeted regex is enough (Node has
+// no built-in XML parser and this doesn't warrant a dependency). While nothing
+// is publishing there's no <stream> node at all under the app's <live>; while
+// publishing there's <stream><name>…</name>…<publishing/> plus a <meta><video>.
+// The <publishing/> marker is the definitive "a source is connected" signal.
+function parseHamStat(xml, app) {
+  // Narrow to the target application's block.
+  const appRe = new RegExp(
+    `<application>\\s*<name>\\s*${app}\\s*</name>([\\s\\S]*?)</application>`,
+    'i',
+  );
+  const appBlock = appRe.exec(xml)?.[1];
+  if (!appBlock) return { online: false };
+
+  // Only streams with an active publisher count as live.
+  for (const m of appBlock.matchAll(/<stream>([\s\S]*?)<\/stream>/g)) {
+    const s = m[1];
+    if (!/<publishing\/>/.test(s)) continue;
+    const name = /<name>([\s\S]*?)<\/name>/.exec(s)?.[1]?.trim();
+    if (!name) continue;
+    const width = Number(/<width>(\d+)<\/width>/.exec(s)?.[1]) || null;
+    const height = Number(/<height>(\d+)<\/height>/.exec(s)?.[1]) || null;
+    return {
+      online: true,
+      name,
+      // .m3u8/.ts carry CORS, so the client plays this URL directly.
+      hlsUrl: new URL(`${encodeURIComponent(name)}.m3u8`, config.hamHlsBase).href,
+      width,
+      height,
+    };
+  }
+  return { online: false };
+}
+
+const HAM_CACHE_MS = 8000;
+let hamCache = { at: 0, value: null };
+
+async function getHamStatus() {
+  const now = Date.now();
+  if (hamCache.value && now - hamCache.at < HAM_CACHE_MS) return hamCache.value;
+
+  const upstream = await fetch(config.hamStatUrl, { signal: AbortSignal.timeout(5000) });
+  if (!upstream.ok) throw new Error(`the-ham stat responded ${upstream.status}`);
+
+  const value = parseHamStat(await upstream.text(), config.hamApp);
+  hamCache = { at: now, value };
   return value;
 }
 

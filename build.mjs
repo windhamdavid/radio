@@ -48,12 +48,18 @@ const VENDOR_JS = [
 
 const RADIO_JS = [
   // base.js must come first: it defines window.RADIO, the shared socket and
-  // mount-path helper that the other two depend on.
+  // mount-path helper that the others depend on.
   path.join(SRC, 'js/base.js'),
   path.join(SRC, 'js/chat.js'),
   path.join(SRC, 'js/amplitude-v2.2.0.js'),
   path.join(SRC, 'js/radio.js'),
+  path.join(SRC, 'js/ham.js'),
 ];
+
+// hls.js is emitted as its own file (app/js/hls.min.js) and loaded on demand by
+// ham.js only when the-ham goes live — NOT bundled into radio.min.js, so the
+// common case (nothing broadcasting) never pays its ~530KB.
+const HLS_SRC = path.join(NODE_MODULES, 'hls.js/dist/hls.min.js');
 
 // Bootstrap's CSS ships with its JS, so it tracks the same 3.4.1 package. Its
 // glyphicon @font-face rules point at ../fonts/, which is what src/fonts/ is
@@ -113,6 +119,8 @@ async function build() {
   await bundleCss(CSS, 'css/style.min.css');
   await bundleJs(VENDOR_JS, 'js/vendor.min.js');
   await bundleJs(RADIO_JS, 'js/radio.min.js', { define: DEFINE });
+  // hls.js is already minified; copy as-is (lazy-loaded, not bundled).
+  await cp(HLS_SRC, path.join(OUT, 'js/hls.min.js'));
 
   console.log(`BUILD: complete in ${Date.now() - started}ms -> ${path.relative(__dirname, OUT)}/`);
 }
