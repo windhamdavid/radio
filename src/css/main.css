@@ -20,6 +20,97 @@ body {
   background: #484c57;
 }
 
+/* ===== the-ham.org live video panel =====
+   The "Video Stream" bar is always visible; the video body collapses beneath
+   it. Sits directly under the Daveo Radio banner. */
+#ham-panel {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+.ham-card { background: #2b2e36; border: none; overflow: hidden; }
+
+/* The whole bar is the collapse toggle (a full-width button). */
+.ham-head {
+  width: 100%;
+  background: #2b2e36;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  color: #dadada;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  text-align: left;
+}
+.ham-head:hover { background: #31343d; }
+.ham-live { font-weight: 700; letter-spacing: .02em; }
+
+/* Dot: dim grey when idle, red + pulse when a source is live. */
+.ham-dot {
+  display: inline-block; width: 9px; height: 9px; margin-right: 7px;
+  border-radius: 50%; background: #6b6f79;
+  vertical-align: middle;
+}
+.ham-dot.live {
+  background: #e0483d;
+  box-shadow: 0 0 0 0 rgba(224,72,61,.7);
+  animation: ham-pulse 1.8s infinite;
+}
+@keyframes ham-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(224,72,61,.6); }
+  70%  { box-shadow: 0 0 0 7px rgba(224,72,61,0); }
+  100% { box-shadow: 0 0 0 0 rgba(224,72,61,0); }
+}
+
+/* Chevron points down when collapsed, flips up when expanded. */
+.ham-chevron {
+  color: #9a9ea8;
+  font-size: 12px;
+  transition: transform .2s ease;
+}
+.ham-head[aria-expanded="true"] .ham-chevron { transform: rotate(180deg); }
+
+.ham-body[hidden] { display: none; }
+.ham-offline[hidden] { display: none; }
+.ham-offline {
+  color: #9a9ea8;
+  font-size: 14px;
+  text-align: center;
+  padding: 28px 15px;
+  background: #2b2e36;
+}
+
+/* 16:9 responsive box (padding-top hack — works without aspect-ratio support). */
+.ham-video-wrap {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  background: #000;
+}
+.ham-video-wrap > #ham-video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  display: block; background: #000;
+}
+/* Small mute/unmute toggle in the corner (video autoplays muted). */
+.ham-mute {
+  position: absolute; right: 12px; bottom: 12px;
+  width: 40px; height: 40px; border-radius: 50%;
+  border: none; cursor: pointer;
+  background: rgba(43,46,54,.7); color: #fff;
+  font-size: 16px; line-height: 40px; text-align: center;
+  transition: background .15s;
+  z-index: 2;
+}
+.ham-mute:hover { background: rgba(43,46,54,.95); }
+.ham-error {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,.65); color: #f2c1bd;
+  font-size: 13px; text-align: center; padding: 6px;
+}
+.ham-error[hidden] { display: none; }
+
 /* Post button in the page's own slate instead of Bootstrap's default blue.
    Targeted by id so it outranks .btn-primary and its :hover/:active variants
    without having to fight specificity or reach for !important. */
@@ -109,9 +200,11 @@ body {
 ========== Audio Player ============ 
 ***********************************/
 
-#audio_player {
-  background-color: #f7f7f7;
-
+/* Muted card background for the audio player and chat — softer than stark
+   white, and the same grey the shared footer uses for its text. */
+#audio_player,
+#request-line .panel-default {
+  background-color: #dadada;
 }
 
 /* Player tab icons in the page's slate instead of Bootstrap's link blue. These

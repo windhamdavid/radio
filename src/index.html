@@ -18,6 +18,29 @@
      under the site chrome rather than standing in for it. -->
 <div class="radio-banner"></div>
 
+<!-- the-ham.org live video. The "Video Stream" bar is always visible; the video
+     collapses/expands beneath it. The dot goes red when /api/live reports a
+     publisher, and the chevron flips up when expanded. ham.js drives the state,
+     hls.js playback, and muted autoplay. -->
+<div id="ham-panel" class="container">
+   <div class="panel panel-default ham-card">
+      <button type="button" class="ham-head" id="ham-toggle" aria-expanded="false" aria-controls="ham-body">
+         <span class="ham-live"><span class="ham-dot"></span> Video Stream</span>
+         <span class="ham-chevron glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+      </button>
+      <div class="ham-body" id="ham-body" hidden>
+         <div class="ham-video-wrap">
+            <video id="ham-video" playsinline muted preload="none"></video>
+            <button type="button" id="ham-mute" class="ham-mute" aria-label="Unmute video">
+               <span class="glyphicon glyphicon-volume-off" aria-hidden="true"></span>
+            </button>
+            <div id="ham-error" class="ham-error" hidden>Stream interrupted &mdash; retrying&hellip;</div>
+         </div>
+         <div id="ham-offline" class="ham-offline" hidden>Nothing broadcasting right now.</div>
+      </div>
+   </div>
+</div>
+
 <div class="outer-container">
 <div class="container">
    <div class="row">
@@ -310,7 +333,6 @@
             <p><b>Daveo Radio</b> is just a little place I can share some music and chat with friends. It's only on when I'm listening, but I enjoy listening to music and I spend quite a bit of time doing so. I like to tune into terrestrial stations that stream to help find new music, but I’ve found almost all of the robot mixes from the big streaming providers unsatisfying. For the last couple years, I've been scanning all kinds of discovery mechanisms and making a new mix every month. I'd like to teach others how to setup a basic microphone and board to broacast to these streaming servers so that I can have a variety of playlist and my friends can also host live shows I can listen to. I'd like to thank <a target="_blank" href="https://www.radioparadise.com">Radio Paradise</a> for the original motivation to setup my own servers. It's taken me some time to learn the ropes of building out the servers, but right now I've got two servers running from Los Angeles and Atlanta. It wouldn't be possible without the work of numerous others who have built the software to power this page.</p>
             <p><b>Kudos</b>:</p>
                <ul>
-                  <li><a target="_blank" href="https://www.linode.com/?r=827b1692af8a9de4f44267d8d82fd44fd1c4f29c">Linode</a> &amp; <a target="_blank" href="http://bit.ly/1RwygMH">Media Temple</a>: great hosting companies.</li> 
                   <li><a target="_blank" href="https://nodejs.org/en/">Node.js</a>: A JavaScript runtime built on Chrome's V8 JavaScript engine.</li>
                   <li><a target="_blank" href="http://expressjs.com/">Express</a>: Fast, unopinionated, minimalist web framework for Node.js.</li>
                   <li><a target="_blank" href="http://socket.io/">Socket.io</a>: Enables real-time bidirectional event-based communication.</li>
@@ -354,10 +376,10 @@
          <h4 class="modal-title"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span> Support</h4>
          </div>
          <div class="modal-body">
-            <p>The cost associated with running the servers and the licensing to broadcast music are just about $1500 dollars a year. As the audience grows, so does the cost. Royalties are based on the number of listener hours and I add new relay servers to scale to keep the audio quality up and reduce lag time. If you would like to help support this effort, I've set up some easy ways to do so:</p>
+            <p>The cost associated for running the servers and the licensing the music are about $1500/yr.</p>
             <ul>
-               <li>Make a donation: <a target="_blank" href="https://davidawindham.com/contact/">davidawindham.com/donate/</a></li>
-               <li>Buy some swag: <a target="_blank" href="https://shop.davidawindham.com">shop.davidawindham.com</a></li>
+               <li>Donate: <a target="_blank" href="https://davidwindham.com/contact/">davidawindham.com/donate/</a></li>
+               <li>Buy: <a target="_blank" href="https://davidwindham.com/shop">shop.davidwindham.com/shop</a></li>
             </ul>
             <p>Thank you,<br />&nbsp;David</p>
          </div>
