@@ -219,6 +219,13 @@ var interval = null;
 // as off air quietly in the background.
 function showOffAirArt() {
   $('#track').text('* Off Air *');
+  $('#playlist').prop('hidden', true).text('');
+  // If we were playing when the stream dropped, pause it so the button doesn't
+  // sit on "playing" over dead audio (the interceptor allows this pause), and
+  // dim it to show there's nothing to play into.
+  var btn = document.getElementById('amplitude-play-pause');
+  if (btn && btn.classList.contains('amplitude-playing')) btn.click();
+  $('#amplitude-play-pause').addClass('off-air');
   $('#radio').attr('src', get_radio_none()).fadeIn(300);
   $('#eq').attr('src', get_radio_eq_none()).fadeIn(300);
 }
@@ -255,9 +262,15 @@ function radioTitle() {
       // Back on air: close the dialog if someone's sitting in front of it.
       $('#connection-error').modal('hide');
       $('#track').text(status.title || 'Unknown track');
+      // Genre from the stream metadata, shown as the current playlist/set name.
+      // Toggle the `hidden` prop (the CSS keys off [hidden]) so an empty genre
+      // doesn't leave a stray music-note bullet.
+      if (status.genre) $('#playlist').text(status.genre).prop('hidden', false);
+      else $('#playlist').prop('hidden', true).text('');
       $('#listeners').text(status.listeners);
       $('#peak-listeners').text(status.peakListeners);
       $('#bitrate').text(status.bitrate === null ? '--' : status.bitrate);
+      $('#amplitude-play-pause').removeClass('off-air'); // back on air: re-enable
       $('#radio').attr('src', get_radio_tower()).fadeIn(300);
       $('#eq').attr('src', get_radio_eq()).fadeIn(300);
 
@@ -291,8 +304,12 @@ $(document).ready(function() {
   // doomed playback attempt against a dead mount and nothing tells the user.
   document.addEventListener('click', function (e) {
     if (!e.target || !e.target.closest) return;
-    if (!e.target.closest('#amplitude-play-pause')) return;
+    var btn = e.target.closest('#amplitude-play-pause');
+    if (!btn) return;
     if (streamOnline) return;   // let Amplitude have it
+    // Offline: pausing a now-dead stream is fine (and is how the off-air reset
+    // stops it) — only block attempts to *play* into a stream that isn't there.
+    if (btn.classList.contains('amplitude-playing')) return;
     e.stopPropagation();
     e.preventDefault();
     showConnectionError();

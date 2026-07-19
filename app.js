@@ -292,6 +292,10 @@ function normalizeIcecastStatus(payload, mount) {
   return {
     online: true,
     title: source.title ?? source.yp_currently_playing ?? null,
+    // Icecast's mount `genre` field, repurposed as the current playlist/set name
+    // (e.g. "June 2016"). It's set in the broadcast metadata, so it changes when
+    // the source is reconfigured, not per-track.
+    genre: source.genre ?? null,
     listeners: source.listeners ?? 0,
     peakListeners: source.listener_peak ?? 0,
     bitrate,

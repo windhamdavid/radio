@@ -207,6 +207,18 @@ body {
   background-color: #dadada;
 }
 
+/* Current playlist/set name (from the stream's genre metadata), under the
+   now-playing title in the player. */
+.current-playlist {
+  margin-top: 4px;
+  font-size: 12px;
+  font-style: italic;
+  color: #777;
+  text-align: center;
+}
+.current-playlist::before { content: "\266B\00a0"; } /* ♫ + nbsp */
+.current-playlist[hidden] { display: none; }
+
 /* Player tab icons in the page's slate instead of Bootstrap's link blue. These
    sit on the white player panel, so a dark colour reads fine.
    Bootstrap's own `.nav-tabs > li.active > a` is more specific, so the active
@@ -380,6 +392,13 @@ meter {
   position: relative;
 	-webkit-transition: all .1s linear;
 	transition: all .1s linear;
+}
+/* Off air: the stream stopped, so dim the play button and mark it inactive.
+   opacity + grayscale dims it regardless of how the play/pause glyph is drawn. */
+#amplitude-play-pause.off-air {
+  opacity: 0.4;
+  filter: grayscale(1);
+  cursor: not-allowed;
 }
 .amplitude-paused {  
   color:rgba(88, 185, 87, .7);
